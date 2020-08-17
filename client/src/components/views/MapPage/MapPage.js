@@ -1,7 +1,7 @@
 import React from "react";
 import { FaCode } from "react-icons/fa";
 
-function ScoreboardPage() {
+function MapPage() {
   return (
     <>
       <div className="app">
@@ -16,4 +16,4 @@ function ScoreboardPage() {
   );
 }
 
-export default ScoreboardPage;
+export default MapPage;
