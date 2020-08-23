@@ -1,14 +1,13 @@
 import React from 'react'
 import './styles.css'
-import '../../../index.css'
 
 function LandingPage() {
-    var staticWelcome = "Event description and welcome message: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris faucibus finibus mauris. Pellentesque tempor lacus sit amet consectetur malesuada."
-    var staticDiscord = "Join us on Discord!"
-    var discordLink = "https://discord.gg/rKwaCr"
+    const staticWelcome = "Event description and welcome message: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris faucibus finibus mauris. Pellentesque tempor lacus sit amet consectetur malesuada."
+    const staticDiscord = "Join us on Discord!"
+    const discordLink = "https://discord.gg/rKwaCr"
     return (
         <>
-            <div className="app">
+            <div className="main-container">
                 <img className="image" src={require('./assets/logo.png')} />
                 <div className="middle-container">
                     <span className="middle-text">{staticWelcome}</span>
