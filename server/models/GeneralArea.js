@@ -9,6 +9,6 @@ const generalAreaSchema = mongoose.Schema({
     }]
 })
 
-const User = mongoose.model('GeneralArea', generalAreaSchema);
+const GeneralArea = mongoose.model('GeneralArea', generalAreaSchema);
 
 module.exports = { GeneralArea }

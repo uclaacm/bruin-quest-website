@@ -14,6 +14,6 @@ const puzzleSchema = mongoose.Schema({
     }
 })
 
-const User = mongoose.model('Puzzle', puzzleSchema);
+const Puzzle = mongoose.model('Puzzle', puzzleSchema);
 
 module.exports = { Puzzle }

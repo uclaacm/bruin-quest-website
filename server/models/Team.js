@@ -24,7 +24,7 @@ const teamSchema = mongoose.Schema({
           maxlength: 50
         }
     }],
-    puzzles : {
+    puzzles: {
         id: {
           name: String,
           name: String,
@@ -43,6 +43,6 @@ const teamSchema = mongoose.Schema({
     }
 })
 
-const User = mongoose.model('Team', teamSchema);
+const Team = mongoose.model('Team', teamSchema);
 
 module.exports = { Team }
