@@ -1,4 +1,4 @@
-.score-main-container {
+.scoreboard-main-container {
   flex-direction: column;
   display: flex;
   justify-content: flex-start;
@@ -6,10 +6,10 @@
   height: 100vh;
 }
 
-.score-row-container {
+.scoreboard-row-container {
   flex-direction: row;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: flex-start;
   padding-top: 5vh;
   height: 100vh;
@@ -31,8 +31,6 @@ table, td {
 .table-container {
   flex-direction: column;
   display: flex;
-  padding-left: 2vw;
-  padding-right: 2vw;
 }
 
 .table-row-container {
@@ -40,8 +38,8 @@ table, td {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 30vw;
-  height: 3vw;
+  width: 35vw;
+  height: 4vw;
   padding-left: 2vw;
   padding-right: 2vw;
 }

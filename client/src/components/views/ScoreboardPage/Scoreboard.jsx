@@ -1,24 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './styles.css';
 import TableRow from './TableRow'
 
-export default class Scoreboard extends Component {
-  renderTableRow = score => (
+function renderTableRow (score) {
+  return (
     <tr>
       <td>
         <TableRow name={score.name} score={score.score}/>
       </td>
     </tr>
-  )
+  );
+} 
 
-  render() {
+export default function Scoreboard(props) {
     return(
       <div className="table-container">
-        <span className="table-text">{this.props.title}</span>
+        <span className="table-text">{props.title}</span>
         <table>
-          {this.props.scores.map(this.renderTableRow)}
+          {props.scores.map(renderTableRow)}
         </table>
       </div>
-    )
-  }
+    );
 }

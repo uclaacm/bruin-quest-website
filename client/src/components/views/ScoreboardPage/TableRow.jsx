@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './styles.css';
 
-export default class TableRow extends Component {
-  render() {
+export default function TableRow(props) {
     return(
       <div className="table-row-container">
-        <span className="table-text">{this.props.name}</span>
-        <span className="table-text">{this.props.score}</span>
+        <span className="table-text">{props.name}</span>
+        <span className="table-text">{props.score}</span>
       </div>
-    )
-  }
+    );
 }
