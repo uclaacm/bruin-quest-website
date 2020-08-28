@@ -9,6 +9,7 @@ function Button({
   color = Colors.Blue,
   height = "42px",
   width = "150px",
+  disabled = false,
   style,
 }) {
   return (
@@ -17,14 +18,14 @@ function Button({
       className={css`
         height: ${height};
         width: ${width};
-        background-color: ${color};
+        background-color: ${disabled ? Colors.Gray : color};
         border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
+        cursor: ${disabled ? "not-allowed" : "pointer"};
         &:hover {
-          background-color: ${Colors.DarkBlue};
+          background-color: ${disabled ? Colors.Gray : Colors.DarkBlue};
           transition: 0.3s;
         }
       `}
