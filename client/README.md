@@ -4,16 +4,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### `yarn`
-Updates dependencies
-
-### `yarn eslint .`
-Runs formatter on current folder
-
-### `yarn eslint --fix .`
-Runs formatter on current folder fixing all auto-fixable problems.
-Do this in the `server` or `client` folder
-
 ### `yarn start`
 
 Runs the app in the development mode.<br>
