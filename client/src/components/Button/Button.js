@@ -37,3 +37,15 @@ function Button({
 }
 
 export default Button;
+
+// Usage:
+/* 
+<Button
+  onClick={() => {
+    console.log("hello");
+  }}
+  disabled
+>
+  Hello
+</Button>; 
+*/
