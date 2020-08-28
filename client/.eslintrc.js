@@ -301,7 +301,16 @@ module.exports = {
 		'sort-imports': 'off',
 		'symbol-description': 'error',
 		'template-curly-spacing': ['error', 'never'],
-		'yield-star-spacing': ['error', 'after']
+		'yield-star-spacing': ['error', 'after'],
+		// Lazy Tim No Fix 🅱oilerplate
+		'react/prop-types': 'off',
+		'new-cap': 'off',
+		'global-require': 'off',
+		'no-shadow': 'off',
+		'jsx-a11y/anchor-is-valid': 'off',
+		'alert': 'off',
+		'no-lonely-if': 'off',
+		'eqeqeq': 'off',
 	},
 	settings: {
 		react: {
