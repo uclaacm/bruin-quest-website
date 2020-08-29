@@ -4,9 +4,7 @@ module.exports = {
 		es6: true,
 		node: true
 	},
-	extends: [
-		'eslint:recommended',
-	],
+	extends: ['eslint:recommended'],
 	parserOptions: {
 		ecmaVersion: 2019,
 		ecmaFeatures: {
@@ -21,7 +19,7 @@ module.exports = {
 		'no-await-in-loop': 'error',
 		'no-compare-neg-zero': 'error',
 		'no-cond-assign': ['error', 'except-parens'],
-		'no-console': 'error',
+		'no-console': 'off',
 		'no-constant-condition': ['error', { checkLoops: false }],
 		'no-control-regex': 'off',
 		'no-debugger': 'error',
@@ -138,7 +136,7 @@ module.exports = {
 		'no-delete-var': 'error',
 		'no-label-var': 'error',
 		'no-restricted-globals': 'off',
-		'no-shadow': 'error',
+		'no-shadow': 'off',
 		'no-shadow-restricted-names': 'error',
 		'no-undef': 'error',
 		'no-undef-init': 'error',
@@ -194,7 +192,7 @@ module.exports = {
 		'max-statements': 'off',
 		'max-statements-per-line': ['error', { max: 1 }],
 		'multiline-ternary': ['error', 'always-multiline'],
-		'new-cap': ['error', { capIsNewExceptions: ['USVString', 'DOMString', 'Schema'] }],
+		'new-cap': ['error', { capIsNewExceptions: ['USVString', 'DOMString', 'Schema', 'Router'] }],
 		'new-parens': 'error',
 		'newline-per-chained-call': 'off',
 		'no-array-constructor': 'error',
