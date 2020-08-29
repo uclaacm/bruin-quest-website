@@ -56,7 +56,7 @@ function LoginPage(props) {
 								setFormErrorMessage('Check out your Account or Password again');
 							}
 						})
-						.catch(err => {
+						.catch(_err => {
 							setFormErrorMessage('Check out your Account or Password again');
 							setTimeout(() => {
 								setFormErrorMessage('');
@@ -116,25 +116,39 @@ function LoginPage(props) {
 									}
 								/>
 								{errors.password && touched.password &&
-                  <div className="input-feedback">{errors.password}</div>
+									<div className="input-feedback">{errors.password}</div>
 								}
 							</Form.Item>
 
 							{formErrorMessage &&
-                <label ><p style={{ color: '#ff0000bf', fontSize: '0.7rem', border: '1px solid', padding: '1rem', borderRadius: '10px' }}>{formErrorMessage}</p></label>
+				<label ><p style={{
+					color: '#ff0000bf',
+					fontSize: '0.7rem',
+					border: '1px solid',
+					padding: '1rem',
+					borderRadius: '10px'
+				}}>{formErrorMessage}</p></label>
 							}
 
 							<Form.Item>
-								<Checkbox id="rememberMe" onChange={handleRememberMe} checked={rememberMe} >Remember me</Checkbox>
+								<Checkbox id="rememberMe" onChange={handleRememberMe} checked={rememberMe} >
+									Remember me
+								</Checkbox>
 								<a className="login-form-forgot" href="/reset_user" style={{ float: 'right' }}>
-                  forgot password
+									forgot password
 								</a>
 								<div>
-									<Button type="primary" htmlType="submit" className="login-form-button" style={{ minWidth: '100%' }} disabled={isSubmitting} onSubmit={handleSubmit}>
-                    Log in
+									<Button
+										type="primary"
+										htmlType="submit"
+										className="login-form-button"
+										style={{ minWidth: '100%' }}
+										disabled={isSubmitting}
+										onSubmit={handleSubmit}>
+										Log in
 									</Button>
 								</div>
-                Or <a href="/register">register now!</a>
+								Or <a href="/register">register now!</a>
 							</Form.Item>
 						</form>
 					</div>

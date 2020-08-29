@@ -28,7 +28,7 @@ module.exports = {
 		'no-await-in-loop': 'error',
 		'no-compare-neg-zero': 'error',
 		'no-cond-assign': ['error', 'except-parens'],
-		'no-console': 'error',
+		'no-console': 'off', // disabled
 		'no-constant-condition': ['error', { checkLoops: false }],
 		'no-control-regex': 'off',
 		'no-debugger': 'error',
@@ -77,7 +77,7 @@ module.exports = {
 		'dot-notation': 'error',
 		eqeqeq: 'error',
 		'guard-for-in': 'off',
-		'no-alert': 'error',
+		'no-alert': 'off',
 		'no-caller': 'error',
 		'no-case-declarations': 'error',
 		'no-div-regex': 'off',
@@ -150,7 +150,7 @@ module.exports = {
 		'no-undef': 'error',
 		'no-undef-init': 'error',
 		'no-undefined': 'off',
-		'no-unused-vars': 'error',
+		'no-unused-vars': 'off', // disabled
 		'no-use-before-define': ['error', 'nofunc'],
 
 		// Node.js and CommonJS

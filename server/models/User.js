@@ -52,7 +52,9 @@ userSchema.pre('save', function (next) {
 				}
 				user.password = hash;
 				next();
+				return undefined;
 			});
+			return undefined;
 		});
 	} else {
 		next();
@@ -65,6 +67,7 @@ userSchema.methods.comparePassword = function (plainPassword, cb) {
 			return cb(err);
 		}
 		cb(null, isMatch);
+		return undefined;
 	});
 };
 
@@ -82,19 +85,22 @@ userSchema.methods.generateToken = function (cb) {
 			return cb(err);
 		}
 		cb(null, user);
+		return undefined;
 	});
 };
 
 userSchema.statics.findByToken = function (token, cb) {
 	const user = this;
 
-	jwt.verify(token, 'secret', (err, decode) => {
+	jwt.verify(token, 'secret', (_err, decode) => {
 		user.findOne({ _id: decode, token }, (err, user) => {
 			if (err) {
 				return cb(err);
 			}
 			cb(null, user);
+			return undefined;
 		});
+		return undefined;
 	});
 };
 

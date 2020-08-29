@@ -28,6 +28,7 @@ router.post('/register', (req, res) => {
 		if (err) {
 			return res.json({ success: false, err });
 		}
+		console.log(`Created User ${doc.name}`);
 		return res.status(200).json({
 			success: true
 		});
@@ -35,7 +36,7 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-	User.findOne({ email: req.body.email }, (err, user) => {
+	User.findOne({ email: req.body.email }, (_err, user) => {
 		if (!user) {
 			return res.json({
 				loginSuccess: false,
@@ -43,7 +44,7 @@ router.post('/login', (req, res) => {
 			});
 		}
 
-		user.comparePassword(req.body.password, (err, isMatch) => {
+		user.comparePassword(req.body.password, (_err, isMatch) => {
 			if (!isMatch) {
 				return res.json({ loginSuccess: false, message: 'Wrong password' });
 			}
@@ -59,8 +60,11 @@ router.post('/login', (req, res) => {
 					.json({
 						loginSuccess: true, userId: user._id
 					});
+				return undefined;
 			});
+			return undefined;
 		});
+		return undefined;
 	});
 });
 
@@ -69,6 +73,7 @@ router.get('/logout', auth, (req, res) => {
 		if (err) {
 			return res.json({ success: false, err });
 		}
+		console.log(`Logged out ${doc.name}`);
 		return res.status(200).send({
 			success: true
 		});

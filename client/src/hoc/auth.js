@@ -18,12 +18,11 @@ export default function (SpecificComponent, option, adminRoute = null) {
 					}
 					// Loggined in Status
 				} else {
-					// supposed to be Admin page, but not admin person wants to go inside
 					if (adminRoute && !response.payload.isAdmin) {
+						// supposed to be Admin page, but not admin person wants to go inside
 						props.history.push('/');
-					}
+					} else if (option === false) {
 					// Logged in Status, but Try to go into log in page
-					else if (option === false) {
 						props.history.push('/');
 					}
 				}
