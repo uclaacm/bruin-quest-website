@@ -28,9 +28,9 @@ const MapPage = () => {
       </div>
       <div style={{ float: "right" }}>
         Thanks For Using This Boiler Plate by John Ahn
-      </div>
-    </>
-  );
+			</div>
+		</>
+	);
 }
 
 export default MapPage;

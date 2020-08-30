@@ -18,6 +18,12 @@
 1. Go into server folder
 2. `yarn start`
 
+## Making it pretty
+### Run eslint on server
+`yarn eslint server`
+### Run eslint on client
+`yarn eslint client`
+
 If you have problem, feel free to ask the guy who made this boilerplate ^^ 
 
 You can watch the tutorial for this said boilerplate.
