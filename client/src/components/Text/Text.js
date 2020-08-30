@@ -8,7 +8,7 @@ function Text({
 	color = Colors.Black,
 	size = "18px",
 	weight = 400,
-	style,
+	...props
 }) {
 	return (
 		<div
@@ -18,7 +18,7 @@ function Text({
 				font-weight: ${weight};
 				font-family: ${Fonts.Primary};
 			`}
-			style={style}
+			{...props}
 		>
 			{children}
 		</div>

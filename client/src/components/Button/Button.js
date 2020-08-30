@@ -5,16 +5,14 @@ import Text from "../Text/Text";
 
 function Button({
 	children,
-	onClick,
 	color = Colors.Blue,
 	height = "42px",
 	width = "150px",
 	disabled = false,
-	style,
+	...props
 }) {
 	return (
 		<div
-			onClick={onClick}
 			className={css`
 				height: ${height};
 				width: ${width};
@@ -29,7 +27,7 @@ function Button({
 					transition: 0.3s;
 				}
 			`}
-			style={style}
+			{...props}
 		>
 			<Text color={Colors.White}>{children}</Text>
 		</div>

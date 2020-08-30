@@ -4,12 +4,10 @@ import * as Colors from "../../constants/Colors";
 import * as Fonts from "../../constants/Fonts";
 
 function TextInput({
-	value,
-	onChange,
 	border = `2px solid ${Colors.Blue}`,
 	height = "42px",
 	width = "300px",
-	style,
+	...props
 }) {
 	return (
 		<input
@@ -22,10 +20,8 @@ function TextInput({
 				font-family: ${Fonts.Primary};
 				outline: none;
 			`}
-			style={style}
 			type="text"
-			value={value}
-			onChange={onChange}
+			{...props}
 		/>
 	);
 }
