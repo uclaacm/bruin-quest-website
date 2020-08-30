@@ -1,0 +1,12 @@
+.map-view{
+
+    display:grid;
+    box-sizing: border-box;
+
+    width: 100vw;
+    height: 100vh;
+
+    padding:50px;
+    grid-template-columns:1fr 4fr;
+    grid-template-rows:1fr;
+};

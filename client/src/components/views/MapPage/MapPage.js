@@ -1,13 +1,30 @@
-import React from "react";
-import { FaCode } from "react-icons/fa";
+import React, { useState } from "react";
 
-function MapPage() {
+import UCLAMap from './UCLAMap'
+import './MapPage.css'
+
+
+const MapPage = () => {
+
+  const [area, setArea] = useState("")
+
   return (
     <>
       <div className="app">
-        <FaCode style={{ fontSize: "4rem" }} />
-        <br />
-        <span style={{ fontSize: "2rem" }}>Map</span>
+        <div className="map-view">
+          <div className="map-list">
+            <ol>
+            <p>Selected Area: {area}</p>
+              <li>Royce Hall</li>
+              <li>Powell</li>
+              <li>Long Bricky Stairs</li>
+              <li>Watery Fountain</li>
+              <li>Rectangle Bar</li>
+            </ol>
+          </div>
+          
+          <UCLAMap setArea={setArea}/>
+      </div>
       </div>
       <div style={{ float: "right" }}>
         Thanks For Using This Boiler Plate by John Ahn
