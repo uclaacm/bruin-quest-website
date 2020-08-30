@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "emotion";
-import { Colors } from "../../constants/Colors";
+import * as Colors from "../../constants/Colors";
 import * as Fonts from "../../constants/Fonts";
 
 function TextInput({
