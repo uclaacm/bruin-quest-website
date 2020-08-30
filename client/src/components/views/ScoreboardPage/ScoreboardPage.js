@@ -40,8 +40,8 @@ function getTeamScores(teamId) {
 
 export default function ScoreboardPage(props) {
 	const team = 'Team Kookie';
-	const [scores, setScores] = useState(getTeamScores(team));
-	const [standings, setStandings] = useState(getStandings());
+	const [scores] = useState(getTeamScores(team));
+	const [standings] = useState(getStandings());
 
 	return (
 		<div className="scoreboard-main-container">
