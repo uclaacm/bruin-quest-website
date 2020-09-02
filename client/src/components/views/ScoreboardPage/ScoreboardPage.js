@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 import Scoreboard from './Scoreboard';
 
-function getStandings() {
+async function getStandings() {
 	// Mock data for now. This will be replaced with API call.
 	return [
 		{ name: 'Team kookie', score: '5000' },
@@ -20,7 +20,7 @@ function getStandings() {
 	];
 }
 
-function getTeamScores(teamId) {
+async function getTeamScores(teamId) {
 	// Mock data for now. This will be replaced with API call.
 	return [
 		{ name: 'Puzzle 1', score: '50' },
@@ -40,8 +40,23 @@ function getTeamScores(teamId) {
 
 export default function ScoreboardPage(props) {
 	const team = 'Team Kookie';
-	const [scores] = useState(getTeamScores(team));
-	const [standings] = useState(getStandings());
+	const [scores, setScores] = useState([]);
+	useEffect(async () => {
+		try {
+			setScores(await getTeamScores(team));
+		} catch (err) {
+			// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+		}
+	}, [team]);
+
+	const [standings, setStandings] = useState([]);
+	useEffect(async () => {
+		try {
+			setStandings(await getStandings());
+		} catch (err) {
+			// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+		}
+	}, []);
 
 	return (
 		<div className="scoreboard-main-container">
