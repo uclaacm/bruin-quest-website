@@ -7,20 +7,20 @@ const discordLink = 'https://discord.gg/rKwaCr';
 const image = require('./assets/logo.png');
 
 export default function LandingPage() {
-	return (
-		<>
-			<div className="main-container">
-				<img className="image" src={image} alt=""/>
-				<div className="middle-container">
-					<span className="middle-text">{staticWelcome}</span>
-				</div>
-				<div className="middle-container">
-					<span className="middle-text">{staticDiscord}</span>
-					<a className="middle-text" href={discordLink} rel="noopener noreferrer" target="_blank">
-						{discordLink}
-					</a>
-				</div>
-			</div>
-		</>
-	);
+  return (
+    <>
+      <div className="main-container">
+        <img className="image" src={image} alt=""/>
+        <div className="middle-container">
+          <span className="middle-text">{staticWelcome}</span>
+        </div>
+        <div className="middle-container">
+          <span className="middle-text">{staticDiscord}</span>
+          <a className="middle-text" href={discordLink} rel="noopener noreferrer" target="_blank">
+            {discordLink}
+          </a>
+        </div>
+      </div>
+    </>
+  );
 }
