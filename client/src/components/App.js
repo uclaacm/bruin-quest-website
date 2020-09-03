@@ -30,7 +30,7 @@ function App() {
 						component={Auth(ScoreboardPage, true)}
 					/>
 					<Route exact path="/map" component={Auth(MapPage, true)} />
-					<Route exact path="/puzzle" component={Auth(PuzzlePage, true)} />
+					<Route exact path="/puzzle/:id" component={Auth(PuzzlePage, true)} />
 				</Switch>
 			</div>
 			<Footer />
