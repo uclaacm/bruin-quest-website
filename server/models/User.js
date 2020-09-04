@@ -58,7 +58,7 @@ userSchema.pre('save', function (next) {
 		});
 	} else {
 		next();
-	}
+  }
 });
 
 userSchema.methods.comparePassword = function (plainPassword, cb) {
@@ -91,7 +91,6 @@ userSchema.methods.generateToken = function (cb) {
 
 userSchema.statics.findByToken = function (token, cb) {
 	const user = this;
-
 	jwt.verify(token, 'secret', (_err, decode) => {
 		user.findOne({ _id: decode, token }, (err, user) => {
 			if (err) {
