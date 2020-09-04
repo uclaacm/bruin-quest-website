@@ -4,6 +4,7 @@ import Text from '../../Text/Text';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
 import * as Colors from '../../../constants/Colors';
+import { Link } from 'react-router-dom';
 
 function getPuzzleData(id) {
 	return {
@@ -12,7 +13,8 @@ function getPuzzleData(id) {
 		description: `puzzle blurb Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 		Mauris faucibus finibus mauris. Pellentesque tempor lacus sit amet
 		consectetur malesuada.`,
-		difficulty: 'Super Senior'
+		difficulty: 'Super Senior',
+		generalArea: 'The Hill'
 	};
 }
 
@@ -29,45 +31,58 @@ function PuzzlePage(props) {
 	return puzzleData &&
 		puzzleData.name &&
 		puzzleData.description &&
-		puzzleData.difficulty ?
-		<div
-			className={css`
-				margin: 20px;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				& > * {
-					margin: 6px;
-				}
-			`}
-		>
-			<Text size="3rem">{puzzleData.name}</Text>
-			<Text size="1rem" weight="600">
-				Difficulty: {puzzleData.difficulty}
-			</Text>
-			<Text
-				size="1rem"
+		puzzleData.difficulty &&
+		puzzleData.generalArea ?
+		<>
+			{/* TODO: Change link to go back to general area */}
+			<Link
+				to="/"
 				className={css`
-					text-align: center;
-					width: 300px;
-				`}
-			>
-				{puzzleData.description}
-			</Text>
-			<a
-				href={puzzleData.link}
-				className={css`
+					display: inline-block;
+					margin: 20px;
 					color: ${Colors.Blue};
-					font-size: 2rem;
-					text-decoration: underline;
 				`}
 			>
-				Clue
-			</a>
-			<TextInput />
-			<Button>Submit</Button>
-		</div>	 :
+				Return to {puzzleData.generalArea}
+			</Link>
+			<div
+				className={css`
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					& > * {
+						margin: 6px;
+					}
+				`}
+			>
+				<Text size="3rem">{puzzleData.name}</Text>
+				<Text size="1rem" weight="600">
+					Difficulty: {puzzleData.difficulty}
+				</Text>
+				<Text
+					size="1rem"
+					className={css`
+						text-align: center;
+						width: 300px;
+					`}
+				>
+					{puzzleData.description}
+				</Text>
+				<a
+					href={puzzleData.link}
+					className={css`
+						color: ${Colors.Blue};
+						font-size: 2rem;
+						text-decoration: underline;
+					`}
+				>
+					Clue
+				</a>
+				<TextInput />
+				<Button>Submit</Button>
+			</div>
+		</>	 :
 		<div>Loading</div>;
 }
 
