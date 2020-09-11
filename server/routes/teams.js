@@ -16,66 +16,63 @@ router.get('/auth', auth, (req, res) => {
 	});
 });
 
-router.post('/register', (req, res) => {
-	const team = new Team({ name: req.body.email, password: req.body.password });
-	console.log(req.body);
-
-	team.save((err, doc) => {
-		if (err) {
-			return res.json({ success: false, err });
-		}
+router.post('/register', async (req, res) => {
+	try {
+		const team = new Team({
+			name: req.body.email,
+			password: req.body.password
+		});
+		const doc = await team.save();
 		console.log(`Created team ${doc.name}`);
 		return res.status(200).json({
 			success: true
 		});
-	});
+	} catch (err) {
+		return res.status(500).json({ success: false, err });
+	}
 });
 
-router.post('/login', (req, res) => {
-	Team.findOne({ name: req.body.name }, (_err, team) => {
+router.post('/login', async (req, res) => {
+	try {
+		const team = await Team.findOne({ name: req.body.name });
 		if (!team) {
-			return res.json({
+			return res.status(500).json({
 				loginSuccess: false,
 				message: 'Auth failed, email not found'
 			});
 		}
-
-		team.comparePassword(req.body.password, (_err, isMatch) => {
-			if (!isMatch) {
-				return res.json({ loginSuccess: false, message: 'Wrong password' });
-			}
-
-			team.generateToken((err, team) => {
-				if (err) {
-					return res.status(400).send(err);
-				}
-				res.cookie('w_authExp', team.tokenExp);
-				res.cookie('w_auth', team.token).status(200).json({
-					loginSuccess: true,
-					teamId: team._id
-				});
-				return undefined;
-			});
-			return undefined;
+		const isMatch = await team.comparePassword(req.body.password);
+		if (!isMatch) {
+			return res
+				.status(500)
+				.json({ loginSuccess: false, message: 'Wrong password' });
+		}
+		const teamWithToken = await team.generateToken();
+		res.cookie('w_authExp', teamWithToken.tokenExp);
+		res.cookie('w_auth', teamWithToken.token);
+		console.log(`Logged in team ${teamWithToken.name}`);
+		return res.status(200).json({
+			loginSuccess: true,
+			teamId: teamWithToken._id
 		});
-		return undefined;
-	});
+	} catch (err) {
+		return res.status(500).send(err);
+	}
 });
 
-router.get('/logout', auth, (req, res) => {
-	Team.findOneAndUpdate(
-		{ _id: req.team._id },
-		{ token: '', tokenExp: '' },
-		(err, doc) => {
-			if (err) {
-				return res.json({ success: false, err });
-			}
-			console.log(`Logged out ${doc.name}`);
-			return res.status(200).send({
-				success: true
-			});
-		}
-	);
+router.get('/logout', auth, async (req, res) => {
+	try {
+		const doc = await Team.findOneAndUpdate(
+			{ _id: req.team._id },
+			{ token: '', tokenExp: '' }
+		);
+		console.log(`Logged out ${doc.name}`);
+		return res.status(200).send({
+			success: true
+		});
+	} catch (err) {
+		return res.status(500).json({ success: false, err });
+	}
 });
 
 module.exports = router;
