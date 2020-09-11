@@ -7,6 +7,7 @@ import LoginPage from './views/LoginPage/LoginPage.js';
 import RegisterPage from './views/RegisterPage/RegisterPage.js';
 import ScoreboardPage from './views/ScoreboardPage/ScoreboardPage.js';
 import MapPage from './views/MapPage/MapPage.js';
+import AdminPage from './views/AdminPage/AdminPage.js';
 import NavBar from './views/NavBar/NavBar';
 import Footer from './views/Footer/Footer';
 
@@ -29,6 +30,7 @@ function App() {
 						component={Auth(ScoreboardPage, true)}
 					/>
 					<Route exact path="/map" component={Auth(MapPage, true)} />
+					<Route exact path="/admin" component={Auth(AdminPage, true)} />
 				</Switch>
 			</div>
 			<Footer />
