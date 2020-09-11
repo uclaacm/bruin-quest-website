@@ -3,11 +3,11 @@ const { Team } = require('../models/Team');
 const auth = (req, res, next) => {
 	const token = req.cookies.w_auth;
 
-	Team.findByToken(token, (err, user) => {
+	Team.findByToken(token, (err, team) => {
 		if (err) {
 			throw err;
 		}
-		if (!user) {
+		if (!team) {
 			return res.json({
 				isAuth: false,
 				error: true
@@ -15,7 +15,7 @@ const auth = (req, res, next) => {
 		}
 
 		req.token = token;
-		req.user = user;
+		req.team = team;
 		next();
 		return undefined;
 	});

@@ -5,22 +5,22 @@ const { Team } = require('../models/Team');
 const { auth } = require('../middleware/auth');
 
 // =================================
-//             User
+//             Team
 // =================================
 
 router.get('/auth', auth, (req, res) => {
 	res.status(200).json({
-		_id: req.user._id,
-		isAdmin: req.user.role !== 0,
+		_id: req.team._id,
+		isAdmin: req.team.role !== 0,
 		isAuth: true
 	});
 });
 
 router.post('/register', (req, res) => {
-	const user = new Team({ name: req.body.email, password: req.body.password });
+	const team = new Team({ name: req.body.email, password: req.body.password });
 	console.log(req.body);
 
-	user.save((err, doc) => {
+	team.save((err, doc) => {
 		if (err) {
 			return res.json({ success: false, err });
 		}
@@ -32,27 +32,27 @@ router.post('/register', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-	Team.findOne({ name: req.body.name }, (_err, user) => {
-		if (!user) {
+	Team.findOne({ name: req.body.name }, (_err, team) => {
+		if (!team) {
 			return res.json({
 				loginSuccess: false,
 				message: 'Auth failed, email not found'
 			});
 		}
 
-		user.comparePassword(req.body.password, (_err, isMatch) => {
+		team.comparePassword(req.body.password, (_err, isMatch) => {
 			if (!isMatch) {
 				return res.json({ loginSuccess: false, message: 'Wrong password' });
 			}
 
-			user.generateToken((err, user) => {
+			team.generateToken((err, team) => {
 				if (err) {
 					return res.status(400).send(err);
 				}
-				res.cookie('w_authExp', user.tokenExp);
-				res.cookie('w_auth', user.token).status(200).json({
+				res.cookie('w_authExp', team.tokenExp);
+				res.cookie('w_auth', team.token).status(200).json({
 					loginSuccess: true,
-					userId: user._id
+					teamId: team._id
 				});
 				return undefined;
 			});
@@ -64,7 +64,7 @@ router.post('/login', (req, res) => {
 
 router.get('/logout', auth, (req, res) => {
 	Team.findOneAndUpdate(
-		{ _id: req.user._id },
+		{ _id: req.team._id },
 		{ token: '', tokenExp: '' },
 		(err, doc) => {
 			if (err) {
