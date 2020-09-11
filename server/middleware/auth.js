@@ -1,9 +1,9 @@
-const { User } = require('../models/User');
+const { Team } = require('../models/Team');
 
 const auth = (req, res, next) => {
 	const token = req.cookies.w_auth;
 
-	User.findByToken(token, (err, user) => {
+	Team.findByToken(token, (err, user) => {
 		if (err) {
 			throw err;
 		}
