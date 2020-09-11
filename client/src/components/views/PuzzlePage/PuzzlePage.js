@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { css } from 'emotion';
 import Text from '../../Text/Text';
 import TextInput from '../../TextInput/TextInput';
@@ -19,15 +19,13 @@ function getPuzzleData(id) {
 }
 
 function PuzzlePage(props) {
-	const [puzzleData, setPuzzleData] = React.useState();
-	React.useEffect(() => {
-		const { id } = props.match.params;
+	const [puzzleData, setPuzzleData] = useState();
+	useEffect(() => {
 		async function fetchData() {
-			const puzzleData = await getPuzzleData(id);
-			setPuzzleData(puzzleData);
+			setPuzzleData(await getPuzzleData(props.match.params.id));
 		}
 		fetchData();
-	}, [props.match.params]);
+	}, [props.match.params.id]);
 	return puzzleData &&
 		puzzleData.name &&
 		puzzleData.description &&
