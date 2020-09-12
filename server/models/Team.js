@@ -4,6 +4,8 @@ const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 
+const SECRET = 'gobruins!owo';
+
 const teamSchema = mongoose.Schema({
 	name: {
 		type: String,
@@ -68,7 +70,7 @@ teamSchema.methods.comparePassword = function (plainPassword) {
 
 teamSchema.methods.generateToken = function () {
 	const team = this;
-	const token = jwt.sign(team._id.toHexString(), 'secret');
+	const token = jwt.sign(team._id.toHexString(), SECRET);
 	const oneHour = moment().add(1, 'hour').valueOf();
 
 	team.tokenExp = oneHour;
@@ -77,9 +79,9 @@ teamSchema.methods.generateToken = function () {
 };
 
 teamSchema.statics.findByToken = async function (token) {
-	const team = this;
-	const decode = await jwt.verify(token, 'secret');
-	return team.findOne({ _id: decode, token });
+	const Team = this;
+	const decode = await jwt.verify(token, SECRET);
+	return Team.findOne({ _id: decode, token });
 };
 
 const Team = mongoose.model('Team', teamSchema);
