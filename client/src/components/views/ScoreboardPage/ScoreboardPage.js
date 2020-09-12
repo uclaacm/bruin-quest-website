@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { css } from 'emotion';
 import Text from '../../Text/Text';
+import * as Fonts from '../../../constants/Fonts';
 import Scoreboard from './Scoreboard';
 
-async function getStandings() {
+function getStandings() {
 	// Mock data for now. This will be replaced with API call.
 	return [
 		{ name: 'Team kookie', score: '5000' },
@@ -21,7 +22,7 @@ async function getStandings() {
 	];
 }
 
-async function getTeamScores(teamId) {
+function getTeamScores(teamId) {
 	// Mock data for now. This will be replaced with API call.
 	return [
 		{ name: 'Puzzle 1', score: '50' },
@@ -42,39 +43,36 @@ async function getTeamScores(teamId) {
 export default function ScoreboardPage(props) {
 	const team = 'Team Kookie';
 	const [scores, setScores] = useState([]);
-	useEffect(async () => {
-		try {
-			setScores(await getTeamScores(team));
-		} catch (err) {
-			// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+	useEffect(() => {
+		async function initScores() {
+			try {
+				setScores(await getTeamScores(team));
+			} catch (err) {
+				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+			}
 		}
+		initScores();
 	}, [team]);
 
 	const [standings, setStandings] = useState([]);
-	useEffect(async () => {
-		try {
-			setStandings(await getStandings());
-		} catch (err) {
-			// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+	useEffect(() => {
+		async function initStandings() {
+			try {
+				setStandings(await getStandings());
+			} catch (err) {
+				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+			}
 		}
+		initStandings();
 	}, []);
 
 	return (
-		<div
-			className={css`
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        height: 100vh;
-      `}
-		>
+		<div>
 			<Text
 				className={css`
           text-align: center;
           font-size: 3.5rem;
-          color: black;
-          font-family: Poppins; 
+          font-family: ${Fonts.Primary}; 
         `}
 			>
         Scoreboard
@@ -85,10 +83,8 @@ export default function ScoreboardPage(props) {
           flex-direction: row;
           justify-content: space-evenly;
           align-items: flex-start;
-          height: 100vh;
-          padding-top: 5vh;
-          height: 100vh;
-          width: 100vw;
+          padding-top: 20px;
+          padding-bottom: 40px;
         `}
 			>
 				<Scoreboard scores={scores} title={team + ' Scores'} />

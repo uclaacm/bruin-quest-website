@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
 import * as Colors from '../../../constants/Colors';
+import * as Fonts from '../../../constants/Fonts';
 import Text from '../../Text/Text';
 import logo from './assets/logo.png';
 
@@ -11,7 +12,7 @@ const discordLink = 'https://discord.gg/rKwaCr';
 const textStyle = css`
   text-align: center;
   font-size: 2.5rem;
-  font-family: Poppins; 
+  font-family: ${Fonts.Primary}; 
 `;
 
 const middleContainer = css`

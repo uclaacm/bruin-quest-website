@@ -2,13 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import Text from '../../Text/Text';
+import * as Colors from '../../../constants/Colors';
+import * as Fonts from '../../../constants/Fonts';
 import TableRow from './TableRow';
-
-function renderTableRow(score) {
-	return (
-		<TableRow name={score.name} score={score.score}/>
-	);
-}
 
 export default function Scoreboard(props) {
 	return (
@@ -22,14 +18,13 @@ export default function Scoreboard(props) {
 				className={css`
           text-align: center;
           font-size: 2.5rem;
-          color: black;
-          font-family: Poppins;
+          font-family: ${Fonts.Primary};
         `}
 			>
 				{props.title}
 			</Text>
 			<table>
-				{props.scores.map(renderTableRow)}
+				{props.scores.map(score => <TableRow key={score.name} name={score.name} score={score.score}/>)}
 			</table>
 		</div>
 	);

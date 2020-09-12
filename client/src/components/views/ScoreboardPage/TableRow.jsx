@@ -2,19 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { css } from 'emotion';
 import Text from '../../Text/Text';
+import * as Colors from '../../../constants/Colors';
+import * as Fonts from '../../../constants/Fonts';
 
 const textStyle = css`
   text-align: center;
   font-size: 2rem;
-  color: black;
-  font-family: Poppins;
+  font-family: ${Fonts.Primary};
 `;
 
 export default function TableRow(props) {
 	return (
 		<tr>
 			<td className={css`
-        border: 7px solid #005587;
+        border: 7px solid ${Colors.Blue};
       `}>
 				<div
 					className={css`
