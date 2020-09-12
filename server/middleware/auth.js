@@ -2,16 +2,23 @@ const { Team } = require('../models/Team');
 
 const auth = async (req, res, next) => {
 	const token = req.cookies.w_auth;
-	const team = await Team.findByToken(token);
-	if (!team) {
+	try {
+		const team = await Team.findByToken(token);
+		if (!team) {
+			return res.status(500).json({
+				isAuth: false,
+				error: 'Team not found'
+			});
+		}
+		req.token = token;
+		req.team = team;
+		return next();
+	} catch (error) {
 		return res.status(500).json({
 			isAuth: false,
-			error: true
+			error
 		});
 	}
-	req.token = token;
-	req.team = team;
-	return next();
 };
 
 module.exports = { auth };
