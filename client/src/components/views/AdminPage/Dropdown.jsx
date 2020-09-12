@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
 import DropdownRow from './DropdownRow'
 import SubmissionRow from './SubmissionRow'
-import './styles.css'
+import { css } from 'emotion';
+import Text from '../../Text/Text';
+
+const dropdown = css`
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  width: 80vw;
+`;
 
 export default class Dropdown extends Component {
   constructor() {
@@ -18,7 +26,11 @@ export default class Dropdown extends Component {
 
   renderDropdownRow = (item) => {
     return(
-      <DropdownRow item={item} changeSelection={this.showMenu} showTriangle={false}/>
+      <DropdownRow 
+        item={item}
+        changeSelection={this.showMenu}
+        showTriangle={false}
+      />
     );
   }
 
@@ -31,7 +43,7 @@ export default class Dropdown extends Component {
   getPuzzles() {
     // Mock data for now. This will be replaced with API call.
     this.puzzles = [
-      { "name": "Puzzle 1", "submissions": [{"link": "a"}, {"link": "aewe"}, {"link": "sd"}] },
+      { "name": "Puzzle 1", "submissions": [{"link": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"link": "aewe"}, {"link": "sd"}] },
       { "name": "Puzzle 2", "submissions": [{"link": "a"}, {"link": "123"}, {"link": "ads"}] },
       { "name": "Puzzle 3", "submissions": [{"link": "a"}, {"link": "avv"}, {"link": "c"}] },
 
@@ -47,27 +59,19 @@ export default class Dropdown extends Component {
   }
   
   closeMenu = (event) => {
-    if (!this.dropdownMenu.contains(event.target)) {
       this.setState({ showMenu: false }, () => {
         document.removeEventListener('click', this.closeMenu);
       });  
-    }
   }
 
   render() {
     return (
-      <div className="dropdown">
-        <DropdownRow item={this.state.selected} changeSelection={this.showMenu} showTriangle={true}>
-        </DropdownRow>
+      <div className={dropdown}>
+        <DropdownRow item={this.state.selected} changeSelection={this.showMenu} showTriangle={true}/>
         {
           this.state.showMenu
             ? (
-              <div
-                className="dropdown"
-                ref={(element) => {
-                  this.dropdownMenu = element;
-                }}
-              >
+              <div className={dropdown}>
                 {this.puzzles.map(this.renderDropdownRow)}
               </div>
             )
