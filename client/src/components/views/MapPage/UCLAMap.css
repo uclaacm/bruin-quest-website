@@ -1,0 +1,12 @@
+.map-hover{
+    opacity:0;
+    transition: .5s ease;
+}
+
+.map-area:hover + .map-hover{
+    opacity: 1;
+};
+
+.map-hover > p{
+    fill:red;
+};
