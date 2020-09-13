@@ -6,13 +6,13 @@ import './MapPage.css'
 
 const MapPage = () => {
 
-  const [area, setArea] = useState("")
+  
 
   return (
       <div className="app">
         <div className="map-view">
           
-          <UCLAMap setArea={setArea}/>
+          <UCLAMap/>
       </div>
       </div>
 
