@@ -1,18 +1,18 @@
-import React from 'react';
-import { FaCode } from 'react-icons/fa';
+import React from "react";
+import UCLAMap from './UCLAMap'
+import './MapPage.css'
 
-function MapPage() {
-	return (
-		<>
-			<div className="app">
-				<FaCode style={{ fontSize: '4rem' }} />
-				<br />
-				<span style={{ fontSize: '2rem' }}>Map</span>
-			</div>
-			<div style={{ float: 'right' }}>
-        Thanks For Using This Boiler Plate by John Ahn
-			</div>
-		</>
+const MapPage = () => {
+
+  return (
+      <div className="app">
+        <div className="map-view">
+          
+          <UCLAMap/>
+      </div>
+      </div>
+
+
 	);
 }
 
