@@ -35,11 +35,5 @@
     "eslint": "^7.7.0",
     "husky": "^4.3.0",
     "nodemon": "^1.19.1"
-  },
-  "husky": {
-    "hooks": {
-			"pre-commit": "yarn eslint .",
-			"pre-push": "yarn eslint ."
-    }
   }
 }
