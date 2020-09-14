@@ -23,7 +23,7 @@ export default function Scoreboard(props) {
 			>
 				{props.title}
 			</Text>
-			<table>
+			<table className={css`border-collapse: collapse;`}>
 				{props.scores.map(score => <TableRow key={score.name} name={score.name} score={score.score}/>)}
 			</table>
 		</div>

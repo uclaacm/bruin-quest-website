@@ -13,30 +13,34 @@ const textStyle = css`
 
 export default function TableRow(props) {
 	return (
-		<tr>
-			<td className={css`
+		<tr
+			className={css`
         border: 7px solid ${Colors.Blue};
-      `}>
-				<div
-					className={css`
-            flex-direction: row;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 35vw;
-            height: 4vw;
-            padding-left: 2vw;
-            padding-right: 2vw;
-          `}
-				>
+      `}
+		>
+			<div
+				className={css`
+          flex-direction: row;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 35vw;
+          height: 4vw;
+          padding-left: 2vw;
+          padding-right: 2vw;
+        `}
+			>
+				<td>
 					<Text className={textStyle}>
 						{props.name}
 					</Text>
+				</td>
+				<td>
 					<Text className={textStyle}>
 						{props.score}
 					</Text>
-				</div>
-			</td>
+				</td>
+			</div>
 		</tr>
 	);
 }
