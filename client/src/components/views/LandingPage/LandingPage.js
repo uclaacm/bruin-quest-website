@@ -5,7 +5,9 @@ import * as Fonts from '../../../constants/Fonts';
 import Text from '../../Text/Text';
 import logo from './assets/logo.png';
 
-const staticWelcome = 'Event description and welcome message: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris faucibus finibus mauris. Pellentesque tempor lacus sit amet consectetur malesuada.';
+const staticWelcome = `Event description and welcome message: Lorem ipsum 
+dolor sit amet, consectetur adipiscing elit. Mauris faucibus finibus 
+mauris. Pellentesque tempor lacus sit amet consectetur malesuada.`;
 const staticDiscord = 'Join us on Discord!';
 const discordLink = 'https://discord.gg/rKwaCr';
 
