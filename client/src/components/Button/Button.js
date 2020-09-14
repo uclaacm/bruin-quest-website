@@ -1,13 +1,13 @@
-import React from "react";
-import { css } from "emotion";
-import * as Colors from "../../constants/Colors";
-import Text from "../Text/Text";
+import React from 'react';
+import { css } from 'emotion';
+import * as Colors from '../../constants/Colors';
+import Text from '../Text/Text';
 
 function Button({
 	children,
 	color = Colors.Blue,
-	height = "42px",
-	width = "150px",
+	height = '42px',
+	width = '150px',
 	disabled = false,
 	...props
 }) {
@@ -21,7 +21,7 @@ function Button({
 				display: flex;
 				align-items: center;
 				justify-content: center;
-				cursor: ${disabled ? "not-allowed" : "pointer"};
+				cursor: ${disabled ? 'not-allowed' : 'pointer'};
 				&:hover {
 					background-color: ${disabled ? Colors.Gray : Colors.DarkBlue};
 					transition: 0.3s;
@@ -37,7 +37,7 @@ function Button({
 export default Button;
 
 // Usage:
-/* 
+/*
 <Button
   onClick={() => {
     console.log("hello");
@@ -45,5 +45,5 @@ export default Button;
   disabled
 >
   Hello
-</Button>; 
+</Button>;
 */

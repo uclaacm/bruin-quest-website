@@ -1,1 +1,1 @@
-export const Primary = "Poppins";
+export const Primary = 'Poppins';
