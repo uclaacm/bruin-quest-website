@@ -12,7 +12,7 @@ function Button({
 	...props
 }) {
 	return (
-		<div
+			<div
 			className={css`
 				height: ${height};
 				width: ${width};
