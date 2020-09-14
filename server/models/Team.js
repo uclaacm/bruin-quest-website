@@ -104,7 +104,7 @@ teamSchema.statics.findByToken = function (token, cb) {
 	jwt.verify(token, 'secret', (_err, decode) => {
 		team.findOne({ _id: decode, token }, (err, team) => {
 			if (err) {
-				return cb(err);
+				return cb(err)
 			}
 			cb(null, team)
 		});
