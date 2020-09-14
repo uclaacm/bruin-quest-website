@@ -1,24 +1,24 @@
-const { User } = require('../models/User');
+const { Team } = require('../models/Team');
 
-const auth = (req, res, next) => {
+const auth = async (req, res, next) => {
 	const token = req.cookies.w_auth;
-
-	User.findByToken(token, (err, user) => {
-		if (err) {
-			throw err;
-		}
-		if (!user) {
-			return res.json({
+	try {
+		const team = await Team.findByToken(token);
+		if (!team) {
+			return res.status(500).json({
 				isAuth: false,
-				error: true
+				error: 'Team not found'
 			});
 		}
-
 		req.token = token;
-		req.user = user;
-		next();
-		return undefined;
-	});
+		req.team = team;
+		return next();
+	} catch (error) {
+		return res.status(500).json({
+			isAuth: false,
+			error
+		});
+	}
 };
 
 module.exports = { auth };

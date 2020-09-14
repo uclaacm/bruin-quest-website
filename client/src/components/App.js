@@ -7,8 +7,8 @@ import LoginPage from './views/LoginPage/LoginPage.js';
 import RegisterPage from './views/RegisterPage/RegisterPage.js';
 import ScoreboardPage from './views/ScoreboardPage/ScoreboardPage.js';
 import MapPage from './views/MapPage/MapPage.js';
+import PuzzlePage from './views/PuzzlePage/PuzzlePage.js';
 import NavBar from './views/NavBar/NavBar';
-import Footer from './views/Footer/Footer';
 
 // null   Anyone Can go inside
 // true   only logged in user can go inside
@@ -29,9 +29,9 @@ function App() {
 						component={Auth(ScoreboardPage, true)}
 					/>
 					<Route exact path="/map" component={Auth(MapPage, true)} />
+					<Route exact path="/puzzle/:id" component={Auth(PuzzlePage, true)} />
 				</Switch>
 			</div>
-			<Footer />
 		</Suspense>
 	);
 }
