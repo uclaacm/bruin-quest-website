@@ -1,12 +1,12 @@
-import React from "react";
-import { css } from "emotion";
-import * as Colors from "../../constants/Colors";
-import * as Fonts from "../../constants/Fonts";
+import React from 'react';
+import { css } from 'emotion';
+import * as Colors from '../../constants/Colors';
+import * as Fonts from '../../constants/Fonts';
 
 function Text({
 	children,
 	color = Colors.Black,
-	size = "18px",
+	size = '18px',
 	weight = 400,
 	...props
 }) {

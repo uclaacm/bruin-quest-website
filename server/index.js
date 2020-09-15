@@ -15,10 +15,12 @@ const config = require('./config/key');
 //   .catch(err => console.error(err));
 
 const mongoose = require('mongoose');
-mongoose.connect(config.mongoURI,
-	{
-		useNewUrlParser: true, useUnifiedTopology: true,
-		useCreateIndex: true, useFindAndModify: false
+mongoose
+	.connect(config.mongoURI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+		useFindAndModify: false
 	})
 	.then(() => console.log('MongoDB Connected...'))
 	.catch(err => console.log(err));
@@ -33,8 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use('/api/users', require('./routes/users'));
-
+app.use('/api/teams', require('./routes/teams'));
 
 // use this to show the image you have in node js server to client (react js)
 // https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
