@@ -33,8 +33,8 @@ const teamSchema = mongoose.Schema({
 			}
 		}
 	],
-	puzzles: {
-		id: {
+	puzzles: [
+		{
 			name: String,
 			submission: String,
 			score: {
@@ -47,7 +47,7 @@ const teamSchema = mongoose.Schema({
 				default: 'no attempt'
 			}
 		}
-	}
+	]
 });
 
 teamSchema.pre('save', async function (next) {

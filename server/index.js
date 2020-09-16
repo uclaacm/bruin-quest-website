@@ -8,12 +8,6 @@ const cookieParser = require('cookie-parser');
 
 const config = require('./config/key');
 
-// const mongoose = require("mongoose");
-// mongoose
-//   .connect(config.mongoURI, { useNewUrlParser: true })
-//   .then(() => console.log("DB connected"))
-//   .catch(err => console.error(err));
-
 const mongoose = require('mongoose');
 mongoose
 	.connect(config.mongoURI, {
@@ -24,6 +18,39 @@ mongoose
 	})
 	.then(() => console.log('MongoDB Connected...'))
 	.catch(err => console.log(err));
+
+//parses information from a exel file and then load it into the mongoose database
+const xlsx = require('node-xlsx')
+const sampleData = xlsx.parse('./config/sampleData.xlsx')
+const {Puzzle} = require('./models/Puzzle')
+
+var puzzleValues = []
+var puzzleColumns = []
+
+for(let i = 0; i < sampleData.length; i ++){
+	if(sampleData[i].name == "PuzzleData"){
+		puzzleColumns = sampleData[i].data[0]
+		puzzleValues = sampleData[i].data.splice(1)
+		break
+	}
+}
+
+puzzleValues.forEach((value) => {
+	var puzzleData = {}
+	puzzleColumns.forEach((key, i) => {
+		puzzleData[key] = value[i]
+	})
+	
+	const small = new Puzzle(puzzleData)
+	small
+		.save()
+		.then((puzzle) => {
+			console.log(`successfully created ${puzzle.name}`)
+		})
+		.catch((err) => {
+			console.error(`failed to save ${puzzleData[name]}`, err)
+		})
+})
 
 app.use(cors());
 
