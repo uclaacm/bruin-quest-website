@@ -1,6 +1,7 @@
 import React from 'react';
 import Dropdown from './Dropdown';
 import { css } from 'emotion';
+import Tabs from './Tabs';
 
 export default function AdminPage() {
 	return (
@@ -14,7 +15,17 @@ export default function AdminPage() {
         height: 100vh;
       `}
 		>
-			<Dropdown/>
+			<Tabs>
+				<div label="Puzzles">
+					<Dropdown type="puzzles"/>
+				</div>
+				<div label="Teams">
+					<Dropdown type="teams"/>
+				</div>
+				<div label="Controls">
+					<Dropdown type="controls"/>
+				</div>
+			</Tabs>
 		</main>
 	);
 }

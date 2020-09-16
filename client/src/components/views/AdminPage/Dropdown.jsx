@@ -2,52 +2,72 @@ import React, { Component } from 'react';
 import DropdownRow from './DropdownRow'
 import SubmissionRow from './SubmissionRow'
 import { css } from 'emotion';
-import Text from '../../Text/Text';
 
 const dropdown = css`
-  flex-direction: column;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: center; 
   width: 80vw;
 `;
 
 export default class Dropdown extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
         
-    this.getPuzzles();
+    this.getDropdown(this.props.type);
     
     this.state = {
       showMenu: false,
-      selected: this.puzzles[0]
+      selected: this.items[0]
     };
 
   }
 
-  renderDropdownRow = (item) => {
+  renderRow = (item) => {
     return(
-      <DropdownRow 
-        item={item}
-        changeSelection={this.showMenu}
-        showTriangle={false}
-      />
+      <SubmissionRow item={item} score={this.score}/>
     );
   }
 
-  renderSubmissionRow = (item) => {
-    return(
-      <SubmissionRow submission={item}/>
-    );
+  getDropdown(type) {
+    switch (type) {
+      case "puzzles": 
+        this.getPuzzles();
+        break;
+      case "teams":
+        this.getTeams();
+        break;
+      case "controls":
+        this.getControls();
+        break;
+    }
   }
 
   getPuzzles() {
     // Mock data for now. This will be replaced with API call.
-    this.puzzles = [
-      { "name": "Puzzle 1", "submissions": [{"link": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"link": "aewe"}, {"link": "sd"}] },
-      { "name": "Puzzle 2", "submissions": [{"link": "a"}, {"link": "123"}, {"link": "ads"}] },
-      { "name": "Puzzle 3", "submissions": [{"link": "a"}, {"link": "avv"}, {"link": "c"}] },
-
+    this.items = [
+      { "id": "123", "name": "Puzzle 1", "items": [{"link": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"link": "aewe"}, {"link": "sd"}] },
+      { "id": "123", "name": "Puzzle 2", "items": [{"link": "a"}, {"link": "123"}, {"link": "ads"}] },
+      { "id": "123", "name": "Puzzle 3", "items": [{"link": "a"}, {"link": "avv"}, {"link": "c"}] },
     ];
+  }
+
+  getTeams() {
+    this.items = [
+      { "name": "Team kookie", "items": [{"playerName": "cookie", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"playerName": "aewe", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"playerName": "sd", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}] },
+      { "name": "Team bookie", "items": [{"playerName": "a", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"playerName": "123", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"playerName": "ads", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}] },
+      { "name": "Team cookie", "items": [{"playerName": "a", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"playerName": "avv", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}, {"playerName": "c", "discord": "https://github.com/uclaacm/bruin-quest-website/tree/master/client"}] },
+    ];
+  }
+
+  getControls() {
+    this.items = [
+      {"name": "Stop game", "items": []}
+    ]
+  }
+
+  score(item) {
+    // Will need team id in the item in order to score
   }
   
   showMenu = (event, item) => {
@@ -72,13 +92,22 @@ export default class Dropdown extends Component {
           this.state.showMenu
             ? (
               <div className={dropdown}>
-                {this.puzzles.map(this.renderDropdownRow)}
+                {
+                  this.items.map(item => 
+                    <DropdownRow 
+                      item={item}
+                      changeSelection={this.showMenu}
+                      showTriangle={false}
+                    />
+                  )
+                }
               </div>
             )
             : (
-              this.state.selected.submissions.map(this.renderSubmissionRow)
+              null
             )
         }
+        {this.state.selected.items.map(this.renderRow)}
       </div>
     );
   }
