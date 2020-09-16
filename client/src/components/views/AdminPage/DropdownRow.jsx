@@ -6,6 +6,10 @@ import Text from '../../Text/Text';
 import triangle from './assets/triangle.png';
 
 export default function DropdownRow(props) {
+	function changeSelection(event, item) {
+    console.log(item.name);
+		props.changeSelection(event, item);
+	}
 	return (
 		<div
 			className={css`
@@ -18,7 +22,7 @@ export default function DropdownRow(props) {
           cursor: pointer;
         }
       `}
-			onClick={event => props.changeSelection(event, props.item)}
+			onClick={event => changeSelection(event, props.item)}
 		>
 			<Text
 				className={css`

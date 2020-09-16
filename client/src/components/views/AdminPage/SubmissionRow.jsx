@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { css } from 'emotion';
 import * as Colors from '../../../constants/Colors';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
 
 export default function SubmissionRow(props) {
+	const [score, setScore] = useState();
 	return (
 		<div
 			className={css`
@@ -25,8 +26,8 @@ export default function SubmissionRow(props) {
 			>
 				{props.item.link}
 			</a>
-			<TextInput />
-			<Button onClick={() => props.score(props.item)}>Score!</Button>
+			<TextInput onChange={event => setScore(event.target.value)}/>
+			<Button onClick={() => props.score(props.item, score)}>Score!</Button>
 		</div>
 	);
 }
