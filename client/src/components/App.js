@@ -30,7 +30,7 @@ function App() {
 						component={Auth(ScoreboardPage, true)}
 					/>
 					<Route exact path="/map" component={Auth(MapPage, true)} />
-					<Route exact path="/generalArea" component={Auth(GeneralAreaPage, true)} />
+					<Route exact path="/area/:id" component={Auth(GeneralAreaPage, true)} />
 					<Route exact path="/puzzle/:id" component={Auth(PuzzlePage, true)} />
 				</Switch>
 			</div>

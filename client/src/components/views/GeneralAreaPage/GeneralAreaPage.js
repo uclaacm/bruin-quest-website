@@ -1,8 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './GeneralAreaPage.css';
 
-function Location(props) {
+function getAreaData(id) {
+	return {
+		name: id,
+		link: '/',
+		puzzles: [
+			{
+				name: 'De Neve',
+				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
+				link: '/',
+				completed: '20%'
+			},
+			{
+				name: 'De Neve',
+				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
+				link: '/',
+				completed: '40%'
+			},
+			{
+				name: 'De Neve',
+				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
+				link: '/',
+				completed: '60%'
+			},
+			{
+				name: 'De Neve',
+				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
+				link: '/',
+				completed: '80%'
+			},
+			{
+				name: 'De Neve',
+				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
+				link: '/',
+				completed: '100%'
+			}
+		]
+	};
+}
+
+function Puzzle(props) {
 	return (
 		<a className="card" href={props.link}>
 			<h2>{props.name}</h2>
@@ -14,48 +53,30 @@ function Location(props) {
 	);
 }
 
-function Puzzle(props) {
-	return (
-		<a className="card" href={props.link}>
-			<h2>{props.name}</h2>
-			<img src={props.image} alt={props.name}/>
-		</a>
-	);
-}
+function GeneralAreaPage(props) {
+	const [areaData, setPuzzleData] = useState();
+	useEffect(() => {
+		async function fetchData() {
+			setPuzzleData(await getAreaData(props.match.params.id));
+		}
+		fetchData();
+	}, [props.match.params.id]);
 
-function GeneralAreaPage() {
-	return (
+	return areaData && areaData.name && areaData.puzzles ?
+	(
 		<div className="app">
-			<h1>The Hill</h1>
+			<h1>{areaData.name}</h1>
 			<div className="cardList">
-				<Location
-					name="De Neve"
-					image="https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg"
-					completed="20%"
-				/>
-				<Location
-					name="De Neve"
-					image="https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg"
-					completed="40%"
-				/>
-				<Location
-					name="De Neve"
-					image="https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg"
-					completed="60%"
-				/>
-				<Location
-					name="De Neve"
-					image="https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg"
-					completed="80%"
-				/>
-				<Location
-					name="De Neve"
-					image="https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg"
-					completed="100%"
-				/>
+				{areaData.puzzles.map(puzzle => <Puzzle
+					link={puzzle.link}
+					image={puzzle.image}
+					name={puzzle.name}
+					completed={puzzle.completed}
+				/>)}
 			</div>
 		</div>
-	);
+	) : 
+	<div>Loading</div>;
 }
 
 export default GeneralAreaPage;
