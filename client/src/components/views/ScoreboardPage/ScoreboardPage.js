@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { css } from 'emotion';
 import Text from '../../Text/Text';
+import * as Colors from '../../../constants/Colors';
 import * as Fonts from '../../../constants/Fonts';
 import Scoreboard from './Scoreboard';
 
@@ -67,12 +68,15 @@ export default function ScoreboardPage(props) {
 	}, []);
 
 	return (
-		<div>
+		<div className={css`padding: 4vw`}>
 			<Text
 				className={css`
-          text-align: center;
-          font-size: 3.5rem;
+          text-align: left;
+          font-size: 6rem;
           font-family: ${Fonts.Primary}; 
+          font-weight: 600;
+          font-color: ${Colors.Black};
+          padding-bottom: 80px;
         `}
 			>
         Scoreboard
@@ -81,9 +85,8 @@ export default function ScoreboardPage(props) {
 				className={css`
           display: flex;
           flex-direction: row;
-          justify-content: space-evenly;
+          justify-content: space-between;
           align-items: flex-start;
-          padding-top: 20px;
           padding-bottom: 40px;
         `}
 			>
