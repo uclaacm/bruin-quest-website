@@ -1,12 +1,12 @@
-import React from "react";
-import { css } from "emotion";
-import * as Colors from "../../constants/Colors";
-import * as Fonts from "../../constants/Fonts";
+import React from 'react';
+import { css } from 'emotion';
+import * as Colors from '../../constants/Colors';
+import * as Fonts from '../../constants/Fonts';
 
 function TextInput({
 	border = `2px solid ${Colors.Blue}`,
-	height = "42px",
-	width = "300px",
+	height = '42px',
+	width = '300px',
 	...props
 }) {
 	return (
