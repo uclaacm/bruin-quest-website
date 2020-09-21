@@ -16,15 +16,9 @@ export default function AdminPage() {
       `}
 		>
 			<Tabs>
-				<div label="Puzzles">
-					<Dropdown type="puzzles"/>
-				</div>
-				<div label="Teams">
-					<Dropdown type="teams"/>
-				</div>
-				<div label="Controls">
-					<Dropdown type="controls"/>
-				</div>
+				<Dropdown type="Puzzles"/>
+				<Dropdown type="Teams"/>
+				<Dropdown type="Controls"/>
 			</Tabs>
 		</main>
 	);

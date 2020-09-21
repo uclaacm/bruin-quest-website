@@ -7,16 +7,16 @@ import triangle from './assets/triangle.png';
 
 export default function DropdownRow(props) {
 	function changeSelection(event, item) {
-    console.log(item.name);
 		props.changeSelection(event, item);
 	}
+
 	return (
 		<div
 			className={css`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border: 7px solid ${Colors.Blue};
+        border: 2px solid ${Colors.Black};
         width: 80vw;
         &:hover {
           cursor: pointer;
@@ -24,13 +24,7 @@ export default function DropdownRow(props) {
       `}
 			onClick={event => changeSelection(event, props.item)}
 		>
-			<Text
-				className={css`
-          text-align: center;
-          font-size: 2rem;
-          font-family: ${Fonts.Primary}; 
-        `}
-			>
+			<Text size="2rem">
 				{props.item.name}
 			</Text>
 			{props.showTriangle ? <img className={css`height: 3rem`} src={triangle}/> : null}

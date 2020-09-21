@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import DropdownRow from './DropdownRow';
 import SubmissionRow from './SubmissionRow';
 import { css } from 'emotion';
@@ -12,9 +12,9 @@ const dropdown = css`
 
 function getDropdown(type) {
 	switch (type) {
-	case 'puzzles':
+	case 'Puzzles':
 		return getPuzzles();
-	case 'teams':
+	case 'Teams':
 		return getTeams();
 	default:
 		return getControls();
@@ -42,7 +42,7 @@ function getControls() {
 	return [{ name: 'Stop game', items: [] }];
 }
 
-function score(item, score) {
+function submitScore(item, score) {
 	// Will need team id in the item in order to score
 	// if success, rerender list and item will be removed? in case there are 2 ppl grading at same time
 }
@@ -50,10 +50,9 @@ function score(item, score) {
 function renderRow(item) {
 	// the other rows will be added here with switch
 	return (
-		<SubmissionRow item={item} score={score}/>
+		<SubmissionRow item={item} score={submitScore}/>
 	);
 }
-
 
 export default function Dropdown(props) {
 	const [items, setItems] = useState(null);
@@ -77,11 +76,12 @@ export default function Dropdown(props) {
 			}
 		}
 		initDropdown();
-	}, []);
+	}, [props.type]);
 
 	if (items === null || selected === null) {
 		return null;
 	}
+
 	return (
 		<div className={dropdown}>
 			<DropdownRow item={selected} changeSelection={showMenu} showTriangle={true}/>

@@ -6,6 +6,7 @@ import Button from '../../Button/Button';
 
 export default function SubmissionRow(props) {
 	const [score, setScore] = useState();
+
 	return (
 		<div
 			className={css`
