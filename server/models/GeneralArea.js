@@ -1,8 +1,9 @@
-
+'use strict';
 const mongoose = require('mongoose');
 
 const generalAreaSchema = mongoose.Schema({
-	name: String,
+	_id: String,
+	displayName: String,
 	locations: [
 		{
 			name: String,
@@ -12,6 +13,6 @@ const generalAreaSchema = mongoose.Schema({
 	]
 });
 
-const GeneralArea = mongoose.model('GeneralArea', generalAreaSchema);
+const GeneralArea = mongoose.model('GeneralArea', generalAreaSchema, 'GeneralArea');
 
 module.exports = { GeneralArea };
