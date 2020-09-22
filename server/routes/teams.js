@@ -103,8 +103,8 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 			if (currentPuzzle.type === 'blue') {
 				status = 'pending';
 			} else if (submission === currentPuzzle.correctAnswer) {
-					status = 'correct';
-					points = pointValues[currentPuzzle.difficulty];
+				status = 'correct';
+				points = pointValues[currentPuzzle.difficulty];
 			} else {
 				status = 'incorrect';
 			}
