@@ -20,37 +20,35 @@ mongoose
 	.catch(err => console.log(err));
 
 //parses information from a exel file and then load it into the mongoose database
-const xlsx = require('node-xlsx')
-const sampleData = xlsx.parse('./config/sampleData.xlsx')
+const csv = require('fast-csv')
+const fs = require('fs')
 const {Puzzle} = require('./models/Puzzle')
 
-var puzzleValues = []
-var puzzleColumns = []
+let addedPuzzles = totalPuzzles = 0
+fs.createReadStream(path.resolve(__dirname,"config", "puzzleSeed.csv"))
+	.pipe(csv.parse({headers:true}))
+	.on('error', (err) => console.error(err))
+	.on('data', async (row) => {
+		const puzzleID = row.name.toLowerCase()
+								.replace(/ /g, '_')
+								.replace(/[%\^\/\*\.\\]/g, '')
+		row._id = puzzleID
+		const puzzleInstance = new Puzzle(row)
+		try{
+			await puzzleInstance.save()
+			addedPuzzles++
+			console.log(`${addedPuzzles}/${totalPuzzles} ${puzzleInstance._id} has been added successfully`)
+		}
+		catch(err){
+			console.error(`Failed to add ${puzzleInstance.name}`, err.message)
+		}
 
-for(let i = 0; i < sampleData.length; i ++){
-	if(sampleData[i].name == "PuzzleData"){
-		puzzleColumns = sampleData[i].data[0]
-		puzzleValues = sampleData[i].data.splice(1)
-		break
-	}
-}
-
-puzzleValues.forEach((value) => {
-	var puzzleData = {}
-	puzzleColumns.forEach((key, i) => {
-		puzzleData[key] = value[i]
+		
 	})
-	
-	const small = new Puzzle(puzzleData)
-	small
-		.save()
-		.then((puzzle) => {
-			console.log(`successfully created ${puzzle.name}`)
-		})
-		.catch((err) => {
-			console.error(`failed to save ${puzzleData[name]}`, err)
-		})
-})
+	.on('end', (rowCount) => totalPuzzles = rowCount)
+
+
+
 
 app.use(cors());
 

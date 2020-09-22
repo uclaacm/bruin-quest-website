@@ -1,0 +1,4 @@
+name,location,generalArea,correctAnswer,link,description,difficulity,numberOfSolves
+eyeB  leach,Boelter Hall,South Campus,Water,localhost:bleach,how to bleach your eye,lower div,0
+feedTheCat,Powell Library,Powell Cat Territory,cat Food,localhost:cat,make sure the cat is ok,upper div,22
+exercise!,b-fit,Hill,Rowing machine,localhost:run,keep yourself fit,super senior,10

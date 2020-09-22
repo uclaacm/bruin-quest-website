@@ -1,8 +1,16 @@
 'use strict';
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const puzzleSchema = mongoose.Schema({
-    name: String,
+    _id:
+    {
+      type:String
+    } ,
+    name: {
+      type:String,
+      unique: true
+    },
     location: String,
     generalArea: String,
     correctAnswer: String,
@@ -18,6 +26,8 @@ const puzzleSchema = mongoose.Schema({
     }
 })
 
+
+puzzleSchema.plugin(uniqueValidator);
 const Puzzle = mongoose.model('Puzzle', puzzleSchema);
 
 module.exports = { Puzzle }
