@@ -96,19 +96,16 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		let status = 'no attempt';
 		if (submission === '') {
 			res.send('empty submission');
-		}
-		else {
+		} else {
 			const currentPuzzle = await Puzzle.findById(puzzleId);
 
 			let points;
 			if (currentPuzzle.type === 'blue') {
 				status = 'pending';
-			} 
-			else if (submission === currentPuzzle.correctAnswer) {
+			} else if (submission === currentPuzzle.correctAnswer) {
 					status = 'correct';
 					points = pointValues[currentPuzzle.difficulty];
-			}
-			else {
+			} else {
 				status = 'incorrect';
 			}
 
@@ -120,7 +117,7 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		}
 		return res.status(200).json({
 			success: true,
-			status: status
+			status
 		});
 	} catch (err) {
 		return res.status(500).json({ success: false, err });
