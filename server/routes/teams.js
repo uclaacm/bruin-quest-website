@@ -100,7 +100,7 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 			const currentPuzzle = await Puzzle.findById(puzzleId);
 
 			let points;
-			if (currentPuzzle.type === 'blue') {
+			if (currentPuzzle.type === 'gold') {
 				status = 'pending';
 			} else if (submission === currentPuzzle.correctAnswer) {
 				status = 'correct';
