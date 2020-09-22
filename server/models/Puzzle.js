@@ -1,4 +1,3 @@
-'use strict';
 const mongoose = require('mongoose');
 
 const puzzleSchema = mongoose.Schema({
@@ -9,7 +8,6 @@ const puzzleSchema = mongoose.Schema({
 	description: String,
 	correctAnswer: String,
 	link: String,
-	description: String,
 	difficulty: {
 		type: String,
 		enum: ['lower div', 'upper div', 'super senior']

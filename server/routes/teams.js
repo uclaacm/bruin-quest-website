@@ -1,4 +1,3 @@
-'use strict';
 const express = require('express');
 const router = express.Router();
 const { Team } = require('../models/Team');
@@ -21,13 +20,13 @@ router.get('/auth', auth, (req, res) => {
 router.post('/register', async (req, res) => {
 	try {
 		const allPuzzles = await Puzzle.find({}, '_id');
-		var puzzles = [];
+		let puzzles = [];
 		allPuzzles.forEach(id => puzzles.push(new PuzzleSubmission({ _id: id._id })));
 
 		const team = new Team({
 			name: req.body.email,
 			password: req.body.password,
-			puzzles: puzzles
+			puzzles
 		});
 
 		const doc = await team.save();
@@ -88,33 +87,32 @@ const pointValues = {
 	'lower div': 30,
 	'upper div': 40,
 	'super senior': 60
-}
+};
 
 router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 	try {
-		const puzzleId = req.params.puzzleId;
-		const submission = req.body.submission;
+		const { puzzleId, submission } = req.params;
 
-		var status = 'no attempt';
-		if (submission == '')
-			res.send('empty submission');
+		let status = 'no attempt';
+		if (submission === '') { res.send('empty submission'); }
 		else {
 			const currentPuzzle = await Puzzle.findById(puzzleId);
 
-			var points;
-			if (currentPuzzle.type == 'blue') status = 'pending';
+			let points;
+			if (currentPuzzle.type === 'blue') { status = 'pending'; } 
 			else {
-				if (submission == currentPuzzle.correctAnswer) {
+				if (submission === currentPuzzle.correctAnswer) {
 					status = 'correct';
 					points = pointValues[currentPuzzle.difficulty];
 				}
-				else status = 'incorrect';
+				else { status = 'incorrect'; }
 			}
 
 			const doc = await Team.findOneAndUpdate(
 				{ _id: req.team._id, 'puzzles._id': puzzleId },
 				{ $set: { 'puzzles.$.submission': submission, 'puzzles.$.status': status, 'puzzles.$.score': points } }
 			);
+			console.log(doc);
 		}
 		return res.status(200).json({
 			success: true,

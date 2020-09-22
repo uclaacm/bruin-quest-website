@@ -1,4 +1,3 @@
-'use strict';
 const mongoose = require('mongoose');
 
 const puzzleSubmissionSchema = mongoose.Schema({
@@ -16,7 +15,7 @@ const puzzleSubmissionSchema = mongoose.Schema({
 		enum: ['correct', 'incorrect', 'pending', 'no attempt'],
 		default: 'no attempt'
 	}
-})
+});
 
 const PuzzleSubmission = mongoose.model('PuzzleSubmission', puzzleSubmissionSchema);
 
