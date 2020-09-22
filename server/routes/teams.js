@@ -20,7 +20,7 @@ router.get('/auth', auth, (req, res) => {
 router.post('/register', async (req, res) => {
 	try {
 		const allPuzzles = await Puzzle.find({}, '_id');
-		let puzzles = [];
+		const puzzles = [];
 		allPuzzles.forEach(id => puzzles.push(new PuzzleSubmission({ _id: id._id })));
 
 		const team = new Team({
@@ -94,18 +94,22 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		const { puzzleId, submission } = req.params;
 
 		let status = 'no attempt';
-		if (submission === '') { res.send('empty submission'); }
+		if (submission === '') {
+			res.send('empty submission');
+		}
 		else {
 			const currentPuzzle = await Puzzle.findById(puzzleId);
 
 			let points;
-			if (currentPuzzle.type === 'blue') { status = 'pending'; } 
-			else {
-				if (submission === currentPuzzle.correctAnswer) {
+			if (currentPuzzle.type === 'blue') {
+				status = 'pending';
+			} 
+			else if (submission === currentPuzzle.correctAnswer) {
 					status = 'correct';
 					points = pointValues[currentPuzzle.difficulty];
-				}
-				else { status = 'incorrect'; }
+			}
+			else {
+				status = 'incorrect';
 			}
 
 			const doc = await Team.findOneAndUpdate(
