@@ -63,19 +63,19 @@ function GeneralAreaPage(props) {
 	}, [props.match.params.id]);
 
 	return areaData && areaData.name && areaData.puzzles ?
-			<div className="app">
-				<h1>{areaData.name}</h1>
-				<div className="cardList">
-					{areaData.puzzles.map(puzzle => <Puzzle
-						link={puzzle.link}
-						image={puzzle.image}
-						name={puzzle.name}
-						completed={puzzle.completed}
-						key={puzzle.name}
-					/>)}
-				</div>
+
+		<div className="app">
+			<h1>{areaData.name}</h1>
+			<div className="cardList">
+				{areaData.puzzles.map(puzzle => <Puzzle
+					link={puzzle.link}
+					image={puzzle.image}
+					name={puzzle.name}
+					completed={puzzle.completed}
+					key=name={puzzle.name}
+				/>)}
 			</div>
-		:
+		</div>	 :
 		<div>Loading</div>;
 }
 
