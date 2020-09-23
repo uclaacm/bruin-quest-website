@@ -23,7 +23,7 @@ export default function LandingPage() {
         height: 100vh;
       `}
 		>
-			<img className={css` height: 80vh`} src={logo} alt=""/>
+			<img className={css` height: 80vh`} src={logo} alt="Bruin Quest Logo"/>
 			<div
 				className={css`
           flex-direction: column;
