@@ -72,7 +72,7 @@ function GeneralAreaPage(props) {
 					image={puzzle.image}
 					name={puzzle.name}
 					completed={puzzle.completed}
-					key=name={puzzle.name}
+					key={puzzle.name}
 				/>)}
 			</div>
 		</div>	 :
