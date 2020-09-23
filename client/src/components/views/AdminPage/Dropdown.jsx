@@ -73,7 +73,6 @@ function renderRow(item, type) {
 	case 'Puzzles':
 		return <SubmissionRow item={item} score={submitScore}/>;
 	case 'Teams':
-		console.log(item);
 		return <PlayerRow item={item}/>;
 	default:
 		return <ControlRow item={item} onClick={changeGameState}/>;
@@ -110,7 +109,7 @@ export default function Dropdown(props) {
 
 	return (
 		<div className={dropdown}>
-			<DropdownRow item={selected} changeSelection={showMenu} showTriangle={true}/>
+			{props.type === 'Controls' ? null : <DropdownRow item={selected} changeSelection={showMenu} showTriangle={true}/>}
 			{
 				showMenuState ?
 					<div className={dropdown}>
