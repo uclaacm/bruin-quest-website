@@ -8,11 +8,14 @@ const puzzleSchema = mongoose.Schema({
 	description: String,
 	correctAnswer: String,
 	link: String,
+	type: {
+		type: String,
+		enum: ['gold', 'blue']
+	},
 	difficulty: {
 		type: String,
 		enum: ['lower div', 'upper div', 'super senior']
 	},
-	hints: [String],
 	numberOfSolves: {
 		type: Number,
 		default: 0
