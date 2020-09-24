@@ -19,20 +19,17 @@ mongoose
 	.then(() => console.log('MongoDB Connected...'))
 	.catch(err => console.log(err));
 
-//parses information from a exel file and then load it into the mongoose database
+//parses information from a csv file and then load it into the mongoose database
 const csv = require('fast-csv')
 const fs = require('fs')
 const {Puzzle} = require('./models/Puzzle')
 
-let addedPuzzles = totalPuzzles = 0
+let addedPuzzles = 0
+let totalPuzzles = 0
 fs.createReadStream(path.resolve(__dirname,"config", "puzzleSeed.csv"))
 	.pipe(csv.parse({headers:true}))
-	.on('error', (err) => console.error(err))
+	.on('error', err => console.error(err))
 	.on('data', async (row) => {
-		const puzzleID = row.name.toLowerCase()
-								.replace(/ /g, '_')
-								.replace(/[%\^\/\*\.\\]/g, '')
-		row._id = puzzleID
 		const puzzleInstance = new Puzzle(row)
 		try{
 			await puzzleInstance.save()
@@ -45,7 +42,7 @@ fs.createReadStream(path.resolve(__dirname,"config", "puzzleSeed.csv"))
 
 		
 	})
-	.on('end', (rowCount) => totalPuzzles = rowCount)
+	.on('end', rowCount => totalPuzzles = rowCount)
 
 
 
