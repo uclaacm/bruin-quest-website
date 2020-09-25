@@ -19,12 +19,14 @@
 2. `yarn start`
 
 ## Making it pretty
-### Run eslint on server
+### Run eslint for server
 `cd server`
 `yarn eslint .`
-### Run eslint on client
+`yarn eslint --fix .` to autofix some problems
+### Run eslint for client
 `cd client`
 `yarn eslint .`
+`yarn eslint --fix .` to autofix some problems
 
 If you have problem, feel free to ask the guy who made this boilerplate ^^ 
 
