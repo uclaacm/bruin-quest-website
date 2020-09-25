@@ -20,9 +20,11 @@
 
 ## Making it pretty
 ### Run eslint on server
-`yarn eslint server`
+`cd server`
+`yarn eslint .`
 ### Run eslint on client
-`yarn eslint client`
+`cd client`
+`yarn eslint .`
 
 If you have problem, feel free to ask the guy who made this boilerplate ^^ 
 
