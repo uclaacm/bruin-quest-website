@@ -20,13 +20,17 @@
 
 ## Making it pretty
 ### Run eslint for server
-`cd server`
-`yarn eslint .`
-`yarn eslint --fix .` to autofix some problems
+``` bash
+cd server
+yarn eslint .
+yarn eslint --fix . # to autofix some problems
+```
 ### Run eslint for client
-`cd client`
-`yarn eslint .`
-`yarn eslint --fix .` to autofix some problems
+```bash
+cd client
+yarn eslint .
+yarn eslint --fix . to autofix some problems
+```
 
 If you have problem, feel free to ask the guy who made this boilerplate ^^ 
 
