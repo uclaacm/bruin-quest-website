@@ -19,10 +19,18 @@
 2. `yarn start`
 
 ## Making it pretty
-### Run eslint on server
-`yarn eslint server`
-### Run eslint on client
-`yarn eslint client`
+### Run eslint for server
+``` bash
+cd server
+yarn eslint .
+yarn eslint --fix . # to autofix some problems
+```
+### Run eslint for client
+```bash
+cd client
+yarn eslint .
+yarn eslint --fix . to autofix some problems
+```
 
 If you have problem, feel free to ask the guy who made this boilerplate ^^ 
 
