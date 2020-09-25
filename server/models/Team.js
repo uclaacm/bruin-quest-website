@@ -85,7 +85,7 @@ teamSchema.statics.findByToken = async function (token) {
 	return Team.findOne({ _id: decode, token });
 };
 
-teamSchema.plugin(uniqueValidator)
+teamSchema.plugin(uniqueValidator);
 const Team = mongoose.model('Team', teamSchema);
 
 module.exports = { Team };
