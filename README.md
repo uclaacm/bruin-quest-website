@@ -29,7 +29,7 @@ yarn eslint --fix . # to autofix some problems
 ```bash
 cd client
 yarn eslint .
-yarn eslint --fix . to autofix some problems
+yarn eslint --fix . # to autofix some problems
 ```
 
 If you have problem, feel free to ask the guy who made this boilerplate ^^ 
