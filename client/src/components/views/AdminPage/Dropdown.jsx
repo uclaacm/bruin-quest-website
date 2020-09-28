@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { css } from 'emotion';
 import DropdownRow from './DropdownRow';
 import SubmissionRow from './SubmissionRow';
-import { css } from 'emotion';
+import PlayerRow from './PlayerRow';
+import ControlRow from './ControlRow';
 
 const dropdown = css`
   display: flex;
@@ -32,14 +34,21 @@ function getPuzzles() {
 
 function getTeams() {
 	return [
-		{ name: 'Team kookie', items: [{ playerName: 'cookie', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'aewe', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'sd', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }] },
-		{ name: 'Team bookie', items: [{ playerName: 'a', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: '123', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'ads', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }] },
-		{ name: 'Team cookie', items: [{ playerName: 'a', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'avv', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'c', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }] }
+		{ name: 'Team kookie', items: [{ playerName: 'cookie chan', discord: 'cookiemaster' }, { playerName: 'aewe', discord: 'cookiemaster' }, { playerName: 'sd', discord: 'cookiemaster' }] },
+		{ name: 'Team bookie', items: [{ playerName: 'john smith', discord: 'wowzatree' }] },
+		{ name: 'Team cookie', items: [{ playerName: 'jane doe', discord: 'cookie' }, { playerName: 'avv', discord: 'cookiemaster' }, { playerName: 'c', discord: 'cookiemaster' }] }
 	];
 }
 
 function getControls() {
-	return [{ name: 'Stop game', items: [] }];
+	return [
+		{ name: 'Game controls',
+			items: [
+				{ name: 'Clear', description: 'Clear the game so no puzzles can be seen. Sets the game state to "before."' },
+				{ name: 'Start', description: 'Start the game so puzzles can be seen. Sets the game state to "during."' },
+				{ name: 'End', description: 'End the game so submissions are no longer accepted. Sets the game state to "after."' }
+			] }
+	];
 }
 
 function submitScore(item, score) {
@@ -47,11 +56,27 @@ function submitScore(item, score) {
 	// if success, rerender list and item will be removed? in case there are 2 ppl grading at same time
 }
 
-function renderRow(item) {
+function changeGameState(actionName) {
+	switch (actionName) {
+	case 'Clear':
+		break;
+	case 'Start':
+		break;
+	case 'End':
+		break;
+	}
+}
+
+function renderRow(item, type) {
 	// the other rows will be added here with switch
-	return (
-		<SubmissionRow item={item} score={submitScore}/>
-	);
+	switch (type) {
+	case 'Puzzles':
+		return <SubmissionRow item={item} score={submitScore}/>;
+	case 'Teams':
+		return <PlayerRow item={item}/>;
+	default:
+		return <ControlRow item={item} onClick={changeGameState}/>;
+	}
 }
 
 export default function Dropdown(props) {
@@ -84,7 +109,7 @@ export default function Dropdown(props) {
 
 	return (
 		<div className={dropdown}>
-			<DropdownRow item={selected} changeSelection={showMenu} showTriangle={true}/>
+			{props.type === 'Controls' ? null : <DropdownRow item={selected} changeSelection={showMenu} showTriangle={true}/>}
 			{
 				showMenuState ?
 					<div className={dropdown}>
@@ -100,7 +125,7 @@ export default function Dropdown(props) {
 					</div> :
 					null
 			}
-			{selected.items.map(renderRow)}
+			{selected.items.map(item => renderRow(item, props.type))}
 		</div>
 	);
 }
