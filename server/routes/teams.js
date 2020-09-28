@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Team } = require('../models/Team');
-
+const { PuzzleSubmission } = require('../models/PuzzleSubmission');
+const { Puzzle } = require('../models/Puzzle');
 const { auth } = require('../middleware/auth');
 
 // =================================
@@ -18,12 +19,19 @@ router.get('/auth', auth, (req, res) => {
 
 router.post('/register', async (req, res) => {
 	try {
+		const allPuzzles = await Puzzle.find({}, '_id');
+		const puzzles = [];
+		allPuzzles.forEach(id => puzzles.push(new PuzzleSubmission({ _id: id._id })));
+
 		const team = new Team({
 			name: req.body.email,
-			password: req.body.password
+			password: req.body.password,
+			puzzles
 		});
+
 		const doc = await team.save();
 		console.log(`Created team ${doc.name}`);
+
 		return res.status(200).json({
 			success: true
 		});
@@ -69,6 +77,47 @@ router.get('/logout', auth, async (req, res) => {
 		console.log(`Logged out ${doc.name}`);
 		return res.status(200).send({
 			success: true
+		});
+	} catch (err) {
+		return res.status(500).json({ success: false, err });
+	}
+});
+
+const pointValues = {
+	'lower div': 30,
+	'upper div': 40,
+	'super senior': 60
+};
+
+router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
+	try {
+		const { puzzleId, submission } = req.params;
+
+		let status = 'no attempt';
+		if (submission === '') {
+			res.send('empty submission');
+		} else {
+			const currentPuzzle = await Puzzle.findById(puzzleId);
+
+			let points;
+			if (currentPuzzle.type === 'gold') {
+				status = 'pending';
+			} else if (submission === currentPuzzle.correctAnswer) {
+				status = 'correct';
+				points = pointValues[currentPuzzle.difficulty];
+			} else {
+				status = 'incorrect';
+			}
+
+			const doc = await Team.findOneAndUpdate(
+				{ _id: req.team._id, 'puzzles._id': puzzleId },
+				{ $set: { 'puzzles.$.submission': submission, 'puzzles.$.status': status, 'puzzles.$.score': points } }
+			);
+			console.log(doc);
+		}
+		return res.status(200).json({
+			success: true,
+			status
 		});
 	} catch (err) {
 		return res.status(500).json({ success: false, err });
