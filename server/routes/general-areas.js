@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { GeneralArea } = require('../models/GeneralArea');
 
-router.get('/', (req, res) => {
-	GeneralArea.findOne({ name: req.query.name })
+router.get('/:name', (req, res) => {
+	GeneralArea.findOne({ name: req.params.name }).exec()
 		.then(area => {
 			if (area) {
 				res.send(area);
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 			}
 		})
 		.catch(err => {
-			res.json(err);
+			res.status(502).send(`Bad Gateway: ${err}`);
 		});
 });
 
