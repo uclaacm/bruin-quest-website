@@ -12,7 +12,7 @@ function Button({
 	...props
 }) {
 	return (
-		<div
+		<button
 			className={css`
 				height: ${height};
 				width: ${width};
@@ -22,6 +22,7 @@ function Button({
 				align-items: center;
 				justify-content: center;
 				cursor: ${disabled ? 'not-allowed' : 'pointer'};
+				outline: none;
 				&:hover {
 					background-color: ${disabled ? Colors.Gray : Colors.DarkBlue};
 					transition: 0.3s;
@@ -30,7 +31,7 @@ function Button({
 			{...props}
 		>
 			<Text color={Colors.White}>{children}</Text>
-		</div>
+		</button>
 	);
 }
 

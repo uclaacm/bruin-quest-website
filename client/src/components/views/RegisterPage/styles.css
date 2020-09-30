@@ -1,0 +1,50 @@
+.main-container {
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+}
+
+.register-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.left-container {
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin-top: 60px;
+    height: 265px;
+}
+
+.right-container {
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 30px;
+}
+
+.member-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 550px;
+}
+
+.form-box {
+    position: relative;
+    text-align: center;
+}
+
+.input-feedback {
+    position: absolute;
+    bottom: -10px;
+}
