@@ -14,7 +14,7 @@ export default function ControlRow(props) {
         padding: 20px;
       `}
 		>
-			<Button onClick={props.onClick}>{props.item.name}</Button>
+			<Button onClick={() => props.onClick(props.item.name)}>{props.item.name}</Button>
 			<Text size="1.5rem"> {props.item.description} </Text>
 		</div>
 	);
