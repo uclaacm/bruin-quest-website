@@ -7,6 +7,8 @@ import LoginPage from './views/LoginPage/LoginPage.js';
 import RegisterPage from './views/RegisterPage/RegisterPage.js';
 import ScoreboardPage from './views/ScoreboardPage/ScoreboardPage.js';
 import MapPage from './views/MapPage/MapPage.js';
+import GeneralAreaPage from './views/GeneralAreaPage/GeneralAreaPage.js';
+import AdminPage from './views/AdminPage/AdminPage.js';
 import PuzzlePage from './views/PuzzlePage/PuzzlePage.js';
 import NavBar from './views/NavBar/NavBar';
 
@@ -29,6 +31,8 @@ function App() {
 						component={Auth(ScoreboardPage, true)}
 					/>
 					<Route exact path="/map" component={Auth(MapPage, true)} />
+					<Route exact path="/area/:id" component={Auth(GeneralAreaPage, true)} />
+					<Route exact path="/admin" component={Auth(AdminPage, true, true)} />
 					<Route exact path="/puzzle/:id" component={Auth(PuzzlePage, true)} />
 				</Switch>
 			</div>

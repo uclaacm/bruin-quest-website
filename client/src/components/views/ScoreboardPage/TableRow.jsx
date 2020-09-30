@@ -8,7 +8,13 @@ import * as Fonts from '../../../constants/Fonts';
 const textStyle = css`
   text-align: center;
   font-size: 2rem;
+  font-weight: 800;
   font-family: ${Fonts.Primary};
+`;
+
+const skinnyTextStyle = css`
+  ${textStyle}
+  font-weight: 200;
 `;
 
 export default function TableRow(props) {
@@ -36,7 +42,7 @@ export default function TableRow(props) {
 					</Text>
 				</td>
 				<td>
-					<Text className={textStyle}>
+					<Text className={skinnyTextStyle}>
 						{props.score}
 					</Text>
 				</td>

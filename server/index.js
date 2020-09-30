@@ -33,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // to get json data
 // support parsing of application/json type post data
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/teams', require('./routes/teams'));
