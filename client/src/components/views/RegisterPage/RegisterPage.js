@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { Formik, FieldArray} from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from '../../../_actions/user_actions';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,8 @@ import Text from '../../Text/Text';
 import WelcomeBanner from '../../WelcomeBanner/WelcomeBanner';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
+import addicon from './assets/add_member.png'
+import removeicon from './assets/remove_member.png'
 
 // import {
 // 	Form,
@@ -45,6 +47,7 @@ const staticRegisterBot = 'your team!';
 
 function RegisterPage(props) {
 	const dispatch = useDispatch();
+
 	// return (
 
 	// 	<Formik
@@ -220,7 +223,9 @@ function RegisterPage(props) {
 		initialValues={{
 			team: '',
 			password: '',
-			members: [{name: '', discord: ''}],
+			members: [
+				{name: '', discord: ''},
+			],
 		}}
 		validationSchema={Yup.object().shape({
 			team: Yup.string()
@@ -228,6 +233,15 @@ function RegisterPage(props) {
 			password: Yup.string()
 			.min(6, 'Password must be at least 6 characters')
 			.required('Password is required'),
+			members: Yup.array()
+			.of(
+				Yup.object().shape({
+					name: Yup.string()
+					.required('Member name is required'),
+					discord: Yup.string()
+					.required('Member discord is required'),
+				})
+			),
 		})}
 		
 		onSubmit={(values, { setSubmitting }) => {
@@ -312,53 +326,85 @@ function RegisterPage(props) {
 
 					<div className="right-container">
 						<Text>Member Info</Text>
-						{values.members.map((member) => {
-							console.log(member);
-							return (
-								<p> Hello</p>
-							)
-						})}
-							<div className="member-box">
-								<div className="form-box">
-									<Text>Name</Text>
-									<TextInput
-									width="175px"
-									id="team"
-									placeholder="Joe Bruin"
-									value={values.team}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									/>
-									{errors.team && touched.team && (
-									<div className="input-feedback">{errors.team}</div>
-									)}
-								</div>
-								
-								
-								<div className="form-box">
-									<Text>Discord</Text>
-									<TextInput
-									width="175px"
-									id="password"
-									placeholder="Bruin#1234"
-									type="password"
-									value={values.password}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									/>
-									{errors.password && touched.password && (
-									<div className="input-feedback">{errors.password}</div>
-									)}
-								</div>
+						<FieldArray name="members" >
+							{({ insert, remove, push }) => (
+								<div className="members-container">
+									{values.members.length > 0 &&  
+									  values.members.map((member, index) => (
+										<div className="member-box" key={index}>
+											<div className="form-box">
+												<Text>Name</Text>
+												<TextInput
+													width="175px"
+													id={`members.${index}.name`}
+													placeholder="Joe Bruin"
+													value={values.members[index].name}
+													onChange={handleChange}
+													onBlur={handleBlur}
+												/>
+												{errors.members && touched.members && 
+												  errors.members[index] && touched.members[index] && 
+												    errors.members[index].name && touched.members[index].name &&(
+													<div className="input-feedback">{errors.members[index].name}</div>
+												)}
+											</div>
+											
+											
+											<div className="form-box">
+												<Text>Discord</Text>
+												<TextInput
+													width="175px"
+													id={`members.${index}.discord`}
+													placeholder="Bruin#1234"
+													value={values.members[index].discord}
+													onChange={handleChange}
+													onBlur={handleBlur}
+												/>
+												{errors.members && touched.members && 
+												  errors.members[index] && touched.members[index] &&
+												    errors.members[index].discord && touched.members[index].discord &&(
+													<div className="input-feedback">{errors.members[index].discord}</div>
+												)}
+											</div>
+											
+											{
+												index < values.members.length - 1 && (
+													<img 
+														className={css`
+															width: 40px;
+															height: 40px;
+															position:absolute;
+															right: -60px;
+															bottom: 0;
+														`}
+														src={removeicon} 
+														onClick={() => remove(index)}
+														alt='remove member'
+													/>
+												)
+											}
 
-
-								<div className="form-box">
-									<Button onClick="addMember" width="50px" disabled={isSubmitting}>
-									Login
-									</Button>
+										</div>
+									))}
+									{
+										values.members.length < 4 && (
+											<img 
+												className={css`
+													width: 40px;
+													height: 40px;
+													position: absolute;
+													bottom: 20px;
+													right: 0;
+												`}
+												src={addicon} 
+												onClick={() => push({name: '', discord: ''})}
+												alt='add member'
+											/>
+										)
+									}	
 								</div>
-							</div>
-						
+							)}
+						</FieldArray>
 					</div>
 				</form>
 			</div>

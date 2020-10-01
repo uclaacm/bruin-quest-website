@@ -27,16 +27,24 @@
 .right-container {
     flex-direction: column;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     margin-top: 30px;
+    width: 430px;
+}
+
+.members-container {
+    position: relative;
 }
 
 .member-box {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
-    width: 550px;
+    width: 370px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
 }
 
 .form-box {
