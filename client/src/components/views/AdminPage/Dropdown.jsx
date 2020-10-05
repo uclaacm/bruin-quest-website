@@ -4,6 +4,10 @@ import DropdownRow from './DropdownRow';
 import SubmissionRow from './SubmissionRow';
 import PlayerRow from './PlayerRow';
 import ControlRow from './ControlRow';
+import Text from '../../Text/Text';
+import { updateAppState } from '../../../_actions/admin_actions';
+import { getAppState } from '../../../_actions/state_actions';
+import { useDispatch } from 'react-redux';
 
 const dropdown = css`
   display: flex;
@@ -56,39 +60,57 @@ function submitScore(item, score) {
 	// if success, rerender list and item will be removed? in case there are 2 ppl grading at same time
 }
 
-function changeGameState(actionName) {
-	switch (actionName) {
-	case 'Clear':
-		break;
-	case 'Start':
-		break;
-	case 'End':
-		break;
-	}
-}
-
-function renderRow(item, type) {
-	// the other rows will be added here with switch
-	switch (type) {
-	case 'Puzzles':
-		return <SubmissionRow item={item} score={submitScore}/>;
-	case 'Teams':
-		return <PlayerRow item={item}/>;
-	default:
-		return <ControlRow item={item} onClick={changeGameState}/>;
-	}
-}
-
 export default function Dropdown(props) {
+	const dispatch = useDispatch();
 	const [items, setItems] = useState(null);
 	const [showMenuState, setMenu] = useState(false);
 	const [selected, setSelected] = useState(null);
+	const [state, setState] = useState(null);
 
 	function showMenu(event, item) {
 		event.preventDefault();
 		setMenu(!showMenuState);
 		setSelected(item);
 	}
+
+	function renderRow(item, type) {
+		// the other rows will be added here with switch
+		switch (type) {
+		case 'Puzzles':
+			return <SubmissionRow item={item} score={submitScore}/>;
+		case 'Teams':
+			return <PlayerRow item={item}/>;
+		default:
+			return <ControlRow item={item} onClick={changeGameState}/>;
+		}
+	}
+
+	function changeGameState(actionName) {
+		const dataToSubmit = {
+			state: ''
+		};
+		switch (actionName) {
+		case 'Clear':
+			dataToSubmit.state = 'before';
+			break;
+		case 'Start':
+			dataToSubmit.state = 'during';
+			break;
+		case 'End':
+			dataToSubmit.state = 'after';
+			break;
+		}
+
+		dispatch(updateAppState(dataToSubmit)).then(response => {
+			setState(response.payload.state);
+		});
+	}
+
+	useEffect(() => {
+		dispatch(getAppState()).then(response => {
+			setState(response.payload.state);
+		});
+	}, []);
 
 	useEffect(() => {
 		async function initDropdown() {
@@ -109,6 +131,7 @@ export default function Dropdown(props) {
 
 	return (
 		<div className={dropdown}>
+			<Text>Current state: {state}</Text>
 			{props.type === 'Controls' ? null : <DropdownRow item={selected} changeSelection={showMenu} showTriangle={true}/>}
 			{
 				showMenuState ?
