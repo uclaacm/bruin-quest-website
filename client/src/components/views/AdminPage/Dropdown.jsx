@@ -5,7 +5,8 @@ import SubmissionRow from './SubmissionRow';
 import PlayerRow from './PlayerRow';
 import ControlRow from './ControlRow';
 import Text from '../../Text/Text';
-import { updateAppState, getAppState } from '../../../_actions/admin_actions';
+import { updateAppState } from '../../../_actions/admin_actions';
+import { getAppState } from '../../../_actions/state_actions';
 import { useDispatch } from 'react-redux';
 
 const dropdown = css`
@@ -88,7 +89,6 @@ export default function Dropdown(props) {
 		const dataToSubmit = {
 			state: ''
 		};
-		console.log(actionName);
 		switch (actionName) {
 		case 'Clear':
 			dataToSubmit.state = 'before';
@@ -108,7 +108,6 @@ export default function Dropdown(props) {
 
 	useEffect(() => {
 		dispatch(getAppState()).then(response => {
-			console.log(response);
 			setState(response.payload.state);
 		});
 	}, []);
