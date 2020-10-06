@@ -9,11 +9,11 @@ router.get('/:name', (req, res) => {
 			if (area) {
 				res.send(area);
 			} else {
-				res.status(404).send('Genearl area name not found');
+				res.status(404).json({ error: 'General area name not found' });
 			}
 		})
 		.catch(err => {
-			res.status(502).send(`Bad Gateway: ${err}`);
+			res.status(502).json({ error: err.message });
 		});
 });
 
