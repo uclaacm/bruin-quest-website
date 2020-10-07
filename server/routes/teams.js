@@ -12,7 +12,7 @@ const { auth } = require('../middleware/auth');
 router.get('/auth', auth, (req, res) => {
 	res.status(200).json({
 		_id: req.team._id,
-		isAdmin: req.team.role !== 0,
+		isAdmin: req.team.isAdmin,
 		isAuth: true
 	});
 });
