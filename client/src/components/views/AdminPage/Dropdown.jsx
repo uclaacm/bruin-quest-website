@@ -5,7 +5,7 @@ import SubmissionRow from './SubmissionRow';
 import PlayerRow from './PlayerRow';
 import ControlRow from './ControlRow';
 import Text from '../../Text/Text';
-import { updateAppState } from '../../../_actions/admin_actions';
+import { teams, updateAppState } from '../../../_actions/admin_actions';
 import { getAppState } from '../../../_actions/state_actions';
 import { useDispatch } from 'react-redux';
 
@@ -15,50 +15,6 @@ const dropdown = css`
   align-items: center; 
   width: 80vw;
 `;
-
-function getDropdown(type) {
-	switch (type) {
-	case 'Puzzles':
-		return getPuzzles();
-	case 'Teams':
-		return getTeams();
-	default:
-		return getControls();
-	}
-}
-
-function getPuzzles() {
-	// Mock data for now. This will be replaced with API call.
-	return [
-		{ id: '123', name: 'Puzzle 1', items: [{ link: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { link: 'aewe' }, { link: 'sd' }] },
-		{ id: '123', name: 'Puzzle 2', items: [{ link: 'a' }, { link: '123' }, { link: 'ads' }] },
-		{ id: '123', name: 'Puzzle 3', items: [{ link: 'a' }, { link: 'avv' }, { link: 'c' }] }
-	];
-}
-
-function getTeams() {
-	return [
-		{ name: 'Team kookie', items: [{ playerName: 'cookie chan', discord: 'cookiemaster' }, { playerName: 'aewe', discord: 'cookiemaster' }, { playerName: 'sd', discord: 'cookiemaster' }] },
-		{ name: 'Team bookie', items: [{ playerName: 'john smith', discord: 'wowzatree' }] },
-		{ name: 'Team cookie', items: [{ playerName: 'jane doe', discord: 'cookie' }, { playerName: 'avv', discord: 'cookiemaster' }, { playerName: 'c', discord: 'cookiemaster' }] }
-	];
-}
-
-function getControls() {
-	return [
-		{ name: 'Game controls',
-			items: [
-				{ name: 'Clear', description: 'Clear the game so no puzzles can be seen. Sets the game state to "before."' },
-				{ name: 'Start', description: 'Start the game so puzzles can be seen. Sets the game state to "during."' },
-				{ name: 'End', description: 'End the game so submissions are no longer accepted. Sets the game state to "after."' }
-			] }
-	];
-}
-
-function submitScore(item, score) {
-	// Will need team id in the item in order to score
-	// if success, rerender list and item will be removed? in case there are 2 ppl grading at same time
-}
 
 export default function Dropdown(props) {
 	const dispatch = useDispatch();
@@ -83,6 +39,50 @@ export default function Dropdown(props) {
 		default:
 			return <ControlRow item={item} onClick={changeGameState}/>;
 		}
+	}
+
+	function getDropdown(type) {
+		switch (type) {
+		case 'Puzzles':
+			return getPuzzles();
+		case 'Teams':
+			return getTeams();
+		default:
+			return getControls();
+		}
+	}
+
+	function getPuzzles() {
+		// Mock data for now. This will be replaced with API call.
+		return [
+			{ id: '123', name: 'Puzzle 1', items: [{ link: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { link: 'aewe' }, { link: 'sd' }] },
+			{ id: '123', name: 'Puzzle 2', items: [{ link: 'a' }, { link: '123' }, { link: 'ads' }] },
+			{ id: '123', name: 'Puzzle 3', items: [{ link: 'a' }, { link: 'avv' }, { link: 'c' }] }
+		];
+	}
+
+	function getTeams() {
+		return dispatch(teams()).then(response => {
+			return response.payload.teams.map(team => {
+				return { name: team.name, items: team.members };
+			});
+		});
+	}
+
+	function getControls() {
+		return [
+			{ name: 'Game controls',
+				items: [
+					{ name: 'Clear', description: 'Clear the game so no puzzles can be seen. Sets the game state to "before."' },
+					{ name: 'Start', description: 'Start the game so puzzles can be seen. Sets the game state to "during."' },
+					{ name: 'End', description: 'End the game so submissions are no longer accepted. Sets the game state to "after."' }
+				] }
+		];
+	}
+
+	function submitScore(item, score) {
+		// Will need team id in the item in order to score
+		// if success, rerender list and item will be removed? in case there are 2 ppl grading at same time
 	}
 
 	function changeGameState(actionName) {
@@ -115,7 +115,7 @@ export default function Dropdown(props) {
 	useEffect(() => {
 		async function initDropdown() {
 			try {
-				const newItems = await getDropdown(props.type);
+        const newItems = await getDropdown(props.type);
 				setItems(newItems);
 				setSelected(newItems[0]);
 			} catch (err) {
