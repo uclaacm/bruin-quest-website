@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { css } from "emotion";
-import Text from "../../Text/Text";
-import TextInput from "../../TextInput/TextInput";
-import Button from "../../Button/Button";
-import * as Colors from "../../../constants/Colors";
-import { PUZZLE_SERVER, USER_SERVER } from "../../../components/Config";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { css } from 'emotion';
+import Text from '../../Text/Text';
+import TextInput from '../../TextInput/TextInput';
+import Button from '../../Button/Button';
+import * as Colors from '../../../constants/Colors';
+import { PUZZLE_SERVER, USER_SERVER } from '../../../components/Config';
 
 function CorrectLabel() {
 	return (
 		<>
-			{" "}
+			{' '}
 			<span role="img" aria-label="green check mark">
 				✅
-			</span>{" "}
+			</span>{' '}
 			Correct
 		</>
 	);
@@ -22,10 +22,10 @@ function CorrectLabel() {
 function IncorrectLabel() {
 	return (
 		<>
-			{" "}
+			{' '}
 			<span role="img" aria-label="red x mark">
 				❌
-			</span>{" "}
+			</span>{' '}
 			Incorrect
 		</>
 	);
@@ -34,10 +34,10 @@ function IncorrectLabel() {
 function PendingLabel() {
 	return (
 		<>
-			{" "}
+			{' '}
 			<span role="img" aria-label="hourglass">
 				⏳
-			</span>{" "}
+			</span>{' '}
 			Pending
 		</>
 	);
@@ -53,9 +53,9 @@ function submit(submission, puzzleId) {
 
 function PuzzlePage(props) {
 	const [puzzleData, setPuzzleData] = useState();
-	const [submission, setSubmission] = useState("");
+	const [submission, setSubmission] = useState('');
 	const [score, setScore] = useState(0);
-	const [status, setStatus] = useState("no attempt");
+	const [status, setStatus] = useState('no attempt');
 	useEffect(() => {
 		async function fetchData() {
 			const { data } = await getPuzzleData(props.match.params.id);
@@ -72,18 +72,19 @@ function PuzzlePage(props) {
 		puzzleData.displayName &&
 		puzzleData.description &&
 		puzzleData.difficulty &&
-		puzzleData.generalArea ? (
+		puzzleData.generalArea ?
 		<div
 			className={css`
 				background-color: ${Colors.BrightBlue};
 				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			`}
 		>
 			<div
 				className={css`
 					display: flex;
-					justify-content: center;
-					align-items: center;
 				`}
 			>
 				<div
@@ -104,7 +105,7 @@ function PuzzlePage(props) {
 						size="1rem"
 						weight="900"
 						color={Colors.White}
-						style={{ fontStyle: "italic" }}
+						style={{ fontStyle: 'italic' }}
 					>
 						Difficulty: {puzzleData.difficulty}
 					</Text>
@@ -128,12 +129,12 @@ function PuzzlePage(props) {
 						<TextInput
 							style={{ flex: 1 }}
 							value={submission}
-							onChange={(event) => {
+							onChange={event => {
 								setSubmission(event.target.value);
 							}}
 						/>
 						<Button
-							style={{ marginLeft: "10px" }}
+							style={{ marginLeft: '10px' }}
 							onClick={async () => {
 								const response = await submit(
 									submission,
@@ -150,13 +151,13 @@ function PuzzlePage(props) {
 							SUBMIT
 						</Button>
 					</div>
-					{status && status !== "no attempt" && (
+					{status && status !== 'no attempt' &&
 						<Text color={Colors.White} weight="900">
-							{status === "correct" && <CorrectLabel />}
-							{status === "incorrect" && <IncorrectLabel />}
-							{status === "pending" && <PendingLabel />}
+							{status === 'correct' && <CorrectLabel />}
+							{status === 'incorrect' && <IncorrectLabel />}
+							{status === 'pending' && <PendingLabel />}
 						</Text>
-					)}
+					}
 				</div>
 				<div
 					className={css`
@@ -181,10 +182,8 @@ function PuzzlePage(props) {
 					</Text>
 				</div>
 			</div>
-		</div>
-	) : (
-		<div>Loading</div>
-	);
+		</div>	 :
+		<div>Loading</div>;
 }
 
 export default PuzzlePage;

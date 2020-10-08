@@ -20,7 +20,7 @@ function App() {
 	return (
 		<Suspense fallback={<div>Loading...</div>}>
 			<NavBar />
-			<div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
+			<div style={{ minHeight: 'calc(100vh - 80px)' }}>
 				<Switch>
 					<Route exact path="/" component={Auth(LandingPage, null)} />
 					<Route exact path="/login" component={Auth(LoginPage, false)} />
@@ -31,7 +31,11 @@ function App() {
 						component={Auth(ScoreboardPage, true)}
 					/>
 					<Route exact path="/map" component={Auth(MapPage, true)} />
-					<Route exact path="/area/:id" component={Auth(GeneralAreaPage, true)} />
+					<Route
+						exact
+						path="/area/:id"
+						component={Auth(GeneralAreaPage, true)}
+					/>
 					<Route exact path="/admin" component={Auth(AdminPage, true, true)} />
 					<Route exact path="/puzzle/:id" component={Auth(PuzzlePage, true)} />
 				</Switch>
