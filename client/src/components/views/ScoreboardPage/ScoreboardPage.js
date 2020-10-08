@@ -4,45 +4,29 @@ import Text from '../../Text/Text';
 import * as Colors from '../../../constants/Colors';
 import * as Fonts from '../../../constants/Fonts';
 import Scoreboard from './Scoreboard';
-
-function getStandings() {
-	// Mock data for now. This will be replaced with API call.
-	return [
-		{ name: 'Team kookie', score: '5000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team kookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' },
-		{ name: 'Team Bookie', score: '2000' }
-	];
-}
-
-function getTeamScores(teamId) {
-	// Mock data for now. This will be replaced with API call.
-	return [
-		{ name: 'Puzzle 1', score: '50' },
-		{ name: 'Puzzle 1', score: '200' },
-		{ name: 'Puzzle 1', score: '200' },
-		{ name: 'Puzzle 1', score: '200' },
-		{ name: 'Puzzle 1', score: '20' },
-		{ name: 'Puzzle 1', score: '20' },
-		{ name: 'Puzzle 1', score: '50' },
-		{ name: 'Puzzle 1', score: '200' },
-		{ name: 'Puzzle 1', score: '200' },
-		{ name: 'Puzzle 1', score: '200' },
-		{ name: 'Puzzle 1', score: '20' },
-		{ name: 'Puzzle 1', score: '20' }
-	];
-}
+import { teamScores, teamStandings } from '../../../_actions/scoreboard_actions';
+import { useDispatch } from 'react-redux';
 
 export default function ScoreboardPage(props) {
-	const team = 'Team Kookie';
+	const dispatch = useDispatch();
+	function getStandings() {
+		return dispatch(teamStandings()).then(response => {
+			return response.payload.standings.map(standing => {
+				return { name: standing.name, score: standing.score };
+			});
+		});
+	}
+
+	function getTeamScores(teamId) {
+		return dispatch(teamScores(teamId)).then(response => {
+			return response.payload.scores.map(score => {
+				return { name: score.name, score: score.score };
+			});
+		});
+	}
+
+	const team = window.localStorage.getItem('teamId');
+	const name = window.localStorage.getItem('teamName');
 	const [scores, setScores] = useState([]);
 	useEffect(() => {
 		async function initScores() {
@@ -90,7 +74,7 @@ export default function ScoreboardPage(props) {
           padding-bottom: 40px;
         `}
 			>
-				<Scoreboard scores={scores} title={team + ' Scores'} />
+				<Scoreboard scores={scores} title={name + ' Scores'} />
 				<Scoreboard scores={standings} title="Standings" />
 			</div>
 		</div>

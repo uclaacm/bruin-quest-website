@@ -5,3 +5,6 @@ export const LOGOUT_USER = 'logout_user';
 
 export const UPDATESTATE_ADMIN = 'updateState_admin';
 export const GET_STATE = 'get_state';
+
+export const SCORES_SCOREBOARD = 'scores_scoreboard';
+export const STANDINGS_SCOREBOARD = 'standings_scoreboard';
