@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const sanitize = require('mongo-sanitize');
 const { Team } = require('../models/Team');
 const { PuzzleSubmission } = require('../models/PuzzleSubmission');
 const { Puzzle } = require('../models/Puzzle');
@@ -21,7 +22,8 @@ router.post('/register', async (req, res) => {
 	try {
 		const allPuzzles = await Puzzle.find({}, '_id');
 		const puzzles = [];
-		allPuzzles.forEach(id => puzzles.push(new PuzzleSubmission({ _id: id._id })));
+		allPuzzles.forEach(id =>
+			puzzles.push(new PuzzleSubmission({ _id: id._id })));
 
 		const team = new Team({
 			name: req.body.email,
@@ -91,36 +93,40 @@ const pointValues = {
 
 router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 	try {
-		const { puzzleId, submission } = req.params;
+		const { puzzleId } = sanitize(req.params);
+		const { submission } = sanitize(req.body);
 
 		let status = 'no attempt';
-		if (submission === '') {
-			res.send('empty submission');
+		const currentPuzzle = await Puzzle.findById(puzzleId);
+
+		let score = 0;
+		if (currentPuzzle.type === 'gold') {
+			status = 'pending';
+		} else if (submission === currentPuzzle.correctAnswer) {
+			status = 'correct';
+			score = pointValues[currentPuzzle.difficulty];
 		} else {
-			const currentPuzzle = await Puzzle.findById(puzzleId);
-
-			let points;
-			if (currentPuzzle.type === 'gold') {
-				status = 'pending';
-			} else if (submission === currentPuzzle.correctAnswer) {
-				status = 'correct';
-				points = pointValues[currentPuzzle.difficulty];
-			} else {
-				status = 'incorrect';
-			}
-
-			const doc = await Team.findOneAndUpdate(
-				{ _id: req.team._id, 'puzzles._id': puzzleId },
-				{ $set: { 'puzzles.$.submission': submission, 'puzzles.$.status': status, 'puzzles.$.score': points } }
-			);
-			console.log(doc);
+			status = 'incorrect';
 		}
+
+		const doc = await Team.findOneAndUpdate(
+			{ _id: req.team._id, 'puzzles._id': puzzleId },
+			{
+				$set: {
+					'puzzles.$.submission': submission,
+					'puzzles.$.status': status,
+					'puzzles.$.score': score
+				}
+			}
+		);
+		console.log(doc);
 		return res.status(200).json({
-			success: true,
-			status
+			submission,
+			status,
+			score
 		});
 	} catch (err) {
-		return res.status(500).json({ success: false, err });
+		return res.status(500).json({ error: 'Unable to submit puzzle' });
 	}
 });
 
