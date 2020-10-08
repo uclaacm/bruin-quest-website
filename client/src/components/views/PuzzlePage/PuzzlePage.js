@@ -1,86 +1,112 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { css } from 'emotion';
 import Text from '../../Text/Text';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
 import * as Colors from '../../../constants/Colors';
-import { Link } from 'react-router-dom';
+import { PUZZLE_SERVER } from '../../../components/Config';
 
 function getPuzzleData(id) {
-	return {
-		name: id,
-		link: '/',
-		description: `puzzle blurb Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-		Mauris faucibus finibus mauris. Pellentesque tempor lacus sit amet
-		consectetur malesuada.`,
-		difficulty: 'Super Senior',
-		generalArea: 'The Hill'
-	};
+	return axios.get(`${PUZZLE_SERVER}/${id}`);
 }
 
 function PuzzlePage(props) {
 	const [puzzleData, setPuzzleData] = useState();
+	const [submission, setSubmission] = useState('');
 	useEffect(() => {
 		async function fetchData() {
-			setPuzzleData(await getPuzzleData(props.match.params.id));
+			const { data } = await getPuzzleData(props.match.params.id);
+			setPuzzleData(data);
+			setSubmission(data && data.submission);
 		}
 		fetchData();
 	}, [props.match.params.id]);
 	return puzzleData &&
-		puzzleData.name &&
+		puzzleData.displayName &&
 		puzzleData.description &&
 		puzzleData.difficulty &&
 		puzzleData.generalArea ?
-		<>
-			{/* TODO: Change link to go back to general area */}
-			<Link
-				to="/"
-				className={css`
-					display: inline-block;
-					margin: 20px;
-					color: ${Colors.Blue};
-				`}
-			>
-				Return to {puzzleData.generalArea}
-			</Link>
+		<div
+			className={css`
+				background-color: ${Colors.BrightBlue};
+				height: 100vh;
+			`}
+		>
 			<div
 				className={css`
 					display: flex;
-					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					& > * {
-						margin: 6px;
-					}
 				`}
 			>
-				<Text size="3rem">{puzzleData.name}</Text>
-				<Text size="1rem" weight="600">
-					Difficulty: {puzzleData.difficulty}
-				</Text>
-				<Text
-					size="1rem"
+				<div
 					className={css`
-						text-align: center;
-						width: 300px;
+						max-width: 450px;
+						& > * {
+							margin: 10px;
+						}
+						display: flex;
+						flex-direction: column;
 					`}
 				>
-					{puzzleData.description}
-				</Text>
-				<a
-					href={puzzleData.link}
-					className={css`
-						color: ${Colors.Blue};
-						font-size: 2rem;
-						text-decoration: underline;
-					`}
-				>
-					Clue
-				</a>
-				<TextInput />
-				<Button>Submit</Button>
+					<Text size="3rem" weight="800" color={Colors.White}>
+						{puzzleData.displayName}
+					</Text>
+					<Text
+						size="1rem"
+						weight="900"
+						color={Colors.White}
+						style={{ fontStyle: 'italic' }}
+					>
+						Difficulty: {puzzleData.difficulty}
+					</Text>
+					<Text size="1rem" color={Colors.White}>
+						{puzzleData.description}
+					</Text>
+					<Button
+						onClick={() => {
+							window.open(puzzleData.link);
+						}}
+						width="80px"
+					>
+						CLUE
+					</Button>
+					<TextInput
+						width="100%"
+						value={submission}
+						onChange={event => {
+							setSubmission(event.target.value);
+						}}
+					/>
+					<Button style={{ alignSelf: 'flex-end' }}>SUBMIT</Button>
+				</div>
+				{puzzleData && puzzleData.score &&
+					<div
+						className={css`
+							background-color: ${Colors.LightBlue};
+							border-radius: 10px;
+							padding: 8px;
+							height: 100px;
+							width: 100px;
+							display: flex;
+							justify-content: center;
+							flex-direction: column;
+							align-items: center;
+							align-self: flex-start;
+							margin: 30px;
+						`}
+					>
+						<Text weight="900" color={Colors.White}>
+							SCORE
+						</Text>
+						<Text weight="900" color={Colors.White} size="30px">
+							{puzzleData.score}
+						</Text>
+					</div>
+				}
 			</div>
-		</>	 :
+		</div>	 :
 		<div>Loading</div>;
 }
 
