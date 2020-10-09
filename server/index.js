@@ -52,9 +52,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // to get json data
 // support parsing of application/json type post data
 app.use(bodyParser.json());
+app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/teams', require('./routes/teams'));
+app.use('/api/puzzle', require('./routes/puzzle'));
+app.use('/api/admin', require('./routes/admin'));
+app.use('/api/state', require('./routes/state'));
 
 // use this to show the image you have in node js server to client (react js)
 // https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
