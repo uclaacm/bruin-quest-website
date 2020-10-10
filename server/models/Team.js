@@ -3,14 +3,19 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
+
+const uniqueValidator = require('mongoose-unique-validator');
+
 const { PuzzleSubmission } = require('../models/PuzzleSubmission');
+
 
 const SECRET = 'gobruins!owo';
 
 const teamSchema = mongoose.Schema({
 	name: {
 		type: String,
-		required: true
+		required: true,
+		unique: true
 	},
 	password: {
 		type: String,
@@ -34,7 +39,10 @@ const teamSchema = mongoose.Schema({
 			}
 		}
 	],
+
+
 	puzzles: [PuzzleSubmission.schema]
+
 });
 
 teamSchema.pre('save', async function (next) {
@@ -71,7 +79,10 @@ teamSchema.statics.findByToken = async function (token) {
 	return Team.findOne({ _id: decode, token });
 };
 
+
+teamSchema.plugin(uniqueValidator);
 const Team = mongoose.model('Team', teamSchema, 'Team');
+
 
 module.exports = { Team };
 
