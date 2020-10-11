@@ -9,26 +9,19 @@ import { useDispatch } from 'react-redux';
 
 export default function ScoreboardPage(props) {
 	const dispatch = useDispatch();
-	function getStandings() {
-		return dispatch(teamStandings()).then(response => {
-			return response.payload.standings.map(standing => {
-				return { name: standing.name, score: standing.score };
-			});
-		});
-	}
-
-	function getTeamScores(teamId) {
-		return dispatch(teamScores(teamId)).then(response => {
-			return response.payload.scores.map(score => {
-				return { name: score.name, score: score.score };
-			});
-		});
-	}
 
 	const team = window.localStorage.getItem('teamId');
 	const name = window.localStorage.getItem('teamName');
 	const [scores, setScores] = useState([]);
 	useEffect(() => {
+		function getTeamScores(teamId) {
+			return dispatch(teamScores(teamId)).then(response => {
+				return response.payload.scores.map(score => {
+					return { name: score.name, score: score.score };
+				});
+			});
+		}
+
 		async function initScores() {
 			try {
 				setScores(await getTeamScores(team));
@@ -41,6 +34,14 @@ export default function ScoreboardPage(props) {
 
 	const [standings, setStandings] = useState([]);
 	useEffect(() => {
+		function getStandings() {
+			return dispatch(teamStandings()).then(response => {
+				return response.payload.standings.map(standing => {
+					return { name: standing.name, score: standing.score };
+				});
+			});
+		}
+
 		async function initStandings() {
 			try {
 				setStandings(await getStandings());

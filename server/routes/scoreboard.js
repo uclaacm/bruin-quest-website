@@ -7,7 +7,7 @@ const { auth } = require('../middleware/auth');
 
 router.get('/scores/:id', auth, async (req, res) => {
 	try {
-		const teamId = sanitize(req.params).id;
+		const teamId = sanitize(req.params.id);
 		const teamAnswersDoc = await Team.findById(teamId, 'puzzles').exec();
 		if (!teamAnswersDoc) {
 			res.status(500).json({ error: 'Team answers not found' });
