@@ -4,4 +4,5 @@ export const AUTH_USER = 'auth_user';
 export const LOGOUT_USER = 'logout_user';
 
 export const UPDATESTATE_ADMIN = 'updateState_admin';
+export const TEAMS_ADMIN = 'teams_admin';
 export const GET_STATE = 'get_state';
