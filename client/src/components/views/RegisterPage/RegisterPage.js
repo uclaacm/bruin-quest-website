@@ -48,7 +48,7 @@ function RegisterPage(props) {
 					const dataToSubmit = {
 						team: values.team,
 						password: values.password,
-						members: values.members,
+						members: values.members
 					};
 					console.log(dataToSubmit);
 					alert(JSON.stringify(values, null, 2));
