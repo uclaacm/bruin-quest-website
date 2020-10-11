@@ -47,7 +47,8 @@ function RegisterPage(props) {
 				setTimeout(() => {
 					const dataToSubmit = {
 						team: values.team,
-						password: values.password
+						password: values.password,
+						members: values.members,
 					};
 					console.log(dataToSubmit);
 					alert(JSON.stringify(values, null, 2));
