@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { css } from 'emotion';
+import { Link } from 'react-router-dom';
 import Text from '../../Text/Text';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
@@ -83,7 +84,8 @@ function PuzzlePage(props) {
 		puzzleData.displayName &&
 		puzzleData.description &&
 		puzzleData.difficulty &&
-		puzzleData.generalArea ?
+		puzzleData.generalAreaId &&
+		puzzleData.generalAreaDisplayName ?
 		<div
 			className={css`
 				background-color: ${Colors.BrightBlue};
@@ -98,6 +100,37 @@ function PuzzlePage(props) {
 					display: flex;
 				`}
 			>
+				<div className={css`
+					margin: 30px;
+				`}>
+					<Link
+						to={`/area/${puzzleData.generalAreaId}`}
+					>
+						<div className={css`
+						background-color: ${Colors.LightBlue};
+						padding: 6px 10px;
+						border-radius: 8px;
+						display: flex;
+						align-items: center;
+						cursor: pointer;
+						&:hover {
+							background-color: ${Colors.MediumBlue};
+							transition: 0.3s;
+						}
+					`}>
+						{/* triangle */}
+						<div className={css`
+							width: 0;
+							height: 0;
+							border-top: 5px solid transparent;
+							border-right: 10px solid white;
+							border-bottom: 5px solid transparent;
+							margin-right: 8px;
+						`}></div>
+						<Text color={Colors.White} weight="900">{puzzleData.generalAreaDisplayName.toUpperCase()}</Text>
+					</div>
+					</Link>
+				</div>
 				<div
 					className={css`
 						max-width: 450px;
