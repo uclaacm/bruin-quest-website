@@ -11,7 +11,7 @@ const auth = async (req, res, next) => {
 			});
 		}
 		req.token = token;
-		req.team = team;
+		req.team = team.toObject();
 		return next();
 	} catch (error) {
 		return res.status(500).json({

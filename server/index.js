@@ -8,12 +8,6 @@ const cookieParser = require('cookie-parser');
 
 const config = require('./config/key');
 
-// const mongoose = require("mongoose");
-// mongoose
-//   .connect(config.mongoURI, { useNewUrlParser: true })
-//   .then(() => console.log("DB connected"))
-//   .catch(err => console.error(err));
-
 const mongoose = require('mongoose');
 mongoose
 	.connect(config.mongoURI, {
@@ -24,6 +18,31 @@ mongoose
 	})
 	.then(() => console.log('MongoDB Connected...'))
 	.catch(err => console.log(err));
+
+// parses information from a csv file and then load it into the mongoose database
+const csv = require('fast-csv');
+const fs = require('fs');
+const { Puzzle } = require('./models/Puzzle');
+
+let addedPuzzles = 0;
+let totalPuzzles = 0;
+fs.createReadStream(path.resolve(__dirname, 'config', 'puzzleSeed.csv'))
+	.pipe(csv.parse({ headers: true }))
+	.on('error', err => console.error(err))
+	.on('data', async row => {
+		const puzzleInstance = new Puzzle(row);
+		try {
+			await puzzleInstance.save();
+			addedPuzzles++;
+			console.log(`${addedPuzzles}/${totalPuzzles} ${puzzleInstance._id} has been added successfully`);
+		} catch (err) {
+			console.error(`Failed to add ${puzzleInstance.name}`, err.message);
+		}
+	})
+	.on('end', rowCount => {
+		totalPuzzles = rowCount;
+	});
+
 
 app.use(cors());
 
@@ -37,6 +56,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/teams', require('./routes/teams'));
+app.use('/api/puzzle', require('./routes/puzzle'));
+app.use('/api/admin', require('./routes/admin'));
+app.use('/api/state', require('./routes/state'));
+app.use('/api/scoreboard', require('./routes/scoreboard'));
 
 // use this to show the image you have in node js server to client (react js)
 // https://stackoverflow.com/questions/48914987/send-image-path-from-node-js-express-server-to-react-client
