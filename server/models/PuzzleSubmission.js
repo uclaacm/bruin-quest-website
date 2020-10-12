@@ -15,6 +15,10 @@ const puzzleSubmissionSchema = mongoose.Schema({
 		type: String,
 		enum: ['correct', 'incorrect', 'pending', 'no attempt'],
 		default: 'no attempt'
+	},
+	hintStatus: {
+		type: Number,
+		default: 0
 	}
 });
 

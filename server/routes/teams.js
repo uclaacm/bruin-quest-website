@@ -99,7 +99,7 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		} else {
 			const currentPuzzle = await Puzzle.findById(puzzleId);
 
-			let points;
+			let points = 0;
 			if (currentPuzzle.type === 'gold') {
 				status = 'pending';
 			} else if (submission === currentPuzzle.correctAnswer) {
@@ -118,6 +118,33 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		return res.status(200).json({
 			success: true,
 			status
+		});
+	} catch (err) {
+		return res.status(500).json({ success: false, err });
+	}
+});
+
+router.get('/getHint/:puzzleId', auth, async (req, res) => {
+	try {
+		const { puzzleId } = req.params;
+
+		const doc = await Team.findOneAndUpdate(
+			{ _id: req.team._id, 'puzzles._id': puzzleId },
+			{ $inc: { 'puzzles.$.hintStatus': 1 } }
+		);
+
+		const hintStat = doc.puzzles.filter(obj => {
+			return obj._id === puzzleId;
+		})[0].hintStatus;
+		const hintsArr = await Puzzle.findById(puzzleId).select('-_id hints');
+		const hintElem = hintsArr.hints.filter(obj => {
+			return obj._id === hintStat;
+		});
+		const hint = hintElem.length ? hintElem[0].hint : 'no hints left';
+
+		return res.status(200).json({
+			success: true,
+			hint
 		});
 	} catch (err) {
 		return res.status(500).json({ success: false, err });

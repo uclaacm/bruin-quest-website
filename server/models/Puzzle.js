@@ -4,7 +4,6 @@ const uniqueValidator = require('mongoose-unique-validator');
 const puzzleSchema = mongoose.Schema({
 	_id: String,
 	displayName: String,
-
 	location: String,
 	generalArea: String,
 	description: String,
@@ -18,6 +17,7 @@ const puzzleSchema = mongoose.Schema({
 		type: String,
 		enum: ['lower div', 'upper div', 'super senior']
 	},
+	hints: [{ _id: Number, hint: String }],
 	numberOfSolves: {
 		type: Number,
 		default: 0

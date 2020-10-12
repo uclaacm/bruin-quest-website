@@ -3,15 +3,13 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
-
 const uniqueValidator = require('mongoose-unique-validator');
-
 const { PuzzleSubmission } = require('../models/PuzzleSubmission');
-
 
 const SECRET = 'gobruins!owo';
 
 const teamSchema = mongoose.Schema({
+	_id: String,
 	name: {
 		type: String,
 		required: true,
@@ -39,10 +37,7 @@ const teamSchema = mongoose.Schema({
 			}
 		}
 	],
-
-
 	puzzles: [PuzzleSubmission.schema]
-
 });
 
 teamSchema.pre('save', async function (next) {
