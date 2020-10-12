@@ -47,18 +47,17 @@ function getPuzzleData(id) {
 	return axios.get(`${PUZZLE_SERVER}/${id}`);
 }
 
-function submit(submission, puzzleId) {
-	return axios.post(`${USER_SERVER}/submitPuzzle/${puzzleId}`, { submission });
-}
-
 function PuzzlePage(props) {
 	const [puzzleData, setPuzzleData] = useState();
 	const [submission, setSubmission] = useState('');
 	const [score, setScore] = useState(0);
 	const [status, setStatus] = useState('no attempt');
+	const puzzleId = props.match.params.id;
+
 	useEffect(() => {
 		async function fetchData() {
-			const { data } = await getPuzzleData(props.match.params.id);
+			const { data } = await getPuzzleData(puzzleId);
+			// TODO: handle error
 			if (data) {
 				setPuzzleData(data);
 				setSubmission(data.submission);
@@ -67,7 +66,19 @@ function PuzzlePage(props) {
 			}
 		}
 		fetchData();
-	}, [props.match.params.id]);
+	}, [puzzleId]);
+
+	const submit = async () => {
+		// TODO: handle error
+		const response = await axios.post(`${USER_SERVER}/submitPuzzle/${puzzleId}`, { submission });
+		const { data } = response;
+		if (data) {
+			setSubmission(data.submission);
+			setScore(data.score);
+			setStatus(data.status);
+		}
+	};
+
 	return puzzleData &&
 		puzzleData.displayName &&
 		puzzleData.description &&
@@ -132,21 +143,15 @@ function PuzzlePage(props) {
 							onChange={event => {
 								setSubmission(event.target.value);
 							}}
+							onKeyDown={event => {
+								if (event.key === 'Enter') {
+									submit();
+								}
+							}}
 						/>
 						<Button
 							style={{ marginLeft: '10px' }}
-							onClick={async () => {
-								const response = await submit(
-									submission,
-									props.match.params.id
-								);
-								const { data } = response;
-								if (data) {
-									setSubmission(data.submission);
-									setScore(data.score);
-									setStatus(data.status);
-								}
-							}}
+							onClick={submit}
 						>
 							SUBMIT
 						</Button>
