@@ -71,7 +71,10 @@ function PuzzlePage(props) {
 
 	const submit = async () => {
 		// TODO: handle error
-		const response = await axios.post(`${USER_SERVER}/submitPuzzle/${puzzleId}`, { submission });
+		const response = await axios.post(
+			`${USER_SERVER}/submitPuzzle/${puzzleId}`,
+			{ submission }
+		);
 		const { data } = response;
 		if (data) {
 			setSubmission(data.submission);
@@ -100,35 +103,41 @@ function PuzzlePage(props) {
 					display: flex;
 				`}
 			>
-				<div className={css`
-					margin: 30px;
-				`}>
-					<Link
-						to={`/area/${puzzleData.generalAreaId}`}
-					>
-						<div className={css`
-						background-color: ${Colors.LightBlue};
-						padding: 6px 10px;
-						border-radius: 8px;
-						display: flex;
-						align-items: center;
-						cursor: pointer;
-						&:hover {
-							background-color: ${Colors.MediumBlue};
-							transition: 0.3s;
-						}
-					`}>
-						{/* triangle */}
-						<div className={css`
-							width: 0;
-							height: 0;
-							border-top: 5px solid transparent;
-							border-right: 10px solid white;
-							border-bottom: 5px solid transparent;
-							margin-right: 8px;
-						`}></div>
-						<Text color={Colors.White} weight="900">{puzzleData.generalAreaDisplayName.toUpperCase()}</Text>
-					</div>
+				<div
+					className={css`
+						margin: 30px;
+					`}
+				>
+					<Link to={`/area/${puzzleData.generalAreaId}`}>
+						<div
+							className={css`
+								background-color: ${Colors.LightBlue};
+								padding: 6px 10px;
+								border-radius: 8px;
+								display: flex;
+								align-items: center;
+								cursor: pointer;
+								&:hover {
+									background-color: ${Colors.MediumBlue};
+									transition: 0.3s;
+								}
+							`}
+						>
+							{/* triangle */}
+							<div
+								className={css`
+									width: 0;
+									height: 0;
+									border-top: 5px solid transparent;
+									border-right: 10px solid white;
+									border-bottom: 5px solid transparent;
+									margin-right: 8px;
+								`}
+							></div>
+							<Text color={Colors.White} weight="900">
+								{puzzleData.generalAreaDisplayName.toUpperCase()}
+							</Text>
+						</div>
 					</Link>
 				</div>
 				<div
@@ -182,10 +191,7 @@ function PuzzlePage(props) {
 								}
 							}}
 						/>
-						<Button
-							style={{ marginLeft: '10px' }}
-							onClick={submit}
-						>
+						<Button style={{ marginLeft: '10px' }} onClick={submit}>
 							SUBMIT
 						</Button>
 					</div>
