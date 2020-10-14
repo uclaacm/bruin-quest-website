@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
+import Text from '../../Text/Text.js';
 import './GeneralAreaPage.css';
 
 async function getAreaData(id) {
@@ -26,13 +28,13 @@ async function getAreaData(id) {
 
 function Puzzle(props) {
 	return (
-		<a className="card" href={props.link}>
-			<h2>{props.name}</h2>
+		<Link className="card" to={props.link}>
+			<Text>{props.name}</Text>
 			<div className="progressBar">
 				<div className="completed" style={{ width: props.completed }}></div>
 			</div>
 			<img src={props.image} alt={props.name}/>
-		</a>
+		</Link>
 	);
 }
 
@@ -48,7 +50,7 @@ function GeneralAreaPage(props) {
 	return areaData && areaData.name && areaData.puzzles ?
 
 		<div className="app">
-			<h1>{areaData.name}</h1>
+			<Text size="36px">{areaData.name}</Text>
 			<div className="cardList">
 				{areaData.puzzles.map(puzzle => <Puzzle
 					link={puzzle.link}
@@ -59,7 +61,7 @@ function GeneralAreaPage(props) {
 				/>)}
 			</div>
 		</div>	 :
-		<div>Loading</div>;
+		<Text>Loading...</Text>;
 }
 
 export default GeneralAreaPage;
