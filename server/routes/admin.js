@@ -2,8 +2,13 @@ const express = require('express');
 const router = express.Router();
 const { State } = require('../models/State');
 const { Team } = require('../models/Team');
+const { auth } = require('../middleware/auth');
 
-router.get('/teams', async (req, res) => {
+router.get('/teams', auth, async (req, res) => {
+	if (!req.team.isAdmin) {
+		res.status(500).json({ error: 'Not admin' });
+		return;
+	}
 	try {
 		const teamsDoc = await Team.find().exec();
 		const teams = [];
@@ -20,7 +25,11 @@ router.get('/teams', async (req, res) => {
 	}
 });
 
-router.post('/update', (req, res) => {
+router.post('/update', auth, (req, res) => {
+	if (!req.team.isAdmin) {
+		res.status(500).json({ error: 'Not admin' });
+		return;
+	}
 	try {
 		State.findOneAndUpdate({}, { $set: { state: req.body.state } }, { upsert: false }, err => {
 			if (err) {
@@ -36,7 +45,11 @@ router.post('/update', (req, res) => {
 	}
 });
 
-router.get('/submissions', async (req, res) => {
+router.get('/submissions', auth, async (req, res) => {
+	if (!req.team.isAdmin) {
+		res.status(500).json({ error: 'Not admin' });
+		return;
+	}
 	try {
 		const teamsDoc = await Team.find().exec();
 		const submissions = {};
@@ -65,7 +78,11 @@ router.get('/submissions', async (req, res) => {
 	}
 });
 
-router.post('/score', (req, res) => {
+router.post('/score', auth, (req, res) => {
+	if (!req.team.isAdmin) {
+		res.status(500).json({ error: 'Not admin' });
+		return;
+	}
 	try {
 		Team.findOneAndUpdate({ _id: req.body.teamId, 'puzzles._id': req.body.puzzleId },
 			{ $set: { 'puzzles.$.status': 'scored', 'puzzles.$.score': req.body.score } }, { upsert: false }, err => {
