@@ -6,7 +6,7 @@ import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
 
 export default function SubmissionRow(props) {
-	const [score, setScore] = useState();
+  const [score, setScore] = useState();
 	return (
 		<div
 			className={css`
@@ -18,7 +18,7 @@ export default function SubmissionRow(props) {
       `}
 		>
 			<a
-				href={props.item.link}
+				href={props.item.submission}
 				className={css`
           color: ${Colors.Blue};
           font-size: 1rem;

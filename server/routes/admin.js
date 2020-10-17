@@ -6,7 +6,7 @@ const { auth } = require('../middleware/auth');
 
 router.get('/teams', auth, async (req, res) => {
 	if (!req.team.isAdmin) {
-		res.status(500).json({ error: 'Not admin' });
+		res.status(404).json({ error: 'Not found' });
 		return;
 	}
 	try {
@@ -21,13 +21,14 @@ router.get('/teams', auth, async (req, res) => {
 		teamsDoc.forEach(cleanTeam);
 		res.status(200).json({ teams });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ error: error.message });
 	}
 });
 
 router.post('/update', auth, (req, res) => {
 	if (!req.team.isAdmin) {
-		res.status(500).json({ error: 'Not admin' });
+		res.status(404).json({ error: 'Not found' });
 		return;
 	}
 	try {
@@ -40,14 +41,15 @@ router.post('/update', auth, (req, res) => {
 			success: true,
 			state: req.body.state
 		});
-	} catch (err) {
-		return res.status(500).json({ success: false, err });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ success: false, error });
 	}
 });
 
 router.get('/submissions', auth, async (req, res) => {
 	if (!req.team.isAdmin) {
-		res.status(500).json({ error: 'Not admin' });
+		res.status(404).json({ error: 'Not found' });
 		return;
 	}
 	try {
@@ -74,13 +76,14 @@ router.get('/submissions', auth, async (req, res) => {
 		teamsDoc.forEach(checkTeam);
 		res.status(200).json({ submissions });
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ error: error.message });
 	}
 });
 
 router.post('/score', auth, (req, res) => {
 	if (!req.team.isAdmin) {
-		res.status(500).json({ error: 'Not admin' });
+		res.status(404).json({ error: 'Not found' });
 		return;
 	}
 	try {
@@ -95,8 +98,9 @@ router.post('/score', auth, (req, res) => {
 			puzzleId: req.body.puzzleId,
 			score: req.body.score
 		});
-	} catch (err) {
-		return res.status(500).json({ err });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ error });
 	}
 });
 

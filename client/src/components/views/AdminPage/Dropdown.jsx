@@ -33,11 +33,11 @@ export default function Dropdown(props) {
 		// the other rows will be added here with switch
 		switch (type) {
 		case 'Puzzles':
-			return <SubmissionRow item={item} score={scoreSubmission}/>;
+			return <SubmissionRow key={item.submission} item={item} score={scoreSubmission}/>;
 		case 'Teams':
-			return <PlayerRow item={item}/>;
+			return <PlayerRow key={item.discord} item={item}/>;
 		default:
-			return <ControlRow item={item} onClick={changeGameState}/>;
+			return <ControlRow key={item.name} item={item} onClick={changeGameState}/>;
 		}
 	}
 
@@ -53,7 +53,6 @@ export default function Dropdown(props) {
 	}
 
 	function getPuzzles() {
-		// Mock data for now. This will be replaced with API call.
 		return dispatch(submissions()).then(response => {
 			const puzzles = [];
 			Object.keys(response.payload.submissions).forEach(key => {
@@ -128,7 +127,7 @@ export default function Dropdown(props) {
 			try {
 				const newItems = await getDropdown(props.type);
 				setItems(newItems);
-				setSelected(newItems[0]);
+				setSelected(newItems.length > 0 ? newItems[0] : null);
 			} catch (err) {
 				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
 			}
@@ -136,10 +135,9 @@ export default function Dropdown(props) {
 		initDropdown();
 	}, [props.type]);
 
-	if (items === null || selected === null || selected == undefined) {
+	if (items === null || selected === null) {
 		return null;
 	}
-
 	return (
 		<div className={dropdown}>
 			<Text>Current state: {state}</Text>
