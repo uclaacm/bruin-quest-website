@@ -4,12 +4,16 @@ import { css } from 'emotion';
 import Text from '../../Text/Text';
 import * as Colors from '../../../constants/Colors';
 import * as Fonts from '../../../constants/Fonts';
+import * as Screens from '../../../constants/Screens';
 
 const textStyle = css`
   text-align: center;
   font-size: 2rem;
   font-weight: 800;
   font-family: ${Fonts.Primary};
+  @media screen and (max-width: ${Screens.medium}px) {
+    font-size: 1rem;
+  }
 `;
 
 const skinnyTextStyle = css`
@@ -30,10 +34,14 @@ export default function TableRow(props) {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          width: 35vw;
+          width: 37vw;
           height: 4vw;
           padding-left: 2vw;
           padding-right: 2vw;
+          @media screen and (max-width: ${Screens.medium}px) {
+            width: 82vw;
+            height: 10vw;
+          }
         `}
 			>
 				<td>
