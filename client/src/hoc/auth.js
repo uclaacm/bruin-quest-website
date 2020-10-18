@@ -7,7 +7,6 @@ export default function (SpecificComponent, option, adminRoute = null) {
 	function AuthenticationCheck(props) {
 		const user = useSelector(state => state.user);
 		const dispatch = useDispatch();
-
 		useEffect(() => {
 			// To know my current status, send Auth request
 			dispatch(auth()).then(response => {
@@ -26,7 +25,12 @@ export default function (SpecificComponent, option, adminRoute = null) {
 						props.history.push('/');
 					}
 				}
-			});
+			})
+				.catch(() => {
+					if (adminRoute) {
+						props.history.push('/');
+					}
+				});
 		}, []);
 
 		return (
