@@ -5,7 +5,7 @@ import SubmissionRow from './SubmissionRow';
 import PlayerRow from './PlayerRow';
 import ControlRow from './ControlRow';
 import Text from '../../Text/Text';
-import { teams, updateAppState } from '../../../_actions/admin_actions';
+import { teams, updateAppState, submissions, submitScore } from '../../../_actions/admin_actions';
 import { getAppState } from '../../../_actions/state_actions';
 import { useDispatch } from 'react-redux';
 
@@ -33,11 +33,11 @@ export default function Dropdown(props) {
 		// the other rows will be added here with switch
 		switch (type) {
 		case 'Puzzles':
-			return <SubmissionRow item={item} score={submitScore}/>;
+			return <SubmissionRow key={item.submission} item={item} score={scoreSubmission}/>;
 		case 'Teams':
-			return <PlayerRow item={item}/>;
+			return <PlayerRow key={item.discord} item={item}/>;
 		default:
-			return <ControlRow item={item} onClick={changeGameState}/>;
+			return <ControlRow key={item.name} item={item} onClick={changeGameState}/>;
 		}
 	}
 
@@ -53,12 +53,13 @@ export default function Dropdown(props) {
 	}
 
 	function getPuzzles() {
-		// Mock data for now. This will be replaced with API call.
-		return [
-			{ id: '123', name: 'Puzzle 1', items: [{ link: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { link: 'aewe' }, { link: 'sd' }] },
-			{ id: '123', name: 'Puzzle 2', items: [{ link: 'a' }, { link: '123' }, { link: 'ads' }] },
-			{ id: '123', name: 'Puzzle 3', items: [{ link: 'a' }, { link: 'avv' }, { link: 'c' }] }
-		];
+		return dispatch(submissions()).then(response => {
+			const puzzles = [];
+			Object.keys(response.payload.submissions).forEach(key => {
+				puzzles.push({ name: key, items: response.payload.submissions[key] });
+			});
+			return puzzles;
+		});
 	}
 
 	function getTeams() {
@@ -80,9 +81,18 @@ export default function Dropdown(props) {
 		];
 	}
 
-	function submitScore(item, score) {
-		// Will need team id in the item in order to score
-		// if success, rerender list and item will be removed? in case there are 2 ppl grading at same time
+	function scoreSubmission(item, score) {
+		const dataToSubmit = {
+			teamId: item.teamId,
+			puzzleId: item.puzzleId,
+			score
+		};
+		dispatch(submitScore(dataToSubmit)).then(response => {
+			return getPuzzles();
+		}).then(newItems => {
+			setItems(newItems);
+			setSelected(newItems[0]);
+		});
 	}
 
 	function changeGameState(actionName) {
@@ -115,9 +125,9 @@ export default function Dropdown(props) {
 	useEffect(() => {
 		async function initDropdown() {
 			try {
-        const newItems = await getDropdown(props.type);
+				const newItems = await getDropdown(props.type);
 				setItems(newItems);
-				setSelected(newItems[0]);
+				setSelected(newItems.length > 0 ? newItems[0] : null);
 			} catch (err) {
 				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
 			}
@@ -128,13 +138,12 @@ export default function Dropdown(props) {
 	if (items === null || selected === null) {
 		return null;
 	}
-
 	return (
 		<div className={dropdown}>
 			<Text>Current state: {state}</Text>
-			{props.type === 'Controls' ? null : <DropdownRow item={selected} changeSelection={showMenu} showTriangle={true}/>}
+			{props.type === 'Controls' ? null : <DropdownRow item={selected != undefined ? selected : 'None available'} changeSelection={showMenu} showTriangle={true}/>}
 			{
-				showMenuState ?
+				showMenuState && items.length > 0 ?
 					<div className={dropdown}>
 						{
 							items.map(item =>

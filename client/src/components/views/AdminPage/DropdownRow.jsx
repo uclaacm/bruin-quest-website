@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from 'emotion';
 import * as Colors from '../../../constants/Colors';
-import * as Fonts from '../../../constants/Fonts';
 import Text from '../../Text/Text';
 import triangle from './assets/triangle.png';
 
