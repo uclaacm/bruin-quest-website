@@ -12,7 +12,7 @@ export default function PlayerRow(props) {
         padding: 20px;
       `}
 		>
-			<Text size="1.5rem"> {props.item.playerName} </Text>
+			<Text size="1.5rem"> {props.item.name} </Text>
 			<Text size="1.5rem"> {props.item.discord} </Text>
 		</div>
 	);
