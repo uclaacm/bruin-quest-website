@@ -25,12 +25,12 @@ export default function Scoreboard(props) {
 			<Text
 				className={css`
           text-align: center;
-          font-size: 2.5rem;
+          font-size: 2.25vw;
           font-family: ${Fonts.Primary};
           font-weight: 800;
           padding-bottom: 40px;
           @media screen and (max-width: ${Screens.medium}px) {
-            font-size: 1.5rem;
+            font-size: 4vw;
           }
         `}
 			>

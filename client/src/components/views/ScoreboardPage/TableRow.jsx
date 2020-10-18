@@ -8,11 +8,11 @@ import * as Screens from '../../../constants/Screens';
 
 const textStyle = css`
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.75vw;
   font-weight: 800;
   font-family: ${Fonts.Primary};
   @media screen and (max-width: ${Screens.medium}px) {
-    font-size: 1rem;
+    font-size: 3.5vw;
   }
 `;
 
