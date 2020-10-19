@@ -19,6 +19,7 @@ export default function Scoreboard(props) {
         padding-bottom: 80px;
         @media screen and (max-width: ${Screens.medium}px) {
           width: 90vw;
+          margin: 10px;
         }
       `}
 		>
