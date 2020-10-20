@@ -4,7 +4,7 @@
 .menu {
   padding: 0 20px;
   border-bottom: solid 1px #005587;
-  overflow: auto;
+  overflow: hidden;
   box-shadow: 0 0 30px #005587;
   background-color: #005587;
 }

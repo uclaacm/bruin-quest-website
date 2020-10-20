@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {
 	TEAMS_ADMIN,
-	UPDATESTATE_ADMIN
+	UPDATESTATE_ADMIN,
+	SUBMISSIONS_ADMIN,
+	SCORE_ADMIN
 } from './types';
 import { ADMIN_SERVER } from '../components/Config.js';
 
@@ -21,6 +23,26 @@ export function updateAppState(dataToSubmit) {
 
 	return {
 		type: UPDATESTATE_ADMIN,
+		payload: request
+	};
+}
+
+export function submissions() {
+	const request = axios.get(`${ADMIN_SERVER}/submissions`)
+		.then(response => response.data);
+
+	return {
+		type: SUBMISSIONS_ADMIN,
+		payload: request
+	};
+}
+
+export function submitScore(dataToSubmit) {
+	const request = axios.post(`${ADMIN_SERVER}/score`, dataToSubmit)
+		.then(response => response.data);
+
+	return {
+		type: SCORE_ADMIN,
 		payload: request
 	};
 }

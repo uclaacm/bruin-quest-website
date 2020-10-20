@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { css } from 'emotion';
-import * as Colors from '../../../constants/Colors';
 import Button from '../../Button/Button';
 import Text from '../../Text/Text';
 
