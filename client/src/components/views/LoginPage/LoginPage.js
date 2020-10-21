@@ -22,10 +22,14 @@ function LoginPage(props) {
 		setRememberMe(!rememberMe);
 	};
 
+	const initialTeam = localStorage.getItem('rememberMe') ?
+		localStorage.getItem('rememberMe') :
+		'';
+
 	return (
 		<Formik
 			initialValues={{
-				team: '',
+				team: initialTeam,
 				password: ''
 			}}
 			validationSchema={Yup.object().shape({
@@ -44,9 +48,9 @@ function LoginPage(props) {
 						const login = await dispatch(loginUser(dataToSubmit));
 						const payload = await login.payload;
 						window.localStorage.setItem('teamId', payload.teamId);
-						window.localStorage.setItem('teamName', dataToSubmit.name);
+						window.localStorage.setItem('teamName', dataToSubmit.team);
 						if (rememberMe === true) {
-							window.localStorage.setItem('rememberMe', values.id);
+							window.localStorage.setItem('rememberMe', dataToSubmit.team);
 						} else {
 							localStorage.removeItem('rememberMe');
 						}
