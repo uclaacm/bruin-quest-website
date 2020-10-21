@@ -121,6 +121,7 @@ function PuzzlePage(props) {
 									background-color: ${Colors.MediumBlue};
 									transition: 0.3s;
 								}
+								max-width: 160px;
 							`}
 						>
 							{/* triangle */}
