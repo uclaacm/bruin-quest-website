@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const { Team } = require('../models/Team');
@@ -38,7 +39,10 @@ router.post('/register', async (req, res) => {
 			success: true
 		});
 	} catch (err) {
-		return res.status(500).json({ success: false, err });
+		if (err instanceof mongoose.Error.ValidationError) {
+			return res.status(500).json({ error: 'Invalid team name' });
+		}
+		return res.status(500).json({ error: 'Unable to register team' });
 	}
 });
 

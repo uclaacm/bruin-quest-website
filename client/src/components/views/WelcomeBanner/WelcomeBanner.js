@@ -8,7 +8,7 @@ function WelcomeBanner({
 	width = '100vw',
 	height = '290px',
 	colorLeft = Colors.Purple,
-	colorRight = Colors.GrapeFruit,
+	colorRight = Colors.Grapefruit,
 	textColor = Colors.White,
 	textSize = '80px',
 	textWeight = 'bold',
@@ -20,45 +20,40 @@ function WelcomeBanner({
 		<div
 			className={css`
 				width: ${width};
-                height: ${height};
-                background-image: linear-gradient(to right, ${colorLeft}, ${colorRight});
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            `}
+				height: ${height};
+				background-image: linear-gradient(
+					to right,
+					${colorLeft},
+					${colorRight}
+				);
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+			`}
 			{...props}
 		>
 			<div
 				className={css`
-                        margin-left: 60px;
-                        min-width: 450px;
-			        `}
+					margin-left: 60px;
+					min-width: 450px;
+				`}
 			>
-				<Text
-					color={textColor}
-					size={textSize}
-					weight={textWeight}
-				>
+				<Text color={textColor} size={textSize} weight={textWeight}>
 					{topText}
 				</Text>
-				<Text
-					color={textColor}
-					size={textSize}
-					weight={textWeight}
-				>
+				<Text color={textColor} size={textSize} weight={textWeight}>
 					{botText}
 				</Text>
 			</div>
 
 			<img
 				className={css`
-                        margin-right: 25px;
-			        `}
+					margin-right: 25px;
+				`}
 				src={bear}
 				alt=""
 			/>
-
 		</div>
 	);
 }

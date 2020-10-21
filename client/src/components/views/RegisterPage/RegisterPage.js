@@ -5,6 +5,7 @@ import { registerUser } from '../../../_actions/user_actions';
 import { useDispatch } from 'react-redux';
 import { css } from 'emotion';
 import './styles.css';
+import * as Colors from '../../../constants/Colors';
 import Text from '../../Text/Text';
 import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
 import TextInput from '../../TextInput/TextInput';
@@ -48,8 +49,9 @@ function RegisterPage(props) {
 						await dispatch(registerUser(dataToSubmit));
 						// TODO: show success screen instead
 						props.history.push('/login');
-					} catch {
-						setFormErrorMessage('Unable to register');
+					} catch (err) {
+						// This is a readable error message sent from the backend
+						setFormErrorMessage(err.response.data.error);
 					}
 					setSubmitting(false);
 				}, 500);
@@ -112,19 +114,7 @@ function RegisterPage(props) {
 								</div>
 
 								{formErrorMessage &&
-									<label>
-										<p
-											style={{
-												color: '#ff0000bf',
-												fontSize: '0.7rem',
-												border: '1px solid',
-												padding: '1rem',
-												borderRadius: '10px'
-											}}
-										>
-											{formErrorMessage}
-										</p>
-									</label>
+									<Text color={Colors.Grapefruit}>{formErrorMessage}</Text>
 								}
 							</div>
 
