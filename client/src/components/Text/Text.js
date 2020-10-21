@@ -8,12 +8,13 @@ function Text({
 	color = Colors.Black,
 	size = '18px',
 	weight = 400,
+	error = false,
 	...props
 }) {
 	return (
 		<div
 			className={css`
-				color: ${color};
+				color: ${error ? Colors.Grapefruit : color};
 				font-size: ${size};
 				font-weight: ${weight};
 				font-family: ${Fonts.Primary};
