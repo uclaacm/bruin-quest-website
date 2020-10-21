@@ -4,6 +4,7 @@ import { css } from 'emotion';
 import Text from '../../Text/Text';
 import * as Colors from '../../../constants/Colors';
 import * as Fonts from '../../../constants/Fonts';
+import * as Screens from '../../../constants/Screens';
 import Scoreboard from './Scoreboard';
 import { teamScores, teamStandings } from '../../../_actions/scoreboard_actions';
 import { useDispatch } from 'react-redux';
@@ -54,15 +55,20 @@ export default function ScoreboardPage(props) {
 	}, []);
 
 	return (
-		<div className={css`padding: 4vw`}>
+		<div className={css`padding: 3vw`}>
 			<Text
 				className={css`
           text-align: left;
-          font-size: 6rem;
+          font-size: 5rem;
           font-family: ${Fonts.Primary}; 
-          font-weight: 600;
+          font-weight: 800;
           font-color: ${Colors.Black};
           padding-bottom: 80px;
+          @media screen and (max-width: ${Screens.medium}px) {
+            width: 80vw;
+            font-size: 3rem;
+            padding-bottom: 20px;
+          }
         `}
 			>
         Scoreboard
@@ -74,6 +80,10 @@ export default function ScoreboardPage(props) {
           justify-content: space-between;
           align-items: flex-start;
           padding-bottom: 40px;
+          @media screen and (max-width: ${Screens.medium}px) {
+            flex-direction: column;
+            align-items: center;
+          }
         `}
 			>
 				<Scoreboard scores={scores} title={name + ' Scores'} />
