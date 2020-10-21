@@ -11,7 +11,6 @@ import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
 import addicon from './assets/add_member.png';
 import removeicon from './assets/remove_member.png';
-import * as Colors from '../../../constants/Colors';
 
 const staticRegisterTop = 'Register';
 const staticRegisterBot = 'your team!';
@@ -117,9 +116,7 @@ function RegisterPage(props) {
 									</Button>
 								</div>
 
-								{formErrorMessage &&
-									<Text color={Colors.Grapefruit}>{formErrorMessage}</Text>
-								}
+								{formErrorMessage && <Text error>{formErrorMessage}</Text>}
 							</div>
 
 							<div className="right-container">

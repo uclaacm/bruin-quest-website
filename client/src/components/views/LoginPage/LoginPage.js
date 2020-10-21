@@ -10,7 +10,6 @@ import TextInput from '../../TextInput/TextInput';
 import Text from '../../Text/Text';
 import Button from '../../Button/Button';
 import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
-import * as Colors from '../../../constants/Colors';
 
 function LoginPage(props) {
 	const dispatch = useDispatch();
@@ -109,9 +108,7 @@ function LoginPage(props) {
 								}
 							</div>
 
-							{formErrorMessage &&
-								<Text color={Colors.Grapefruit}>{formErrorMessage}</Text>
-							}
+							{formErrorMessage && <Text error>{formErrorMessage}</Text>}
 							<Checkbox
 								id="rememberMe"
 								onChange={handleRememberMe}
