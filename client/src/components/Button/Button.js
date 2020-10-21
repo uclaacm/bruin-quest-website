@@ -22,7 +22,7 @@ function Button({
 				align-items: center;
 				justify-content: center;
 				cursor: ${disabled ? 'not-allowed' : 'pointer'};
-				outline: none;
+				border: none;
 				&:hover {
 					background-color: ${disabled ? Colors.Gray : Colors.DarkBlue};
 					transition: 0.3s;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from 'emotion';
-import * as Colors from '../../constants/Colors';
-import Text from '../Text/Text';
+import * as Colors from '../../../constants/Colors';
+import Text from '../../Text/Text';
 import bear from './assets/bear.svg';
 
 function WelcomeBanner({
