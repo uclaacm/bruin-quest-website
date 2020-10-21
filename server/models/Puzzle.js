@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const puzzleSchema = mongoose.Schema({
 	_id: String,
 	displayName: String,
+
 	location: String,
 	generalAreaId: String,
 	generalAreaDisplayName: String,
@@ -23,6 +25,9 @@ const puzzleSchema = mongoose.Schema({
 	}
 });
 
+
+puzzleSchema.plugin(uniqueValidator);
 const Puzzle = mongoose.model('Puzzle', puzzleSchema, 'Puzzle');
+
 
 module.exports = { Puzzle };
