@@ -5,13 +5,13 @@ import { registerUser } from '../../../_actions/user_actions';
 import { useDispatch } from 'react-redux';
 import { css } from 'emotion';
 import './styles.css';
-import * as Colors from '../../../constants/Colors';
 import Text from '../../Text/Text';
 import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
 import addicon from './assets/add_member.png';
 import removeicon from './assets/remove_member.png';
+import * as Colors from '../../../constants/Colors';
 
 const staticRegisterTop = 'Register';
 const staticRegisterBot = 'your team!';
@@ -51,7 +51,11 @@ function RegisterPage(props) {
 						props.history.push('/login');
 					} catch (err) {
 						// This is a readable error message sent from the backend
-						setFormErrorMessage(err.response.data.error);
+						if (err.response.data.error) {
+							setFormErrorMessage(err.response.data.error);
+						} else {
+							setFormErrorMessage('Unable to register');
+						}
 					}
 					setSubmitting(false);
 				}, 500);

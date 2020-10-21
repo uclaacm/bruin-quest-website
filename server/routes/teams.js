@@ -52,15 +52,12 @@ router.post('/login', async (req, res) => {
 		console.log(team);
 		if (!team) {
 			return res.status(500).json({
-				loginSuccess: false,
-				message: 'Auth failed, email not found'
+				error: 'Team not found'
 			});
 		}
 		const isMatch = await team.comparePassword(req.body.password);
 		if (!isMatch) {
-			return res
-				.status(500)
-				.json({ loginSuccess: false, message: 'Wrong password' });
+			return res.status(500).json({ error: 'Wrong password' });
 		}
 		const teamWithToken = await team.generateToken();
 		res.cookie('w_authExp', teamWithToken.tokenExp);
@@ -71,7 +68,7 @@ router.post('/login', async (req, res) => {
 			teamId: teamWithToken._id
 		});
 	} catch (err) {
-		return res.status(500).send(err);
+		return res.status(500).json({ error: 'Unable to login' });
 	}
 });
 

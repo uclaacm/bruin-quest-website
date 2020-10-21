@@ -10,6 +10,7 @@ import TextInput from '../../TextInput/TextInput';
 import Text from '../../Text/Text';
 import Button from '../../Button/Button';
 import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
+import * as Colors from '../../../constants/Colors';
 
 function LoginPage(props) {
 	const dispatch = useDispatch();
@@ -51,8 +52,13 @@ function LoginPage(props) {
 							localStorage.removeItem('rememberMe');
 						}
 						props.history.push('/');
-					} catch {
-						setFormErrorMessage('Check your team name or password again');
+					} catch (err) {
+						// This is a readable error message sent from the backend
+						if (err.response.data.error) {
+							setFormErrorMessage(err.response.data.error);
+						} else {
+							setFormErrorMessage('Unable to login');
+						}
 					}
 					setSubmitting(false);
 				}, 500);
@@ -104,19 +110,7 @@ function LoginPage(props) {
 							</div>
 
 							{formErrorMessage &&
-								<label>
-									<p
-										style={{
-											color: '#ff0000bf',
-											fontSize: '0.7rem',
-											border: '1px solid',
-											padding: '1rem',
-											borderRadius: '10px'
-										}}
-									>
-										{formErrorMessage}
-									</p>
-								</label>
+								<Text color={Colors.Grapefruit}>{formErrorMessage}</Text>
 							}
 							<Checkbox
 								id="rememberMe"
