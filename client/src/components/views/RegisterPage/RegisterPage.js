@@ -3,11 +3,10 @@ import { Formik, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from '../../../_actions/user_actions';
 import { useDispatch } from 'react-redux';
-import * as Colors from '../../../constants/Colors';
 import { css } from 'emotion';
 import './styles.css';
 import Text from '../../Text/Text';
-import WelcomeBanner from '../WelcomeBanner/WelcomeBannerS';
+import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
 import addicon from './assets/add_member.png';
@@ -27,45 +26,31 @@ function RegisterPage(props) {
 				members: [{ name: '', discord: '' }]
 			}}
 			validationSchema={Yup.object().shape({
-				team: Yup.string()
-					.required('Team is required'),
+				team: Yup.string().required('Team is required'),
 				password: Yup.string()
 					.min(6, 'Password must be at least 6 characters')
 					.required('Password is required'),
-				members: Yup.array()
-					.of(
-						Yup.object().shape({
-							name: Yup.string()
-								.required('Member name is required'),
-							discord: Yup.string()
-								.required('Member discord is required')
-						})
-					)
+				members: Yup.array().of(
+					Yup.object().shape({
+						name: Yup.string().required('Member name is required'),
+						discord: Yup.string().required('Member discord is required')
+					})
+				)
 			})}
-
 			onSubmit={(values, { setSubmitting }) => {
-				setTimeout(() => {
+				setTimeout(async () => {
 					const dataToSubmit = {
 						team: values.team,
 						password: values.password,
 						members: values.members
 					};
-					console.log(dataToSubmit);
-					alert(JSON.stringify(values, null, 2));
-					dispatch(registerUser(dataToSubmit))
-						.then(response => {
-							if (response.payload.registerSuccess) {
-								// Do something on register success
-							} else {
-								setFormErrorMessage('Account has already been made with that name');
-							}
-						})
-						.catch(err => {
-							setFormErrorMessage(err);
-							setTimeout(() => {
-								setFormErrorMessage('');
-							}, 3000);
-						});
+					try {
+						await dispatch(registerUser(dataToSubmit));
+						// TODO: show success screen instead
+						props.history.push('/login');
+					} catch {
+						setFormErrorMessage('Unable to register');
+					}
 					setSubmitting(false);
 				}, 500);
 			}}
@@ -75,20 +60,17 @@ function RegisterPage(props) {
 					values,
 					touched,
 					errors,
-					dirty,
 					isSubmitting,
 					handleChange,
 					handleBlur,
-					handleSubmit,
-					handleReset
+					handleSubmit
 				} = props;
 				return (
 					<div className="main-container">
 						<WelcomeBanner
 							topText={staticRegisterTop}
 							botText={staticRegisterBot}
-						>
-						</WelcomeBanner>
+						></WelcomeBanner>
 
 						<form onSubmit={handleSubmit} className="register-container">
 							<div className="left-container">
@@ -103,10 +85,9 @@ function RegisterPage(props) {
 										onBlur={handleBlur}
 									/>
 									{errors.team && touched.team &&
-							<div className="input-feedback">{errors.team}</div>
+										<div className="input-feedback">{errors.team}</div>
 									}
 								</div>
-
 
 								<div className="form-box">
 									<Text>Team password</Text>
@@ -120,10 +101,9 @@ function RegisterPage(props) {
 										onBlur={handleBlur}
 									/>
 									{errors.password && touched.password &&
-							<div className="input-feedback">{errors.password}</div>
+										<div className="input-feedback">{errors.password}</div>
 									}
 								</div>
-
 
 								<div className="form-box">
 									<Button type="submit" disabled={isSubmitting}>
@@ -132,14 +112,16 @@ function RegisterPage(props) {
 								</div>
 
 								{formErrorMessage &&
-									<label >
-										<p style={{
-											color: '#ff0000bf',
-											fontSize: '0.7rem',
-											border: '1px solid',
-											padding: '1rem',
-											borderRadius: '10px'
-										}}>
+									<label>
+										<p
+											style={{
+												color: '#ff0000bf',
+												fontSize: '0.7rem',
+												border: '1px solid',
+												padding: '1rem',
+												borderRadius: '10px'
+											}}
+										>
 											{formErrorMessage}
 										</p>
 									</label>
@@ -148,7 +130,7 @@ function RegisterPage(props) {
 
 							<div className="right-container">
 								<Text>Member Info</Text>
-								<FieldArray name="members" >
+								<FieldArray name="members">
 									{({ insert, remove, push }) =>
 										<div className="members-container">
 											{values.members.length > 0 &&
@@ -164,16 +146,17 @@ function RegisterPage(props) {
 																onChange={handleChange}
 																onBlur={handleBlur}
 															/>
-															{errors.members && touched.members &&
-																errors.members[index] && touched.members[index] &&
+															{errors.members &&
+																touched.members &&
+																errors.members[index] &&
+																touched.members[index] &&
 																errors.members[index].name &&
 																touched.members[index].name &&
-																<div className="input-feedback">
-																	{errors.members[index].name}
-																</div>
+																	<div className="input-feedback">
+																		{errors.members[index].name}
+																	</div>
 															}
 														</div>
-
 
 														<div className="form-box">
 															<Text>Discord</Text>
@@ -185,8 +168,10 @@ function RegisterPage(props) {
 																onChange={handleChange}
 																onBlur={handleBlur}
 															/>
-															{errors.members && touched.members &&
-																errors.members[index] && touched.members[index] &&
+															{errors.members &&
+																touched.members &&
+																errors.members[index] &&
+																touched.members[index] &&
 																errors.members[index].discord &&
 																touched.members[index].discord &&
 																	<div className="input-feedback">
@@ -195,39 +180,36 @@ function RegisterPage(props) {
 															}
 														</div>
 
-														{
-															index < values.members.length - 1 &&
+														{index < values.members.length - 1 &&
 															<img
 																className={css`
 																	width: 40px;
 																	height: 40px;
-																	position:absolute;
+																	position: absolute;
 																	right: -60px;
 																	bottom: 0;
+																	cursor: pointer;
 																`}
 																src={removeicon}
 																onClick={() => remove(index)}
-																alt='remove member'
+																alt="remove member"
 															/>
-
 														}
-
 													</div>)}
-											{
-												values.members.length < 4 &&
-											<img
-												className={css`
-													width: 40px;
-													height: 40px;
-													position: absolute;
-													bottom: 20px;
-													right: 0;
-												`}
-												src={addicon}
-												onClick={() => push({ name: '', discord: '' })}
-												alt='add member'
-											/>
-
+											{values.members.length < 4 &&
+												<img
+													className={css`
+														width: 40px;
+														height: 40px;
+														position: absolute;
+														bottom: 20px;
+														right: 0;
+														cursor: pointer;
+													`}
+													src={addicon}
+													onClick={() => push({ name: '', discord: '' })}
+													alt="add member"
+												/>
 											}
 										</div>
 									}
@@ -240,6 +222,5 @@ function RegisterPage(props) {
 		</Formik>
 	);
 }
-
 
 export default RegisterPage;

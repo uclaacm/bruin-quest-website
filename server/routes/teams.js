@@ -21,11 +21,13 @@ router.post('/register', async (req, res) => {
 	try {
 		const allPuzzles = await Puzzle.find({}, '_id');
 		const puzzles = [];
-		allPuzzles.forEach(id => puzzles.push(new PuzzleSubmission({ _id: id._id })));
+		allPuzzles.forEach(id =>
+			puzzles.push(new PuzzleSubmission({ _id: id._id })));
 
 		const team = new Team({
-			name: req.body.email,
+			name: req.body.team,
 			password: req.body.password,
+			members: req.body.members,
 			puzzles
 		});
 
@@ -42,7 +44,8 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
 	try {
-		const team = await Team.findOne({ name: req.body.name });
+		const team = await Team.findOne({ name: req.body.team });
+		console.log(team);
 		if (!team) {
 			return res.status(500).json({
 				loginSuccess: false,
@@ -111,7 +114,13 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 
 			const doc = await Team.findOneAndUpdate(
 				{ _id: req.team._id, 'puzzles._id': puzzleId },
-				{ $set: { 'puzzles.$.submission': submission, 'puzzles.$.status': status, 'puzzles.$.score': points } }
+				{
+					$set: {
+						'puzzles.$.submission': submission,
+						'puzzles.$.status': status,
+						'puzzles.$.score': points
+					}
+				}
 			);
 			console.log(doc);
 		}
