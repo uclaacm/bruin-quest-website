@@ -3,10 +3,13 @@ import { withRouter } from 'react-router-dom';
 import { loginUser } from '../../../_actions/user_actions';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import { Form, Icon, Input, Button, Checkbox, Typography } from 'antd';
 import { useDispatch } from 'react-redux';
-
-const { Title } = Typography;
+import './styles.css';
+import { Checkbox } from 'antd';
+import TextInput from '../../TextInput/TextInput';
+import Text from '../../Text/Text';
+import Button from '../../Button/Button';
+import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
 
 function LoginPage(props) {
 	const dispatch = useDispatch();
@@ -19,52 +22,43 @@ function LoginPage(props) {
 		setRememberMe(!rememberMe);
 	};
 
-	const initialEmail = localStorage.getItem('rememberMe') ?
-		localStorage.getItem('rememberMe') :
-		'';
-
 	return (
 		<Formik
 			initialValues={{
-				email: initialEmail,
+				team: '',
 				password: ''
 			}}
 			validationSchema={Yup.object().shape({
-				email: Yup.string()
-					.email('Email is invalid')
-					.required('Email is required'),
+				team: Yup.string().required('Team name is required'),
 				password: Yup.string()
 					.min(6, 'Password must be at least 6 characters')
 					.required('Password is required')
 			})}
 			onSubmit={(values, { setSubmitting }) => {
-				setTimeout(() => {
+				setTimeout(async () => {
 					const dataToSubmit = {
-						name: values.email,
+						team: values.team,
 						password: values.password
 					};
-
-					dispatch(loginUser(dataToSubmit))
-						.then(response => {
-							if (response.payload.loginSuccess) {
-								window.localStorage.setItem('teamId', response.payload.teamId);
-								window.localStorage.setItem('teamName', dataToSubmit.name);
-								if (rememberMe === true) {
-									window.localStorage.setItem('rememberMe', values.id);
-								} else {
-									localStorage.removeItem('rememberMe');
-								}
-								props.history.push('/');
-							} else {
-								setFormErrorMessage('Check out your Account or Password again');
-							}
-						})
-						.catch(_err => {
-							setFormErrorMessage('Check out your Account or Password again');
-							setTimeout(() => {
-								setFormErrorMessage('');
-							}, 3000);
-						});
+					try {
+						const login = await dispatch(loginUser(dataToSubmit));
+						const payload = await login.payload;
+						window.localStorage.setItem('teamId', payload.teamId);
+						window.localStorage.setItem('teamName', dataToSubmit.name);
+						if (rememberMe === true) {
+							window.localStorage.setItem('rememberMe', values.id);
+						} else {
+							localStorage.removeItem('rememberMe');
+						}
+						props.history.push('/');
+					} catch (err) {
+						// This is a readable error message sent from the backend
+						if (err.response.data.error) {
+							setFormErrorMessage(err.response.data.error);
+						} else {
+							setFormErrorMessage('Unable to login');
+						}
+					}
 					setSubmitting(false);
 				}, 500);
 			}}
@@ -74,106 +68,60 @@ function LoginPage(props) {
 					values,
 					touched,
 					errors,
-					dirty,
 					isSubmitting,
 					handleChange,
 					handleBlur,
-					handleSubmit,
-					handleReset
+					handleSubmit
 				} = props;
 				return (
-					<div className="app">
-						<Title level={2}>Log In</Title>
-						<form onSubmit={handleSubmit} style={{ width: '350px' }}>
-							<Form.Item required>
-								<Input
-									id="email"
-									prefix={
-										<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />
-									}
-									placeholder="Enter your email"
-									type="email"
-									value={values.email}
+					<div className="main-container">
+						<WelcomeBanner />
+						<form onSubmit={handleSubmit} className="form-container">
+							<div className="form-box">
+								<Text>Team name</Text>
+								<TextInput
+									width="400px"
+									id="team"
+									placeholder="Enter your team"
+									value={values.team}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									className={
-										errors.email && touched.email ?
-											'text-input error' :
-											'text-input'
-									}
 								/>
-								{errors.email && touched.email &&
-									<div className="input-feedback">{errors.email}</div>
+								{errors.team && touched.team &&
+									<div className="input-feedback">{errors.team}</div>
 								}
-							</Form.Item>
+							</div>
 
-							<Form.Item required>
-								<Input
+							<div className="form-box">
+								<Text>Team password</Text>
+								<TextInput
+									width="400px"
 									id="password"
-									prefix={
-										<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />
-									}
 									placeholder="Enter your password"
 									type="password"
 									value={values.password}
 									onChange={handleChange}
 									onBlur={handleBlur}
-									className={
-										errors.password && touched.password ?
-											'text-input error' :
-											'text-input'
-									}
 								/>
 								{errors.password && touched.password &&
 									<div className="input-feedback">{errors.password}</div>
 								}
-							</Form.Item>
+							</div>
 
-							{formErrorMessage &&
-								<label>
-									<p
-										style={{
-											color: '#ff0000bf',
-											fontSize: '0.7rem',
-											border: '1px solid',
-											padding: '1rem',
-											borderRadius: '10px'
-										}}
-									>
-										{formErrorMessage}
-									</p>
-								</label>
-							}
+							{formErrorMessage && <Text error>{formErrorMessage}</Text>}
+							<Checkbox
+								id="rememberMe"
+								onChange={handleRememberMe}
+								checked={rememberMe}
+							>
+								Remember me
+							</Checkbox>
 
-							<Form.Item>
-								<Checkbox
-									id="rememberMe"
-									onChange={handleRememberMe}
-									checked={rememberMe}
-								>
-									Remember me
-								</Checkbox>
-								<a
-									className="login-form-forgot"
-									href="/reset_user"
-									style={{ float: 'right' }}
-								>
-									forgot password
-								</a>
-								<div>
-									<Button
-										type="primary"
-										htmlType="submit"
-										className="login-form-button"
-										style={{ minWidth: '100%' }}
-										disabled={isSubmitting}
-										onSubmit={handleSubmit}
-									>
-										Log in
-									</Button>
-								</div>
-								Or <a href="/register">register now!</a>
-							</Form.Item>
+							<div className="form-box">
+								<Button type="submit" disabled={isSubmitting}>
+									Login
+								</Button>
+							</div>
 						</form>
 					</div>
 				);

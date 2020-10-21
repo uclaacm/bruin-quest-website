@@ -1,0 +1,58 @@
+.main-container {
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+}
+
+.register-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.left-container {
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    margin-top: 60px;
+    height: 265px;
+}
+
+.right-container {
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    width: 430px;
+}
+
+.members-container {
+    position: relative;
+}
+
+.member-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 370px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.form-box {
+    position: relative;
+    text-align: center;
+}
+
+.input-feedback {
+    position: absolute;
+    bottom: -10px;
+}

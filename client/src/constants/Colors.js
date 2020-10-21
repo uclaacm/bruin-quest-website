@@ -6,3 +6,5 @@ export const Gray = '#BDBDBD';
 export const LightBlue = '#66C8FF';
 export const MediumBlue = '#298CFF';
 export const White = '#FFFFFF';
+export const Purple = '#C860FF';
+export const Grapefruit = '#FF7965';

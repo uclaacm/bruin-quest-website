@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const sanitize = require('mongo-sanitize');
@@ -26,8 +27,9 @@ router.post('/register', async (req, res) => {
 			puzzles.push(new PuzzleSubmission({ _id: id._id })));
 
 		const team = new Team({
-			name: req.body.email,
+			name: req.body.team,
 			password: req.body.password,
+			members: req.body.members,
 			puzzles
 		});
 
@@ -38,24 +40,25 @@ router.post('/register', async (req, res) => {
 			success: true
 		});
 	} catch (err) {
-		return res.status(500).json({ success: false, err });
+		if (err instanceof mongoose.Error.ValidationError) {
+			return res.status(500).json({ error: 'Invalid team name' });
+		}
+		return res.status(500).json({ error: 'Unable to register team' });
 	}
 });
 
 router.post('/login', async (req, res) => {
 	try {
-		const team = await Team.findOne({ name: req.body.name });
+		const team = await Team.findOne({ name: req.body.team });
+		console.log(team);
 		if (!team) {
 			return res.status(500).json({
-				loginSuccess: false,
-				message: 'Auth failed, email not found'
+				error: 'Team not found'
 			});
 		}
 		const isMatch = await team.comparePassword(req.body.password);
 		if (!isMatch) {
-			return res
-				.status(500)
-				.json({ loginSuccess: false, message: 'Wrong password' });
+			return res.status(500).json({ error: 'Wrong password' });
 		}
 		const teamWithToken = await team.generateToken();
 		res.cookie('w_authExp', teamWithToken.tokenExp);
@@ -66,7 +69,7 @@ router.post('/login', async (req, res) => {
 			teamId: teamWithToken._id
 		});
 	} catch (err) {
-		return res.status(500).send(err);
+		return res.status(500).json({ error: 'Unable to login' });
 	}
 });
 
