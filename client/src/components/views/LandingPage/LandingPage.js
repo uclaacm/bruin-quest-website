@@ -22,6 +22,7 @@ export default function LandingPage() {
 				justify-content: space-evenly;
 				align-items: center;
 				padding: 16px;
+				height: 100vh;
 				@media screen and (max-width: ${Screens.small}px) {
 					flex-direction: column;
 				}
@@ -99,17 +100,14 @@ export default function LandingPage() {
 							}
 						`}
 					>
-						<Button color={Colors.MediumBlue}
-							height='50px'
-							width='150px'
-						>
+						<Button color={Colors.MediumBlue} height="50px" width="150px">
 							Begin Quest
 						</Button>
 					</Link>
 					<Button
 						color={Colors.Gray}
-						height='50px'
-						width='180px'
+						height="50px"
+						width="180px"
 						onClick={() => window.open(discordLink, '_blank')}
 					>
 						Join the Discord
