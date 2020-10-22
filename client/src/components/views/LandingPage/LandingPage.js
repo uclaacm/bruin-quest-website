@@ -22,7 +22,6 @@ export default function LandingPage() {
 				justify-content: space-evenly;
 				align-items: center;
 				padding: 16px;
-				height: 100vh;
 				@media screen and (max-width: ${Screens.small}px) {
 					flex-direction: column;
 				}
