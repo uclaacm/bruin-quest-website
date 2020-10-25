@@ -1,84 +1,61 @@
-import React from 'react';
-import moment from 'moment';
-import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { Formik, FieldArray } from 'formik';
 import * as Yup from 'yup';
 import { registerUser } from '../../../_actions/user_actions';
 import { useDispatch } from 'react-redux';
+import { css } from 'emotion';
+import './styles.css';
+import Text from '../../Text/Text';
+import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
+import TextInput from '../../TextInput/TextInput';
+import Button from '../../Button/Button';
+import addicon from './assets/add_member.png';
+import removeicon from './assets/remove_member.png';
 
-import {
-	Form,
-	Input,
-	Button
-} from 'antd';
-
-const formItemLayout = {
-	labelCol: {
-		xs: { span: 24 },
-		sm: { span: 8 }
-	},
-	wrapperCol: {
-		xs: { span: 24 },
-		sm: { span: 16 }
-	}
-};
-const tailFormItemLayout = {
-	wrapperCol: {
-		xs: {
-			span: 24,
-			offset: 0
-		},
-		sm: {
-			span: 16,
-			offset: 8
-		}
-	}
-};
+const staticRegisterTop = 'Register';
+const staticRegisterBot = 'your team!';
 
 function RegisterPage(props) {
 	const dispatch = useDispatch();
+	const [formErrorMessage, setFormErrorMessage] = useState('');
 	return (
-
 		<Formik
 			initialValues={{
-				email: '',
-				lastName: '',
-				name: '',
+				team: '',
 				password: '',
-				confirmPassword: ''
+				members: [{ name: '', discord: '' }]
 			}}
 			validationSchema={Yup.object().shape({
-				name: Yup.string()
-					.required('Name is required'),
-				lastName: Yup.string()
-					.required('Last Name is required'),
-				email: Yup.string()
-					.email('Email is invalid')
-					.required('Email is required'),
+				team: Yup.string().required('Team is required'),
 				password: Yup.string()
 					.min(6, 'Password must be at least 6 characters')
 					.required('Password is required'),
-				confirmPassword: Yup.string()
-					.oneOf([Yup.ref('password'), null], 'Passwords must match')
-					.required('Confirm Password is required')
+				members: Yup.array().of(
+					Yup.object().shape({
+						name: Yup.string().required('Member name is required'),
+						discord: Yup.string().required('Member discord is required')
+					})
+				)
 			})}
 			onSubmit={(values, { setSubmitting }) => {
-				setTimeout(() => {
+				setTimeout(async () => {
 					const dataToSubmit = {
-						email: values.email,
+						team: values.team,
 						password: values.password,
-						name: values.name,
-						lastname: values.lastname,
-						image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`
+						members: values.members
 					};
-
-					dispatch(registerUser(dataToSubmit)).then(response => {
-						if (response.payload.success) {
-							props.history.push('/login');
+					try {
+						await dispatch(registerUser(dataToSubmit));
+						// TODO: show success screen instead
+						props.history.push('/login');
+					} catch (err) {
+						// This is a readable error message sent from the backend
+						if (err.response.data.error) {
+							setFormErrorMessage(err.response.data.error);
 						} else {
-							alert(response.payload.err.errmsg);
+							setFormErrorMessage('Unable to register');
 						}
-					});
-
+					}
 					setSubmitting(false);
 				}, 500);
 			}}
@@ -88,125 +65,153 @@ function RegisterPage(props) {
 					values,
 					touched,
 					errors,
-					dirty,
 					isSubmitting,
 					handleChange,
 					handleBlur,
-					handleSubmit,
-					handleReset
+					handleSubmit
 				} = props;
 				return (
-					<div className="app">
-						<h2>Sign up</h2>
-						<Form style={{ minWidth: '375px' }} {...formItemLayout} onSubmit={handleSubmit} >
+					<div className="main-container">
+						<WelcomeBanner
+							topText={staticRegisterTop}
+							botText={staticRegisterBot}
+						></WelcomeBanner>
 
-							<Form.Item required label="Name">
-								<Input
-									id="name"
-									placeholder="Enter your name"
-									type="text"
-									value={values.name}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									className={
-										errors.name && touched.name ? 'text-input error' : 'text-input'
+						<form onSubmit={handleSubmit} className="register-container">
+							<div className="left-container">
+								<div className="form-box">
+									<Text>Team name</Text>
+									<TextInput
+										width="400px"
+										id="team"
+										placeholder="Enter your team"
+										value={values.team}
+										onChange={handleChange}
+										onBlur={handleBlur}
+									/>
+									{errors.team && touched.team &&
+										<div className="input-feedback">{errors.team}</div>
 									}
-								/>
-								{errors.name && touched.name &&
-                  <div className="input-feedback">{errors.name}</div>
-								}
-							</Form.Item>
+								</div>
 
-							<Form.Item required label="Last Name">
-								<Input
-									id="lastName"
-									placeholder="Enter your Last Name"
-									type="text"
-									value={values.lastName}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									className={
-										errors.lastName && touched.lastName ? 'text-input error' : 'text-input'
+								<div className="form-box">
+									<Text>Team password</Text>
+									<TextInput
+										width="400px"
+										id="password"
+										placeholder="Enter your password"
+										type="password"
+										value={values.password}
+										onChange={handleChange}
+										onBlur={handleBlur}
+									/>
+									{errors.password && touched.password &&
+										<div className="input-feedback">{errors.password}</div>
 									}
-								/>
-								{errors.lastName && touched.lastName &&
-                  <div className="input-feedback">{errors.lastName}</div>
-								}
-							</Form.Item>
+								</div>
 
-							<Form.Item
-								required
-								label="Email"
-								hasFeedback
-								validateStatus={errors.email && touched.email ? 'error' : 'success'}>
-								<Input
-									id="email"
-									placeholder="Enter your Email"
-									type="email"
-									value={values.email}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									className={
-										errors.email && touched.email ? 'text-input error' : 'text-input'
+								<div className="form-box">
+									<Button type="submit" disabled={isSubmitting}>
+										Join
+									</Button>
+								</div>
+
+								{formErrorMessage && <Text error>{formErrorMessage}</Text>}
+							</div>
+
+							<div className="right-container">
+								<Text>Member Info</Text>
+								<FieldArray name="members">
+									{({ insert, remove, push }) =>
+										<div className="members-container">
+											{values.members.length > 0 &&
+												values.members.map((member, index) =>
+													<div className="member-box" key={index}>
+														<div className="form-box">
+															<Text>Name</Text>
+															<TextInput
+																width="175px"
+																id={`members.${index}.name`}
+																placeholder="Joe Bruin"
+																value={values.members[index].name}
+																onChange={handleChange}
+																onBlur={handleBlur}
+															/>
+															{errors.members &&
+																touched.members &&
+																errors.members[index] &&
+																touched.members[index] &&
+																errors.members[index].name &&
+																touched.members[index].name &&
+																	<div className="input-feedback">
+																		{errors.members[index].name}
+																	</div>
+															}
+														</div>
+
+														<div className="form-box">
+															<Text>Discord</Text>
+															<TextInput
+																width="175px"
+																id={`members.${index}.discord`}
+																placeholder="Bruin#1234"
+																value={values.members[index].discord}
+																onChange={handleChange}
+																onBlur={handleBlur}
+															/>
+															{errors.members &&
+																touched.members &&
+																errors.members[index] &&
+																touched.members[index] &&
+																errors.members[index].discord &&
+																touched.members[index].discord &&
+																	<div className="input-feedback">
+																		{errors.members[index].discord}
+																	</div>
+															}
+														</div>
+
+														{index < values.members.length - 1 &&
+															<img
+																className={css`
+																	width: 40px;
+																	height: 40px;
+																	position: absolute;
+																	right: -60px;
+																	bottom: 0;
+																	cursor: pointer;
+																`}
+																src={removeicon}
+																onClick={() => remove(index)}
+																alt="remove member"
+															/>
+														}
+													</div>)}
+											{values.members.length < 4 &&
+												<img
+													className={css`
+														width: 40px;
+														height: 40px;
+														position: absolute;
+														bottom: 20px;
+														right: 0;
+														cursor: pointer;
+													`}
+													src={addicon}
+													onClick={() => push({ name: '', discord: '' })}
+													alt="add member"
+												/>
+											}
+										</div>
 									}
-								/>
-								{errors.email && touched.email &&
-                  <div className="input-feedback">{errors.email}</div>
-								}
-							</Form.Item>
-
-							<Form.Item
-								required
-								label="Password"
-								hasFeedback
-								validateStatus={errors.password && touched.password ? 'error' : 'success'}>
-								<Input
-									id="password"
-									placeholder="Enter your password"
-									type="password"
-									value={values.password}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									className={
-										errors.password && touched.password ? 'text-input error' : 'text-input'
-									}
-								/>
-								{errors.password && touched.password &&
-                  <div className="input-feedback">{errors.password}</div>
-								}
-							</Form.Item>
-
-							<Form.Item required label="Confirm" hasFeedback>
-								<Input
-									id="confirmPassword"
-									placeholder="Enter your confirmPassword"
-									type="password"
-									value={values.confirmPassword}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									className={
-										errors.confirmPassword && touched.confirmPassword ?
-											'text-input error' :
-											'text-input'
-									}
-								/>
-								{errors.confirmPassword && touched.confirmPassword &&
-                  <div className="input-feedback">{errors.confirmPassword}</div>
-								}
-							</Form.Item>
-
-							<Form.Item {...tailFormItemLayout}>
-								<Button onClick={handleSubmit} type="primary" disabled={isSubmitting}>
-                  Submit
-								</Button>
-							</Form.Item>
-						</Form>
+								</FieldArray>
+							</div>
+						</form>
 					</div>
 				);
 			}}
 		</Formik>
 	);
 }
-
 
 export default RegisterPage;

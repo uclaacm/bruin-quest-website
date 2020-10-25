@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { css } from 'emotion';
 import DropdownRow from './DropdownRow';
 import SubmissionRow from './SubmissionRow';
-import { css } from 'emotion';
+import PlayerRow from './PlayerRow';
+import ControlRow from './ControlRow';
+import Text from '../../Text/Text';
+import { teams, updateAppState, submissions, submitScore } from '../../../_actions/admin_actions';
+import { getAppState } from '../../../_actions/state_actions';
+import { useDispatch } from 'react-redux';
 
 const dropdown = css`
   display: flex;
@@ -10,54 +16,12 @@ const dropdown = css`
   width: 80vw;
 `;
 
-function getDropdown(type) {
-	switch (type) {
-	case 'Puzzles':
-		return getPuzzles();
-	case 'Teams':
-		return getTeams();
-	default:
-		return getControls();
-	}
-}
-
-function getPuzzles() {
-	// Mock data for now. This will be replaced with API call.
-	return [
-		{ id: '123', name: 'Puzzle 1', items: [{ link: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { link: 'aewe' }, { link: 'sd' }] },
-		{ id: '123', name: 'Puzzle 2', items: [{ link: 'a' }, { link: '123' }, { link: 'ads' }] },
-		{ id: '123', name: 'Puzzle 3', items: [{ link: 'a' }, { link: 'avv' }, { link: 'c' }] }
-	];
-}
-
-function getTeams() {
-	return [
-		{ name: 'Team kookie', items: [{ playerName: 'cookie', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'aewe', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'sd', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }] },
-		{ name: 'Team bookie', items: [{ playerName: 'a', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: '123', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'ads', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }] },
-		{ name: 'Team cookie', items: [{ playerName: 'a', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'avv', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }, { playerName: 'c', discord: 'https://github.com/uclaacm/bruin-quest-website/tree/master/client' }] }
-	];
-}
-
-function getControls() {
-	return [{ name: 'Stop game', items: [] }];
-}
-
-function submitScore(item, score) {
-	// Will need team id in the item in order to score
-	// if success, rerender list and item will be removed? in case there are 2 ppl grading at same time
-}
-
-function renderRow(item) {
-	// the other rows will be added here with switch
-	return (
-		<SubmissionRow item={item} score={submitScore}/>
-	);
-}
-
 export default function Dropdown(props) {
+	const dispatch = useDispatch();
 	const [items, setItems] = useState(null);
 	const [showMenuState, setMenu] = useState(false);
 	const [selected, setSelected] = useState(null);
+	const [state, setState] = useState(null);
 
 	function showMenu(event, item) {
 		event.preventDefault();
@@ -65,12 +29,105 @@ export default function Dropdown(props) {
 		setSelected(item);
 	}
 
+	function renderRow(item, type) {
+		// the other rows will be added here with switch
+		switch (type) {
+		case 'Puzzles':
+			return <SubmissionRow key={item.submission} item={item} score={scoreSubmission}/>;
+		case 'Teams':
+			return <PlayerRow key={item.discord} item={item}/>;
+		default:
+			return <ControlRow key={item.name} item={item} onClick={changeGameState}/>;
+		}
+	}
+
+	function getDropdown(type) {
+		switch (type) {
+		case 'Puzzles':
+			return getPuzzles();
+		case 'Teams':
+			return getTeams();
+		default:
+			return getControls();
+		}
+	}
+
+	function getPuzzles() {
+		return dispatch(submissions()).then(response => {
+			const puzzles = [];
+			Object.keys(response.payload.submissions).forEach(key => {
+				puzzles.push({ name: key, items: response.payload.submissions[key] });
+			});
+			return puzzles;
+		});
+	}
+
+	function getTeams() {
+		return dispatch(teams()).then(response => {
+			return response.payload.teams.map(team => {
+				return { name: team.name, items: team.members };
+			});
+		});
+	}
+
+	function getControls() {
+		return [
+			{ name: 'Game controls',
+				items: [
+					{ name: 'Clear', description: 'Clear the game so no puzzles can be seen. Sets the game state to "before."' },
+					{ name: 'Start', description: 'Start the game so puzzles can be seen. Sets the game state to "during."' },
+					{ name: 'End', description: 'End the game so submissions are no longer accepted. Sets the game state to "after."' }
+				] }
+		];
+	}
+
+	function scoreSubmission(item, score) {
+		const dataToSubmit = {
+			teamId: item.teamId,
+			puzzleId: item.puzzleId,
+			score
+		};
+		dispatch(submitScore(dataToSubmit)).then(response => {
+			return getPuzzles();
+		}).then(newItems => {
+			setItems(newItems);
+			setSelected(newItems[0]);
+		});
+	}
+
+	function changeGameState(actionName) {
+		const dataToSubmit = {
+			state: ''
+		};
+		switch (actionName) {
+		case 'Clear':
+			dataToSubmit.state = 'before';
+			break;
+		case 'Start':
+			dataToSubmit.state = 'during';
+			break;
+		case 'End':
+			dataToSubmit.state = 'after';
+			break;
+		}
+
+		dispatch(updateAppState(dataToSubmit)).then(response => {
+			setState(response.payload.state);
+		});
+	}
+
+	useEffect(() => {
+		dispatch(getAppState()).then(response => {
+			setState(response.payload.state);
+		});
+	}, []);
+
 	useEffect(() => {
 		async function initDropdown() {
 			try {
 				const newItems = await getDropdown(props.type);
 				setItems(newItems);
-				setSelected(newItems[0]);
+				setSelected(newItems.length > 0 ? newItems[0] : null);
 			} catch (err) {
 				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
 			}
@@ -81,12 +138,12 @@ export default function Dropdown(props) {
 	if (items === null || selected === null) {
 		return null;
 	}
-
 	return (
 		<div className={dropdown}>
-			<DropdownRow item={selected} changeSelection={showMenu} showTriangle={true}/>
+			<Text>Current state: {state}</Text>
+			{props.type === 'Controls' ? null : <DropdownRow item={selected != undefined ? selected : 'None available'} changeSelection={showMenu} showTriangle={true}/>}
 			{
-				showMenuState ?
+				showMenuState && items.length > 0 ?
 					<div className={dropdown}>
 						{
 							items.map(item =>
@@ -100,7 +157,7 @@ export default function Dropdown(props) {
 					</div> :
 					null
 			}
-			{selected.items.map(renderRow)}
+			{selected.items.map(item => renderRow(item, props.type))}
 		</div>
 	);
 }

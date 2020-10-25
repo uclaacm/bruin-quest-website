@@ -1,13 +1,20 @@
-
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
 
 const puzzleSchema = mongoose.Schema({
-	name: String,
+	_id: String,
+	displayName: String,
+
 	location: String,
-	generalArea: String,
+	generalAreaId: String,
+	generalAreaDisplayName: String,
+	description: String,
 	correctAnswer: String,
 	link: String,
-	description: String,
+	type: {
+		type: String,
+		enum: ['gold', 'blue']
+	},
 	difficulty: {
 		type: String,
 		enum: ['lower div', 'upper div', 'super senior']
@@ -18,6 +25,9 @@ const puzzleSchema = mongoose.Schema({
 	}
 });
 
-const Puzzle = mongoose.model('Puzzle', puzzleSchema);
+
+puzzleSchema.plugin(uniqueValidator);
+const Puzzle = mongoose.model('Puzzle', puzzleSchema, 'Puzzle');
+
 
 module.exports = { Puzzle };
