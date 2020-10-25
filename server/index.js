@@ -21,7 +21,7 @@ mongoose
 
 // parses information from a csv file and then load it into the mongoose database
 
-const {populateArea, populatePuzzle, populateDB, printArea} = require('./middleware/dbUtils')
+const {populateDB} = require('./utils/dbUtils')
 populateDB()
 
 
