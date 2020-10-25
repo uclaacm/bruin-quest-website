@@ -30,6 +30,13 @@ function WelcomeBanner({
 				flex-direction: row;
 				justify-content: space-between;
 				align-items: center;
+				@media (max-width: 1000px) {
+					height: calc(2 * ${height});
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+				}
 			`}
 			{...props}
 		>
@@ -49,7 +56,12 @@ function WelcomeBanner({
 
 			<img
 				className={css`
-					margin-right: 25px;
+					padding-right: 25px;
+					@media (max-width: 600px) {
+						paddint-right: 0px;
+						padding-left: 50px;
+						width:100%;
+					}
 				`}
 				src={bear}
 				alt=""
