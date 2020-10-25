@@ -5,54 +5,81 @@ const path = require('path');
 
 
 const { Puzzle } = require('../models/Puzzle');
-const { GeneralArea } = require('../models/GeneralArea')
+const { GeneralArea } = require('../models/GeneralArea');
+const { exit } = require('process');
 
 
 
 
 //Load the list of general Area from ./config/generalAreaSeed.csv
-const populateArea = async() => {
-    let addedAreas = 0;
-    let totalAreas = 0;
+const populateArea = async (cb) => {
+    //Used for testing purpose
+    await GeneralArea.remove({}, (err) => {
+        console.log("General Area Removed")
+    })
+
+    let promises = []    
     fs.createReadStream(path.resolve(__dirname, '../config', 'generalAreaSeed.csv'))
         .pipe(csv.parse({headers: true}))
         .on('error', err => console.error(err))
         .on('data', async row => {
-            const generalAreaInstance = new GeneralArea(row)
+            
             try{
-                
-                await generalAreaInstance.save()
-                addedAreas++
-                console.log(`${addedAreas}/${totalAreas} General Area: ${generalAreaInstance._id} has been added successfully`);
+                const generalAreaInstance = new GeneralArea(row)
+                promises.push(generalAreaInstance.save())
+                console.log(`General Area: Adding ${generalAreaInstance.displayName}`)
             }
             catch(err) {
-                console.error(`General Area: Failed to add ${generalAreaInstance.displayName}`, err.message)
+                console.error(`General Area: Failed to add ${row.displayName}`, err.message)
             }
-            
         })
-        .on('end', rowCount => {
-            totalAreas = rowCount
-    })
+        .on('end', async () => {
+            await Promise.all(promises)
+            console.log(`General Areas have been added successfully`)
+            cb()   
+        })
 }
 
 //load the list of puzzles from ./config/pussleSeed.csv
 const populatePuzzle = async() => {
-    addedPuzzles = 0;
-    totalPuzzles = 0;
+    
+    await Puzzle.remove({}, (err) => {
+        console.log("Puzzles Area Removed")
+    })
     //load the puzzle seeder.
     //Puzzle seeder also update the location depending on the general area
-    await fs.createReadStream(path.resolve(__dirname, '../config', 'puzzleSeed.csv'))
+    fs.createReadStream(path.resolve(__dirname, '../config', 'puzzleSeed.csv'))
         .pipe(csv.parse({ headers: true }))
         .on('error', err => console.error(err))
         .on('data', async row => {
-            const puzzleInstance = new Puzzle(row);
+            
             try {
+                //check the generalAreaID
+                let foundArea = await GeneralArea.findById(row.generalAreaId)
+                if(!foundArea){
+                    throw new Error(`${row.generalAreaId} is not a valid generalAreaId`)
+                }
+
+                //update General Area location from puzzleInformation
+                const puzzleLocation = {
+                    name: row._id,
+                    image: row.image,
+                    puzzleId: row.location
+                }
+                await foundArea.locations.push(puzzleLocation)
+                await foundArea.save()
                 
-                await puzzleInstance.save();
-                addedPuzzles++;
-                console.log(`${addedPuzzles}/${totalPuzzles} Puzzle: ${puzzleInstance._id} has been added successfully`);
+                //remove the image column
+                delete row['image']
+
+                //create new puzzle instance and add it
+                const puzzleInstance = new Puzzle(row)
+                await puzzleInstance.save()
+                console.log(`Puzzle: Adding ${row.displayName}`)
+
+
             } catch (err) {
-                console.error(`Puzzle: Failed to add ${puzzleInstance.name}`, err.message);
+                console.error(`Puzzle: Failed to add ${row.displayName}`, err.message);
             }
         })
         .on('end', rowCount => {
@@ -64,13 +91,12 @@ const printArea = () => {
     console.log("Printing all areas")
     GeneralArea.find({}, (err, areas) => {
         areas.forEach(area => {
-            console.log(area.displayName)
+            console.log(area)
         })
     })
 }
 
 const populateDB = async () => {
-    await populateArea()
-    await printArea()
+    await populateArea(populatePuzzle)
 }
 module.exports = {populateArea, populatePuzzle, printArea, populateDB}
