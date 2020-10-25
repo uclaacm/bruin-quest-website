@@ -6,7 +6,8 @@ const puzzleSchema = mongoose.Schema({
 	displayName: String,
 
 	location: String,
-	generalArea: String,
+	generalAreaId: String,
+	generalAreaDisplayName: String,
 	description: String,
 	correctAnswer: String,
 	link: String,

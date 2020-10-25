@@ -99,17 +99,14 @@ export default function LandingPage() {
 							}
 						`}
 					>
-						<Button color={Colors.MediumBlue}
-							height='50px'
-							width='150px'
-						>
+						<Button color={Colors.MediumBlue} height="50px" width="150px">
 							Begin Quest
 						</Button>
 					</Link>
 					<Button
 						color={Colors.Gray}
-						height='50px'
-						width='180px'
+						height="50px"
+						width="180px"
 						onClick={() => window.open(discordLink, '_blank')}
 					>
 						Join the Discord

@@ -21,7 +21,7 @@ router.get('/:id', auth, async (req, res) => {
 		const teamAnswers = teamAnswersDoc.toObject();
 		delete puzzle.correctAnswer;
 		const teamAnswer = teamAnswers.puzzles.find(
-			teamAnswer => teamAnswer._id === req.params.id
+			teamAnswer => teamAnswer._id === puzzleId
 		);
 		res.status(200).json({ ...puzzle, ...teamAnswer });
 	} catch (error) {
