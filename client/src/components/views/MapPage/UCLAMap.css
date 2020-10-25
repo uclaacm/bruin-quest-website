@@ -10,3 +10,20 @@
 .map-hover > p{
     fill:red;
 };
+
+.mobile-map-component {
+	width: 100%;
+}
+
+#mobile-map-view {
+	display: none;
+}
+
+@media screen and (max-width: 575px) {
+	.desktop-map-view {
+		display: none;
+	}
+	#mobile-map-view {
+		display: block;
+	}
+}
