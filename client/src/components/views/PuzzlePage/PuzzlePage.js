@@ -11,7 +11,6 @@ import { PUZZLE_SERVER, USER_SERVER } from '../../../components/Config';
 function CorrectLabel() {
 	return (
 		<>
-			{' '}
 			<span role="img" aria-label="green check mark">
 				✅
 			</span>{' '}
@@ -23,7 +22,6 @@ function CorrectLabel() {
 function IncorrectLabel() {
 	return (
 		<>
-			{' '}
 			<span role="img" aria-label="red x mark">
 				❌
 			</span>{' '}
@@ -35,7 +33,6 @@ function IncorrectLabel() {
 function PendingLabel() {
 	return (
 		<>
-			{' '}
 			<span role="img" aria-label="hourglass">
 				⏳
 			</span>{' '}
