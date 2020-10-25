@@ -1,15 +1,9 @@
-
 const csv = require('fast-csv');
 const fs = require('fs');
 const path = require('path');
 
-
 const { Puzzle } = require('../models/Puzzle');
 const { GeneralArea } = require('../models/GeneralArea');
-const { exit } = require('process');
-
-
-
 
 //Load the list of general Area from ./config/generalAreaSeed.csv
 const populateArea = async (cb) => {
@@ -42,7 +36,6 @@ const populateArea = async (cb) => {
 
 //load the list of puzzles from ./config/pussleSeed.csv
 const populatePuzzle = async() => {
-    
     await Puzzle.remove({}, (err) => {
         console.log("Puzzles Area Removed")
     })
@@ -76,7 +69,6 @@ const populatePuzzle = async() => {
                 const puzzleInstance = new Puzzle(row)
                 await puzzleInstance.save()
                 console.log(`Puzzle: Adding ${row.displayName}`)
-
 
             } catch (err) {
                 console.error(`Puzzle: Failed to add ${row.displayName}`, err.message);

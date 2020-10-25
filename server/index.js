@@ -24,8 +24,6 @@ mongoose
 const {populateDB} = require('./utils/dbUtils')
 populateDB()
 
-
-
 app.use(cors());
 
 // to not get any deprecation warning or error
