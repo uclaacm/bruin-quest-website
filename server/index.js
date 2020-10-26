@@ -21,8 +21,8 @@ mongoose
 
 // parses information from a csv file and then load it into the mongoose database
 
-const {populateDB} = require('./utils/dbUtils')
-populateDB()
+const { populateDB } = require('./utils/dbUtils');
+populateDB();
 
 app.use(cors());
 
