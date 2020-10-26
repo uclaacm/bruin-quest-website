@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-
 import Text from '../../Text/Text.js';
 import './GeneralAreaPage.css';
+import { PUZZLE_SERVER, GENERAL_AREA_SERVER } from '../../../components/Config';
 
 async function getAreaData(id) {
 	const result = {
-		name: id,
 		link: `/area/${id}`
 	};
-	await fetch(`/api/general-areas/${id}`)
+	await fetch(`${GENERAL_AREA_SERVER}/${id}`)
 		.then(res => res.json())
-		.then(data => {
-			result.puzzles = data.locations.map(loc => {
+		// TODO: Error handling
+		.then(async data => {
+			result.name = data.name;
+			result.puzzles = await Promise.all(data.locations.map(async loc => {
+				const completed = await fetch(`${PUZZLE_SERVER}/${loc.puzzleId}`)
+					.then(res => res.json())
+					// TODO: Error handling
+					.then(data => data.numberOfSolves)
+					.catch(err => console.log(err));
 				return {
 					name: loc.name,
 					image: loc.image,
-					link: `/puzzle/${loc.name}`,
-					completed: '50%',
+					link: `/puzzle/${loc.puzzleId}`,
+					completed: `${completed / data.numTeams > 1 ? 100 : completed / data.numTeams * 100}%`,
 					id: loc.puzzleId
 				};
-			});
+			}));
 		})
 		.catch(err => console.log(err));
 	return result;
@@ -48,7 +54,6 @@ function GeneralAreaPage(props) {
 	}, [props.match.params.id]);
 
 	return areaData && areaData.name && areaData.puzzles ?
-
 		<div className="app">
 			<Text size="36px">{areaData.name}</Text>
 			<div className="cardList">
