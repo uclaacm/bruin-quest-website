@@ -8,7 +8,6 @@ const checkState = (res, next) => {
 				return next();
 			}
 			return res.status(500).json({
-				success: false,
 				error: 'No app state configured'
 			});
 		})

@@ -27,8 +27,11 @@ export default function (SpecificComponent, option, adminRoute = null) {
 				}
 			})
 				.catch(() => {
-					if (adminRoute) {
-						props.history.push('/');
+					if (adminRoute || option) {
+						props.history.push({
+							pathname: '/',
+							state: { showMessage: true }
+						});
 					}
 				});
 		}, []);

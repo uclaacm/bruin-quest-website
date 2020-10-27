@@ -15,6 +15,7 @@ export default function ScoreboardPage(props) {
 	const team = window.localStorage.getItem('teamId');
 	const name = window.localStorage.getItem('teamName');
 	const [scores, setScores] = useState([]);
+	const [errorMessage, setErrorMessage] = useState('');
 	useEffect(() => {
 		function getTeamScores(teamId) {
 			return dispatch(teamScores(teamId)).then(response => {
@@ -28,7 +29,10 @@ export default function ScoreboardPage(props) {
 			try {
 				setScores(await getTeamScores(team));
 			} catch (err) {
-				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+				setErrorMessage('Team scores could not be loaded');
+				setTimeout(() => {
+					setErrorMessage('');
+				}, 5000);
 			}
 		}
 		initScores();
@@ -48,7 +52,10 @@ export default function ScoreboardPage(props) {
 			try {
 				setStandings(await getStandings());
 			} catch (err) {
-				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+				setErrorMessage('Standings could not be loaded');
+				setTimeout(() => {
+					setErrorMessage('');
+				}, 5000);
 			}
 		}
 		initStandings();
@@ -56,6 +63,21 @@ export default function ScoreboardPage(props) {
 
 	return (
 		<div className={css`padding: 3vw`}>
+			{errorMessage &&
+				<label>
+					<p
+						style={{
+							color: '#ff0000bf',
+							fontSize: '1rem',
+							border: '1px solid',
+							padding: '1rem',
+							borderRadius: '10px'
+						}}
+					>
+						{errorMessage}
+					</p>
+				</label>
+			}
 			<Text
 				className={css`
           text-align: left;
