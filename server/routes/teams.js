@@ -110,7 +110,7 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 			score = pointValues[currentPuzzle.difficulty];
 			const doc = await Puzzle.findOneAndUpdate(
 				{ _id: puzzleId },
-				{ $inc: { 'numberOfSolves': 1 } }
+				{ $inc: { numberOfSolves: 1 } }
 			);
 			console.log(doc);
 		} else {
