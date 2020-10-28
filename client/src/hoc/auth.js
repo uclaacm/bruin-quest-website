@@ -30,7 +30,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
 					if (adminRoute || option) {
 						props.history.push({
 							pathname: '/',
-							state: { showMessage: true }
+							state: { noAccess: true }
 						});
 					}
 				});

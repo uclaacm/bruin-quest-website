@@ -5,6 +5,7 @@ import * as Fonts from '../../../constants/Fonts';
 import * as Screens from '../../../constants/Screens';
 import Text from '../../Text/Text';
 import Button from '../../Button/Button';
+import Error from '../../Error/Error';
 import logo from './assets/logo.png';
 import { Link } from 'react-router-dom';
 
@@ -16,17 +17,15 @@ const discordLink = 'https://discord.gg/rKwaCr';
 
 export default function LandingPage(props) {
 	const { state } = props.location;
-	const [errorMessage, setErrorMessage] = useState(state != undefined && state.showMessage ?
+	const [errorMessage, setErrorMessage] = useState(state != undefined && state.noAccess ?
 		'Sign up / Sign in to begin your quest' :
 		'');
-	if (state != undefined && state.showMessage) {
-		setTimeout(() => {
-			props.history.push({
-				state: { showMessage: false }
-			});
-			setErrorMessage('');
-		}, 5000);
+	if (state != undefined && state.noAccess) {
+		props.history.push({
+			state: { noAccess: false }
+		});
 	}
+
 	return (
 		<main
 			className={css`
@@ -66,21 +65,7 @@ export default function LandingPage(props) {
 					}
 				`}
 			>
-				{errorMessage &&
-				<label>
-					<p
-						style={{
-							color: '#ff0000bf',
-							fontSize: '1rem',
-							border: '1px solid',
-							padding: '1rem',
-							borderRadius: '10px'
-						}}
-					>
-						{errorMessage}
-					</p>
-				</label>
-				}
+				{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
 				<Text
 					className={css`
 						font-size: 3.5rem;

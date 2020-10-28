@@ -5,6 +5,7 @@ import Text from '../../Text/Text';
 import * as Colors from '../../../constants/Colors';
 import * as Fonts from '../../../constants/Fonts';
 import * as Screens from '../../../constants/Screens';
+import Error from '../../Error/Error';
 import Scoreboard from './Scoreboard';
 import { teamScores, teamStandings } from '../../../_actions/scoreboard_actions';
 import { useDispatch } from 'react-redux';
@@ -30,9 +31,6 @@ export default function ScoreboardPage(props) {
 				setScores(await getTeamScores(team));
 			} catch (err) {
 				setErrorMessage('Team scores could not be loaded');
-				setTimeout(() => {
-					setErrorMessage('');
-				}, 5000);
 			}
 		}
 		initScores();
@@ -53,9 +51,6 @@ export default function ScoreboardPage(props) {
 				setStandings(await getStandings());
 			} catch (err) {
 				setErrorMessage('Standings could not be loaded');
-				setTimeout(() => {
-					setErrorMessage('');
-				}, 5000);
 			}
 		}
 		initStandings();
@@ -63,21 +58,7 @@ export default function ScoreboardPage(props) {
 
 	return (
 		<div className={css`padding: 3vw`}>
-			{errorMessage &&
-				<label>
-					<p
-						style={{
-							color: '#ff0000bf',
-							fontSize: '1rem',
-							border: '1px solid',
-							padding: '1rem',
-							borderRadius: '10px'
-						}}
-					>
-						{errorMessage}
-					</p>
-				</label>
-			}
+			{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
 			<Text
 				className={css`
           text-align: left;

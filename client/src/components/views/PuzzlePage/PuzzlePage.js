@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Text from '../../Text/Text';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
+import Error from '../../Error/Error';
 import * as Colors from '../../../constants/Colors';
 import { PUZZLE_SERVER, USER_SERVER } from '../../../components/Config';
 
@@ -65,9 +66,6 @@ function PuzzlePage(props) {
 				}
 			} catch {
 				setErrorMessage('Puzzle information could not be loaded');
-				setTimeout(() => {
-					setErrorMessage('');
-				}, 5000);
 			}
 		}
 		fetchData();
@@ -240,21 +238,7 @@ function PuzzlePage(props) {
 			</div>
 		</div>	 :
 		<div>
-			{errorMessage &&
-				<label>
-					<p
-						style={{
-							color: '#ff0000bf',
-							fontSize: '0.7rem',
-							border: '1px solid',
-							padding: '1rem',
-							borderRadius: '10px'
-						}}
-					>
-						{errorMessage}
-					</p>
-				</label>
-			}
+			{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
       Loading
 		</div>;
 }
