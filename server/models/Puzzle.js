@@ -4,7 +4,6 @@ const uniqueValidator = require('mongoose-unique-validator');
 const puzzleSchema = mongoose.Schema({
 	_id: String,
 	displayName: String,
-
 	location: String,
 	generalAreaId: String,
 	generalAreaDisplayName: String,
