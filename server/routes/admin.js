@@ -43,7 +43,7 @@ router.post('/update', auth, (req, res) => {
 		});
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({ success: false, error });
+		return res.status(500).json({ error: error.message });
 	}
 });
 
@@ -100,7 +100,7 @@ router.post('/score', auth, (req, res) => {
 		});
 	} catch (error) {
 		console.log(error);
-		return res.status(500).json({ error });
+		return res.status(500).json({ error: error.message });
 	}
 });
 

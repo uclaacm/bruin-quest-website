@@ -10,7 +10,7 @@ router.get('/scores/:id', auth, async (req, res) => {
 		const teamId = sanitize(req.params.id);
 		const teamAnswersDoc = await Team.findById(teamId, 'puzzles').exec();
 		if (!teamAnswersDoc) {
-			res.status(500).json({ error: 'Team answers not found' });
+			res.status(500).json({ error: 'Team scores could not be loaded' });
 		}
 		const teamAnswers = teamAnswersDoc.toObject();
 		const scores = [];
@@ -27,7 +27,7 @@ router.get('/standings', auth, async (req, res) => {
 	try {
 		const teamsDoc = await Team.find().exec();
 		if (!teamsDoc) {
-			res.status(500).json({ error: 'Teams not found' });
+			res.status(500).json({ error: 'Standings could not be loaded' });
 		}
 
 		const standings = [];
