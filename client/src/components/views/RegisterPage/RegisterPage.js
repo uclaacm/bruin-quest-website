@@ -26,7 +26,10 @@ function RegisterPage(props) {
 				members: [{ name: '', discord: '' }]
 			}}
 			validationSchema={Yup.object().shape({
-				team: Yup.string().required('Team is required'),
+				team: Yup.string()
+					.trim()
+					.required('Team is required')
+					.max(32, 'Team names must be at most 32 characters'),
 				password: Yup.string()
 					.min(6, 'Password must be at least 6 characters')
 					.required('Password is required'),
