@@ -11,8 +11,8 @@ import './UCLAMap.css';
 const UCLAMap = ({
 	style = {},
 	width = '100%',
-	height = '100vh',
-	viewBox = '0 0 2598 2427'
+	height = '85vh',
+	viewBox = '0 150 2598 2000'
 }) => {
 	return (
 		<div className="UCLAMap">

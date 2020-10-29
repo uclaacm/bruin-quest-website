@@ -25,5 +25,6 @@
 	}
 	#mobile-map-view {
 		display: block;
+		padding: 16px 0px;
 	}
 }

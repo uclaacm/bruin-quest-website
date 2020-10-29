@@ -4,14 +4,9 @@ import './MapPage.css';
 
 const MapPage = () => {
 	return (
-		<div className="app">
-			<div className="map-view">
-
-				<UCLAMap/>
-			</div>
+		<div className="map-view">
+			<UCLAMap/>
 		</div>
-
-
 	);
 };
 
