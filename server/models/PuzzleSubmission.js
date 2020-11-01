@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const puzzleSubmissionSchema = mongoose.Schema({
 	_id: String,
-	name: String,
+	displayName: String,
 	submission: {
 		type: String,
 		default: null
