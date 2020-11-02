@@ -56,3 +56,11 @@
     position: absolute;
     bottom: -10px;
 }
+
+@media (max-width: 1000px) {
+  .register-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
