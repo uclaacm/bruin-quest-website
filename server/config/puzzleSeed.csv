@@ -1,4 +1,6 @@
-_id,displayName,location,generalAreaId,generalAreaDisplayName,correctAnswer,link,description,difficulty,numberOfSolves
-eye-bleach,Eye Bleach,Boelter Hall,south-campus,South Campus,Water,localhost:bleach,how to bleach your eye,lower div,0
-feed-the-cat,Feed The Cat,Powell Library,powell-cat-territory,Powell Cat Territory,cat Food,localhost:cat,make sure the cat is ok,upper div,22
-exercise,Exercise!,B-fit,the-hill,The Hill,Rowing machine,localhost:run,keep yourself fit,super senior,10
+_id,displayName,location,generalAreaId,generalAreaDisplayName,correctAnswer,link,description,difficulty,numberOfSolves,image
+eye-bleach,Eye Bleach,Boelter Hall,south-campus,South Campus,Water,localhost:bleach,how to bleach your eye,lower div,0,image.edu
+feed-the-cat,Feed The Cat,Powell Library,pct,Powell Cat Territory,cat Food,localhost:cat,make sure the cat is ok,upper div,22,image.com
+exercise,Exercise!,B-fit,hill,The Hill,Rowing machine,localhost:run,keep yourself fit,super senior,10,image33.com
+muffin,MUFFINS!,wabuwabu,masdf,JAJAJ,KAKA,localhost:400,a,lower div,2,kiki
+what,WHAT!,whathall,pct,Powell Cat Territory,?,localhost:what,a,super senior,2,???
