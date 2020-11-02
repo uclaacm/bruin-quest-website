@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Text from '../../Text/Text';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
+import Error from '../../Error/Error';
 import * as Colors from '../../../constants/Colors';
 import { PUZZLE_SERVER, USER_SERVER } from '../../../components/Config';
 
@@ -50,33 +51,43 @@ function PuzzlePage(props) {
 	const [submission, setSubmission] = useState('');
 	const [score, setScore] = useState(0);
 	const [status, setStatus] = useState('no attempt');
+	const [errorMessage, setErrorMessage] = useState('');
 	const puzzleId = props.match.params.id;
 
 	useEffect(() => {
 		async function fetchData() {
-			const { data } = await getPuzzleData(puzzleId);
-			// TODO: handle error
-			if (data) {
-				setPuzzleData(data);
-				setSubmission(data.submission);
-				setScore(data.score);
-				setStatus(data.status);
+			try {
+				const { data } = await getPuzzleData(puzzleId);
+				if (data) {
+					setPuzzleData(data);
+					setSubmission(data.submission);
+					setScore(data.score);
+					setStatus(data.status);
+				}
+			} catch {
+				setErrorMessage('Puzzle information could not be loaded');
 			}
 		}
 		fetchData();
 	}, [puzzleId]);
 
 	const submit = async () => {
-		// TODO: handle error
-		const response = await axios.post(
-			`${USER_SERVER}/submitPuzzle/${puzzleId}`,
-			{ submission }
-		);
-		const { data } = response;
-		if (data) {
-			setSubmission(data.submission);
-			setScore(data.score);
-			setStatus(data.status);
+		try {
+			const response = await axios.post(
+				`${USER_SERVER}/submitPuzzle/${puzzleId}`,
+				{ submission }
+			);
+			const { data } = response;
+			if (data) {
+				setSubmission(data.submission);
+				setScore(data.score);
+				setStatus(data.status);
+			}
+		} catch {
+			setErrorMessage('Unable to submit puzzle');
+			setTimeout(() => {
+				setErrorMessage('');
+			}, 5000);
 		}
 	};
 
@@ -200,6 +211,7 @@ function PuzzlePage(props) {
 							{status === 'pending' && <PendingLabel />}
 						</Text>
 					}
+					{errorMessage && <Text error>{errorMessage}</Text>}
 				</div>
 				<div
 					className={css`
@@ -225,7 +237,10 @@ function PuzzlePage(props) {
 				</div>
 			</div>
 		</div>	 :
-		<div>Loading</div>;
+		<div>
+			{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
+      Loading
+		</div>;
 }
 
 export default PuzzlePage;
