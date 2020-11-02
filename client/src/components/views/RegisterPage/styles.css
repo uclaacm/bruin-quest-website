@@ -39,9 +39,9 @@
 .member-box {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 370px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 400px;
     margin-top: 20px;
     margin-bottom: 20px;
     position: relative;
@@ -49,7 +49,8 @@
 
 .form-box {
     position: relative;
-    text-align: center;
+		text-align: center;
+		margin-right: 8px;
 }
 
 .input-feedback {
