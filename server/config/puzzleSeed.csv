@@ -1,6 +1,6 @@
-_id,displayName,location,generalAreaId,generalAreaDisplayName,correctAnswer,link,description,difficulty,image,type
-eye-bleach,Eye Bleach,Boelter Hall,south-campus,South Campus,Water,localhost:bleach,how to bleach your eye,lower div,https://media.tenor.com/images/83d6a5ed40a24164dfe1e4e19fad23d9/tenor.gif,blue
-feed-the-cat,Feed The Cat,Powell Library,pct,Powell Cat Territory,cat Food,localhost:cat,make sure the cat is ok,upper div,https://media.tenor.com/images/6321fa6690d59b2f37c25ce0d271cb6c/tenor.gif,gold
-exercise,Exercise!,B-fit,hill,The Hill,Rowing machine,localhost:run,keep yourself fit,super senior,https://media.tenor.com/images/6321fa6690d59b2f37c25ce0d271cb6c/tenor.gif,blue
-muffin,MUFFINS!,wabuwabu,masdf,JAJAJ,KAKA,localhost:400,a,lower div,https://media.tenor.com/images/6321fa6690d59b2f37c25ce0d271cb6c/tenor.gif,blue
-what,WHAT!,whathall,pct,Powell Cat Territory,?,localhost:what,a,super senior,https://media.tenor.com/images/6321fa6690d59b2f37c25ce0d271cb6c/tenor.gif,blue
+_id,displayName,location,generalAreaId,generalAreaDisplayName,correctAnswer,link,description,difficulty,type,image
+eye-bleach,Eye Bleach,Boelter Hall,south-campus,South Campus,Water,localhost:bleach,how to bleach your eye,lower div,blue,https://media.tenor.com/images/83d6a5ed40a24164dfe1e4e19fad23d9/tenor.gif
+feed-the-cat,Feed The Cat,Powell Library,pct,Powell Cat Territory,cat Food,localhost:cat,make sure the cat is ok,upper div,gold,https://media.tenor.com/images/6321fa6690d59b2f37c25ce0d271cb6c/tenor.gif
+exercise,Exercise!,B-fit,hill,The Hill,Rowing machine,localhost:run,keep yourself fit,super senior,blue,https://media.tenor.com/images/6321fa6690d59b2f37c25ce0d271cb6c/tenor.gif
+muffin,MUFFINS!,wabuwabu,masdf,JAJAJ,KAKA,localhost:400,a,lower div,blue,https://media.tenor.com/images/6321fa6690d59b2f37c25ce0d271cb6c/tenor.gif
+what,WHAT!,whathall,pct,Powell Cat Territory,?,localhost:what,a,super senior,blue,https://media.tenor.com/images/6321fa6690d59b2f37c25ce0d271cb6c/tenor.gif
