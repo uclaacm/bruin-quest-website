@@ -26,7 +26,10 @@ function RegisterPage(props) {
 				members: [{ name: '', discord: '' }]
 			}}
 			validationSchema={Yup.object().shape({
-				team: Yup.string().required('Team is required'),
+				team: Yup.string()
+					.trim()
+					.required('Team is required')
+					.max(32, 'Team names must be at most 32 characters'),
 				password: Yup.string()
 					.min(6, 'Password must be at least 6 characters')
 					.required('Password is required'),
@@ -170,15 +173,12 @@ function RegisterPage(props) {
 																	</div>
 															}
 														</div>
-
-														{index < values.members.length - 1 &&
+														{values.members.length > 1 &&
 															<img
 																className={css`
 																	width: 40px;
 																	height: 40px;
-																	position: absolute;
-																	right: -60px;
-																	bottom: 0;
+																	margin: 1px;
 																	cursor: pointer;
 																`}
 																src={removeicon}
@@ -186,22 +186,20 @@ function RegisterPage(props) {
 																alt="remove member"
 															/>
 														}
+														{values.members.length - 1 === index &&
+															<img
+																className={css`
+																	width: 40px;
+																	height: 40px;
+																	margin: 1px;
+																	cursor: pointer;
+																`}
+																src={addicon}
+																onClick={() => push({ name: '', discord: '' })}
+																alt="add member"
+															/>
+														}
 													</div>)}
-											{values.members.length < 4 &&
-												<img
-													className={css`
-														width: 40px;
-														height: 40px;
-														position: absolute;
-														bottom: 20px;
-														right: 0;
-														cursor: pointer;
-													`}
-													src={addicon}
-													onClick={() => push({ name: '', discord: '' })}
-													alt="add member"
-												/>
-											}
 										</div>
 									}
 								</FieldArray>

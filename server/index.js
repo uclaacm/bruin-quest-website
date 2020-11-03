@@ -20,29 +20,9 @@ mongoose
 	.catch(err => console.log(err));
 
 // parses information from a csv file and then load it into the mongoose database
-const csv = require('fast-csv');
-const fs = require('fs');
-const { Puzzle } = require('./models/Puzzle');
 
-let addedPuzzles = 0;
-let totalPuzzles = 0;
-fs.createReadStream(path.resolve(__dirname, 'config', 'puzzleSeed.csv'))
-	.pipe(csv.parse({ headers: true }))
-	.on('error', err => console.error(err))
-	.on('data', async row => {
-		const puzzleInstance = new Puzzle(row);
-		try {
-			await puzzleInstance.save();
-			addedPuzzles++;
-			console.log(`${addedPuzzles}/${totalPuzzles} ${puzzleInstance._id} has been added successfully`);
-		} catch (err) {
-			console.error(`Failed to add ${puzzleInstance.name}`, err.message);
-		}
-	})
-	.on('end', rowCount => {
-		totalPuzzles = rowCount;
-	});
-
+const { populateDB } = require('./utils/dbUtils');
+populateDB();
 
 app.use(cors());
 
@@ -70,11 +50,11 @@ app.use('/uploads', express.static('uploads'));
 if (process.env.NODE_ENV === 'production') {
 	// Set static folder
 	// All the javascript and css files will be read and served from this folder
-	app.use(express.static('client/build'));
+	app.use(express.static(path.resolve(__dirname, '..', 'client', 'build')));
 
-	// index.html for all page routes    html or routing and naviagtion
+	// index.html for all page routes    html or routing and navigation
 	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
+		res.sendFile(path.resolve(__dirname, '..', 'client', 'build', 'index.html'));
 	});
 }
 

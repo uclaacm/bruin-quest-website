@@ -84,7 +84,7 @@ router.get('/logout', auth, async (req, res) => {
 			success: true
 		});
 	} catch (err) {
-		return res.status(500).json({ success: false, err });
+		return res.status(500).json({ error: 'Logout failed' });
 	}
 });
 

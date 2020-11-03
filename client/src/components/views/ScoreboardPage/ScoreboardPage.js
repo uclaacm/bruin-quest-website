@@ -5,6 +5,7 @@ import Text from '../../Text/Text';
 import * as Colors from '../../../constants/Colors';
 import * as Fonts from '../../../constants/Fonts';
 import * as Screens from '../../../constants/Screens';
+import Error from '../../Error/Error';
 import Scoreboard from './Scoreboard';
 import { teamScores, teamStandings } from '../../../_actions/scoreboard_actions';
 import { useDispatch } from 'react-redux';
@@ -15,6 +16,7 @@ export default function ScoreboardPage(props) {
 	const team = window.localStorage.getItem('teamId');
 	const name = window.localStorage.getItem('teamName');
 	const [scores, setScores] = useState([]);
+	const [errorMessage, setErrorMessage] = useState('');
 	useEffect(() => {
 		function getTeamScores(teamId) {
 			return dispatch(teamScores(teamId)).then(response => {
@@ -28,7 +30,7 @@ export default function ScoreboardPage(props) {
 			try {
 				setScores(await getTeamScores(team));
 			} catch (err) {
-				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+				setErrorMessage('Team scores could not be loaded');
 			}
 		}
 		initScores();
@@ -48,7 +50,7 @@ export default function ScoreboardPage(props) {
 			try {
 				setStandings(await getStandings());
 			} catch (err) {
-				// Handle err here. Either ignore the error, or surface the error up to the user somehow.
+				setErrorMessage('Standings could not be loaded');
 			}
 		}
 		initStandings();
@@ -56,6 +58,7 @@ export default function ScoreboardPage(props) {
 
 	return (
 		<div className={css`padding: 3vw`}>
+			{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
 			<Text
 				className={css`
           text-align: left;
