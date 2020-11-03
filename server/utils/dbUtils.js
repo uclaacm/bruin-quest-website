@@ -61,9 +61,9 @@ const populatePuzzle = async () => {
 
 				//  update General Area location from puzzleInformation
 				const puzzleLocation = {
-					name: row._id,
+					name: row.location,
 					image: row.image,
-					puzzleId: row.location
+					puzzleId: row._id
 				};
 				await foundArea.locations.push(puzzleLocation);
 				await foundArea.save();
