@@ -4,8 +4,23 @@ import Text from '../../Text/Text.js';
 import './GeneralAreaPage.css';
 import { PUZZLE_SERVER, GENERAL_AREA_SERVER } from '../../../components/Config';
 
-async function getAreaData(id) {
-	try {
+function Puzzle(props) {
+	return (
+		<Link className="card" to={props.link}>
+			<Text>{props.name}</Text>
+			<div className="progressBar">
+				<div className="completed" style={{ width: props.completed }}></div>
+			</div>
+			<img src={props.image} alt={props.name} />
+		</Link>
+	);
+}
+
+function GeneralAreaPage(props) {
+	const [areaData, setAreaData] = useState();
+	const [errorMessage, setErrorMessage] = useState('');
+
+	async function getAreaData(id) {
 		const res = await fetch(`${GENERAL_AREA_SERVER}/${id}`);
 		const generalAreaData = await res.json();
 		const puzzles = await Promise.all(
@@ -26,54 +41,49 @@ async function getAreaData(id) {
 						id: loc.puzzleId
 					};
 				} catch (err) {
-					console.log(err);
+					setErrorMessage('Could not load puzzles');
 					return {};
 				}
 			})
 		);
 		return { name: generalAreaData.displayName, puzzles };
-	} catch (err) {
-		console.log(err);
-		return {};
 	}
-}
 
-function Puzzle(props) {
-	return (
-		<Link className="card" to={props.link}>
-			<Text>{props.name}</Text>
-			<div className="progressBar">
-				<div className="completed" style={{ width: props.completed }}></div>
-			</div>
-			<img src={props.image} alt={props.name} />
-		</Link>
-	);
-}
-
-function GeneralAreaPage(props) {
-	const [areaData, setAreaData] = useState();
 	useEffect(() => {
 		async function fetchData() {
-			setAreaData(await getAreaData(props.match.params.id));
+			try {
+				const data = await getAreaData(props.match.params.id);
+				if (data) {
+					setAreaData(data);
+				}
+			} catch {
+				setErrorMessage('Area information could not be loaded');
+			}
 		}
 		fetchData();
 	}, [props.match.params.id]);
 
-	return areaData && areaData.name && areaData.puzzles ?
+	return (
 		<div className="app">
-			<Text size="36px">{areaData.name}</Text>
-			<div className="cardList">
-				{areaData.puzzles.map(puzzle =>
-					<Puzzle
-						link={puzzle.link}
-						image={puzzle.image}
-						name={puzzle.name}
-						completed={puzzle.completed}
-						key={puzzle.id}
-					/>)}
-			</div>
-		</div>	 :
-		<Text>Loading...</Text>;
+			{errorMessage && <Text error>{errorMessage}</Text>}
+			{areaData && areaData.name && areaData.puzzles ?
+				<>
+					<Text size="36px">{areaData.name}</Text>
+					<div className="cardList">
+						{areaData.puzzles.map(puzzle =>
+							<Puzzle
+								link={puzzle.link}
+								image={puzzle.image}
+								name={puzzle.name}
+								completed={puzzle.completed}
+								key={puzzle.id}
+							/>)}
+					</div>{' '}
+				</>			 :
+				<Text>Loading...</Text>
+			}
+		</div>
+	);
 }
 
 export default GeneralAreaPage;
