@@ -36,6 +36,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/teams', require('./routes/teams'));
+app.use('/api/general-areas', require('./routes/general-areas'));
 app.use('/api/puzzle', require('./routes/puzzle'));
 app.use('/api/admin', require('./routes/admin'));
 app.use('/api/state', require('./routes/state'));

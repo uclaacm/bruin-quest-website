@@ -1,82 +1,89 @@
 import React, { useState, useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
+import Text from '../../Text/Text.js';
 import './GeneralAreaPage.css';
-
-function getAreaData(id) {
-	return {
-		name: id,
-		link: '/',
-		puzzles: [
-			{
-				name: 'De Neve',
-				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
-				link: '/',
-				completed: '20%'
-			},
-			{
-				name: 'De Neve',
-				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
-				link: '/',
-				completed: '40%'
-			},
-			{
-				name: 'De Neve',
-				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
-				link: '/',
-				completed: '60%'
-			},
-			{
-				name: 'De Neve',
-				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
-				link: '/',
-				completed: '80%'
-			},
-			{
-				name: 'De Neve',
-				image: 'https://wp.dailybruin.com/images/2018/11/web.news_.halltresspasser.file_1.jpg',
-				link: '/',
-				completed: '100%'
-			}
-		]
-	};
-}
+import { PUZZLE_SERVER, GENERAL_AREA_SERVER } from '../../../components/Config';
 
 function Puzzle(props) {
 	return (
-		<a className="card" href={props.link}>
-			<h2>{props.name}</h2>
+		<Link className="card" to={props.link}>
+			<Text>{props.name}</Text>
 			<div className="progressBar">
 				<div className="completed" style={{ width: props.completed }}></div>
 			</div>
-			<img src={props.image} alt={props.name}/>
-		</a>
+			<img src={props.image} alt={props.name} />
+		</Link>
 	);
 }
 
 function GeneralAreaPage(props) {
-	const [areaData, setPuzzleData] = useState();
+	const [areaData, setAreaData] = useState();
+	const [errorMessage, setErrorMessage] = useState('');
+
+	async function getAreaData(id) {
+		const res = await fetch(`${GENERAL_AREA_SERVER}/${id}`);
+		const generalAreaData = await res.json();
+		const puzzles = await Promise.all(
+			generalAreaData.locations.map(async loc => {
+				try {
+					const { numberOfSolves } = await (
+						await fetch(`${PUZZLE_SERVER}/${loc.puzzleId}`)
+					).json();
+					return {
+						name: loc.name,
+						image: loc.image,
+						link: `/puzzle/${loc.puzzleId}`,
+						completed: `${
+							numberOfSolves / generalAreaData.numTeams > 1 ?
+								100 :
+								(numberOfSolves / generalAreaData.numTeams) * 100
+						}%`,
+						id: loc.puzzleId
+					};
+				} catch (err) {
+					setErrorMessage('Could not load puzzles');
+					return {};
+				}
+			})
+		);
+		return { name: generalAreaData.displayName, puzzles };
+	}
+
 	useEffect(() => {
 		async function fetchData() {
-			setPuzzleData(await getAreaData(props.match.params.id));
+			try {
+				const data = await getAreaData(props.match.params.id);
+				if (data) {
+					setAreaData(data);
+				}
+			} catch {
+				setErrorMessage('Area information could not be loaded');
+			}
 		}
 		fetchData();
 	}, [props.match.params.id]);
 
-	return areaData && areaData.name && areaData.puzzles ?
-
+	return (
 		<div className="app">
-			<h1>{areaData.name}</h1>
-			<div className="cardList">
-				{areaData.puzzles.map(puzzle => <Puzzle
-					link={puzzle.link}
-					image={puzzle.image}
-					name={puzzle.name}
-					completed={puzzle.completed}
-					key={puzzle.name}
-				/>)}
-			</div>
-		</div>	 :
-		<div>Loading</div>;
+			{errorMessage && <Text error>{errorMessage}</Text>}
+			{areaData && areaData.name && areaData.puzzles ?
+				<>
+					<Text size="36px">{areaData.name}</Text>
+					<div className="cardList">
+						{areaData.puzzles.map(puzzle =>
+							<Puzzle
+								link={puzzle.link}
+								image={puzzle.image}
+								name={puzzle.name}
+								completed={puzzle.completed}
+								key={puzzle.id}
+							/>)}
+					</div>{' '}
+				</>			 :
+				<Text>Loading...</Text>
+			}
+		</div>
+	);
 }
 
 export default GeneralAreaPage;
