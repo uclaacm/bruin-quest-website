@@ -31,7 +31,6 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 // to get json data
 // support parsing of application/json type post data
-app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
 

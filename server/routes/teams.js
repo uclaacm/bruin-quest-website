@@ -108,6 +108,11 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		} else if (submission === currentPuzzle.correctAnswer) {
 			status = 'correct';
 			score = pointValues[currentPuzzle.difficulty];
+			const doc = await Puzzle.findOneAndUpdate(
+				{ _id: puzzleId },
+				{ $inc: { numberOfSolves: 1 } }
+			);
+			console.log(doc);
 		} else {
 			status = 'incorrect';
 		}
