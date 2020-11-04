@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
-const moment = require('moment');
 
 const uniqueValidator = require('mongoose-unique-validator');
 
@@ -20,12 +19,6 @@ const teamSchema = mongoose.Schema({
 	password: {
 		type: String,
 		required: true
-	},
-	token: {
-		type: String
-	},
-	tokenExp: {
-		type: Number
 	},
 	members: [
 		{
@@ -66,17 +59,13 @@ teamSchema.methods.comparePassword = function (plainPassword) {
 teamSchema.methods.generateToken = function () {
 	const team = this;
 	const token = jwt.sign(team._id.toHexString(), SECRET);
-	const oneHour = moment().add(1, 'hour').valueOf();
-
-	team.tokenExp = oneHour;
-	team.token = token;
-	return team.save();
+	return token;
 };
 
 teamSchema.statics.findByToken = async function (token) {
 	const Team = this;
 	const decode = await jwt.verify(token, SECRET);
-	return Team.findOne({ _id: decode, token });
+	return Team.findOne({ _id: decode });
 };
 
 

@@ -60,26 +60,22 @@ router.post('/login', async (req, res) => {
 		if (!isMatch) {
 			return res.status(500).json({ error: 'Wrong password' });
 		}
-		const teamWithToken = await team.generateToken();
-		res.cookie('w_authExp', teamWithToken.tokenExp);
-		res.cookie('w_auth', teamWithToken.token);
-		console.log(`Logged in team ${teamWithToken.name}`);
+		const token = team.generateToken();
+		res.cookie('w_auth', token);
+		console.log(`Logged in team ${team.name}`);
 		return res.status(200).json({
 			loginSuccess: true,
-			teamId: teamWithToken._id
+			teamId: team._id
 		});
 	} catch (err) {
 		return res.status(500).json({ error: 'Unable to login' });
 	}
 });
 
-router.get('/logout', auth, async (req, res) => {
+router.get('/logout', auth, (req, res) => {
 	try {
-		const doc = await Team.findOneAndUpdate(
-			{ _id: req.team._id },
-			{ token: '', tokenExp: '' }
-		);
-		console.log(`Logged out ${doc.name}`);
+		console.log(`Logging out ${req.team._id}`);
+		res.clearCookie('w_auth');
 		return res.status(200).send({
 			success: true
 		});
