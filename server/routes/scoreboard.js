@@ -15,7 +15,7 @@ router.get('/scores/:id', auth, async (req, res) => {
 		const teamAnswers = teamAnswersDoc.toObject();
 		const scores = [];
 		teamAnswers.puzzles.forEach(answer => {
-			scores.push({ name: answer.name, score: answer.score });
+			scores.push({ name: answer.displayName, score: answer.score });
 		});
 		res.status(200).json({ scores });
 	} catch (error) {

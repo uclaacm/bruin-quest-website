@@ -21,10 +21,11 @@ router.get('/auth', auth, (req, res) => {
 
 router.post('/register', async (req, res) => {
 	try {
-		const allPuzzles = await Puzzle.find({}, '_id');
+		const allPuzzles = await Puzzle.find({});
 		const puzzles = [];
-		allPuzzles.forEach(id =>
-			puzzles.push(new PuzzleSubmission({ _id: id._id })));
+		allPuzzles.forEach(id => {
+			puzzles.push(new PuzzleSubmission({ _id: id._id, displayName: id.displayName }));
+		});
 
 		const team = new Team({
 			name: req.body.team,
