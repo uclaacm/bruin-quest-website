@@ -88,7 +88,7 @@ function LoginPage(props) {
 					<b>{location.name}</b>
 				</Text>
 				<div className={classes.imageContainer}>
-					<img className={classes.locationImage} src={location.image}/>
+					<img className={classes.locationImage} src={location.image} alt={location.name}/>
 				</div>
 				<Button
 					style={{ margin: 'auto' }}
