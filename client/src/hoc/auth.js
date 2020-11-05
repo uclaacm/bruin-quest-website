@@ -20,29 +20,20 @@ export default function (SpecificComponent, option, adminRoute = null, stateRout
 				// Not Loggined in Status
 					if (!response.payload.isAuth) {
 						if (option) {
-							props.history.push({
-								pathname: '/',
-								state: { invalidState: false, noAccess: false }
-							});
+							props.history.push('/');
 						}
 					// Loggined in Status
 					} else {
 						if (adminRoute && !response.payload.isAdmin) {
 						// supposed to be Admin page, but not admin person wants to go inside
-							props.history.push({
-								pathname: '/',
-								state: { invalidState: false, noAccess: false }
-							});
+							props.history.push('/');
 						} else if (option === false) {
 							// Logged in Status, but Try to go into log in page
-							props.history.push({
-								pathname: '/',
-								state: { invalidState: false, noAccess: false }
-							});
+							props.history.push('/');
 						} else if (!state && stateRoute) {
 							props.history.push({
 								pathname: '/',
-								state: { invalidState: true, noAccess: false }
+								state: { invalidState: true }
 							});
 						}
 					}
@@ -51,7 +42,7 @@ export default function (SpecificComponent, option, adminRoute = null, stateRout
 						if (adminRoute || option) {
 							props.history.push({
 								pathname: '/',
-								state: { invalidState: false, noAccess: true }
+								state: { noAccess: true }
 							});
 						}
 					}));
