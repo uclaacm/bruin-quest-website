@@ -50,7 +50,10 @@ function RegisterPage(props) {
 					try {
 						await dispatch(registerUser(dataToSubmit));
 						// TODO: show success screen instead
-						props.history.push('/login');
+						props.history.push({
+							pathname: '/login',
+							state: { registerSuccess: true }
+						});
 					} catch (err) {
 						// This is a readable error message sent from the backend
 						if (err.response.data.error) {

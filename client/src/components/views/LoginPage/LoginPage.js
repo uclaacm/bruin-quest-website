@@ -6,16 +6,21 @@ import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import './styles.css';
 import { Checkbox } from 'antd';
+import * as Colors from '../../../constants/Colors';
 import TextInput from '../../TextInput/TextInput';
 import Text from '../../Text/Text';
 import Button from '../../Button/Button';
 import WelcomeBanner from '../WelcomeBanner/WelcomeBanner';
+import BarMessage from '../../BarMessage/BarMessage';
 
 function LoginPage(props) {
 	const dispatch = useDispatch();
 	const rememberMeChecked = Boolean(localStorage.getItem('rememberMe'));
-
 	const [formErrorMessage, setFormErrorMessage] = useState('');
+	const { state } = props.location;
+	const registerMessage = state != undefined && state.registerSuccess ?
+		'Your team is now registered! Members can now login with the team name and password.' :
+		'';
 	const [rememberMe, setRememberMe] = useState(rememberMeChecked);
 
 	const handleRememberMe = () => {
@@ -80,6 +85,9 @@ function LoginPage(props) {
 				return (
 					<div className="main-container">
 						<WelcomeBanner />
+						{registerMessage &&
+              <BarMessage color= {Colors.LightBlue} fontSize="1rem"> {registerMessage} </BarMessage>
+						}
 						<form onSubmit={handleSubmit} className="form-container">
 							<div className="form-box">
 								<Text>Team name</Text>

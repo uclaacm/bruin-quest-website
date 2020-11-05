@@ -1,14 +1,15 @@
 import React from 'react';
 
-function Error({
+function BarMessage({
 	children,
-	fontSize = '0.7rem'
+	fontSize = '0.7rem',
+	color = '#ff0000bf'
 }) {
 	return (
 		<label>
 			<p
 				style={{
-					color: '#ff0000bf',
+					color,
 					fontSize,
 					border: '1px solid',
 					padding: '1rem',
@@ -21,4 +22,4 @@ function Error({
 	);
 }
 
-export default Error;
+export default BarMessage;
