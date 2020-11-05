@@ -8,6 +8,7 @@ import Button from '../../Button/Button';
 import Error from '../../Error/Error';
 import logo from './assets/logo.png';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const staticWelcome = `Event description and welcome message: Lorem ipsum
 dolor sit amet, consectetur adipiscing elit. Mauris faucibus finibus
@@ -25,6 +26,8 @@ export default function LandingPage(props) {
 			state: { noAccess: false }
 		});
 	}
+
+	const user = useSelector(state => state.user);
 
 	return (
 		<main
@@ -103,7 +106,7 @@ export default function LandingPage(props) {
 					`}
 				>
 					<Link
-						to="/register"
+						to={user.userData && !user.userData.isAuth ? '/register' : '/map'}
 						className={css`
 							margin-right: 16px;
 							@media screen and (max-width: ${Screens.xsmall}px) {
