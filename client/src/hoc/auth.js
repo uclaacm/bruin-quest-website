@@ -20,7 +20,7 @@ export default function (SpecificComponent, option, adminRoute = null, stateRout
 				// Not Loggined in Status
 					if (!response.payload.isAuth) {
 						if (option) {
-							props.history.push('/');
+							props.history.push('/login');
 						}
 					// Loggined in Status
 					} else {
