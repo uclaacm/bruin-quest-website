@@ -89,9 +89,9 @@ router.get('/logout', auth, async (req, res) => {
 });
 
 const pointValues = {
-	'lower div': 30,
-	'upper div': 40,
-	'super senior': 60
+	'Lower Div': 30,
+	'Upper Div': 40,
+	'Super Senior': 60
 };
 
 router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
@@ -103,7 +103,7 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		const currentPuzzle = await Puzzle.findById(puzzleId);
 
 		let score = 0;
-		if (currentPuzzle.type === 'gold') {
+		if (currentPuzzle.type === 'Gold') {
 			status = 'pending';
 		} else if (submission === currentPuzzle.correctAnswer) {
 			status = 'correct';

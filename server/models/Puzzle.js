@@ -12,11 +12,11 @@ const puzzleSchema = mongoose.Schema({
 	link: String,
 	type: {
 		type: String,
-		enum: ['gold', 'blue']
+		enum: ['Gold', 'Blue']
 	},
 	difficulty: {
 		type: String,
-		enum: ['lower div', 'upper div', 'super senior']
+		enum: ['Lower Div', 'Upper Div', 'Super Senior']
 	},
 	numberOfSolves: {
 		type: Number,
@@ -24,9 +24,7 @@ const puzzleSchema = mongoose.Schema({
 	}
 });
 
-
 puzzleSchema.plugin(uniqueValidator);
 const Puzzle = mongoose.model('Puzzle', puzzleSchema, 'Puzzle');
-
 
 module.exports = { Puzzle };
