@@ -37,7 +37,7 @@ function App() {
 						component={Auth(GeneralAreaPage, true)}
 					/>
 					<Route exact path="/admin" component={Auth(AdminPage, true, true)} />
-					<Route exact path="/puzzle/:id" component={Auth(PuzzlePage, true)} />
+					<Route exact path="/puzzle/:id" component={Auth(PuzzlePage, true, false, true) } />
 				</Switch>
 			</div>
 		</Suspense>

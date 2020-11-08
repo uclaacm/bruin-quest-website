@@ -18,13 +18,11 @@ const discordLink = 'https://discord.gg/rKwaCr';
 
 export default function LandingPage(props) {
 	const { state } = props.location;
-	const [errorMessage, setErrorMessage] = useState(state != undefined && state.noAccess ?
-		'Sign up / Sign in to begin your quest' :
-		'');
+	let errorMessage = '';
 	if (state != undefined && state.noAccess) {
-		props.history.push({
-			state: { noAccess: false }
-		});
+		errorMessage = 'Sign up / Sign in to begin your quest';
+	} else if (state != undefined && state.invalidState) {
+		errorMessage = 'Bruin Quest is not currently live';
 	}
 
 	const user = useSelector(state => state.user);
