@@ -5,7 +5,7 @@ import Text from '../../Text/Text';
 import * as Colors from '../../../constants/Colors';
 import * as Fonts from '../../../constants/Fonts';
 import * as Screens from '../../../constants/Screens';
-import Error from '../../Error/Error';
+import BarMessage from '../../BarMessage/BarMessage';
 import Scoreboard from './Scoreboard';
 import { teamScores, teamStandings } from '../../../_actions/scoreboard_actions';
 import { useDispatch } from 'react-redux';
@@ -58,7 +58,7 @@ export default function ScoreboardPage(props) {
 
 	return (
 		<div className={css`padding: 3vw`}>
-			{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
+			{errorMessage && <BarMessage fontSize="1rem"> {errorMessage} </BarMessage>}
 			<Text
 				className={css`
           text-align: left;

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Text from '../../Text/Text';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
-import Error from '../../Error/Error';
+import BarMessage from '../../BarMessage/BarMessage';
 import * as Colors from '../../../constants/Colors';
 import * as Screens from '../../../constants/Screens';
 import { PUZZLE_SERVER, USER_SERVER } from '../../../components/Config';
@@ -279,7 +279,7 @@ function PuzzlePage(props) {
 			</div>
 		</div>	 :
 		<div>
-			{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
+			{errorMessage && <BarMessage fontSize="1rem"> {errorMessage} </BarMessage>}
       Loading
 		</div>;
 }

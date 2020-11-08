@@ -5,7 +5,7 @@ import * as Fonts from '../../../constants/Fonts';
 import * as Screens from '../../../constants/Screens';
 import Text from '../../Text/Text';
 import Button from '../../Button/Button';
-import Error from '../../Error/Error';
+import BarMessage from '../../BarMessage/BarMessage';
 import logo from './assets/logo.png';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -66,7 +66,7 @@ export default function LandingPage(props) {
 					}
 				`}
 			>
-				{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
+				{errorMessage && <BarMessage fontSize="1rem"> {errorMessage} </BarMessage>}
 				<Text
 					className={css`
 						font-size: 3.5rem;
