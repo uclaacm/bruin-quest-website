@@ -24,9 +24,8 @@ const UCLAMap = ({
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
 			>
-				{/* TODO: update all links */}
 				{/* Hill Area */}
-				<a className="map-area" href="http://localhost:3000/" >
+				<a className="map-area" href="http://localhost:3000/area/hill" >
 					<path d="M415 1154.5L231.5 1173.5L175 385.5L408 198L820 416L911 588L981 693L911 823.5L920.5 1089.5L988 1183.5L1011.5 1298L1060 1364L1047.5 1413.5H981L894.5 1361.5L727.5 1274.5L661.5 1198.5L570.5 1142L472.5 1131L415 1154.5Z" fill="#40BAFF"/>
 					<g>
 						<path d="M462.5 492.867H483.5C482.63 467.694 489.244 458.469 514.5 451.367L507.5 431.367C474.558 438.118 464.12 450.929 462.5 492.867Z" stroke="#1770D9" strokeWidth="4"/>
@@ -95,7 +94,7 @@ const UCLAMap = ({
 				</g>
 
 				{/* Bruin Walk */}
-				<a className="map-area" href="http://localhost:3000/" id="Bruin Walk">
+				<a className="map-area" href="http://localhost:3000/area/bruin-walk" id="Bruin Walk">
 					<path d="M924.5 825.5L994.5 697L1093 715.5L1248.5 692L1403 707L1432 689L1498 778.5V846.5L1508.5 857V1051.5L1548 1085L1814.5 1084V1249.5L1507.5 1241L1431.5 1656L1151 1621L1113.5 1634L1061.5 1551.5L1019.5 1503L987.5 1427H1057.5L1074 1360L1025.5 1292.5L1002.5 1178L934.5 1084.5L924.5 825.5Z" fill="#5278FF"/>
 					<g>
 						<rect x="1081" y="1446.87" width="354" height="111" fill="#173DC2"/>
@@ -142,7 +141,7 @@ const UCLAMap = ({
 				</g>
 
 				{/* South Campus */}
-				<a className="map-area" href="http://localhost:3000/" id="South Campus">
+				<a className="map-area" href="http://localhost:3000/area/south-campus" id="South Campus">
 					<path d="M1152.5 1632.5L1119.5 1644.5L1155 1728.5L1071 2151H1750.5L1951 2078.5L1992.5 1952L2062.5 1895.5L2183.5 1585L2037.5 1551.5L2055.5 1271.5L1519 1254L1442 1670.5L1152.5 1632.5Z" fill="#FFC767"/>
 					<g>
 						<path d="M1639.5 952.367V887.367H1649.5L1657 911.867H1732.5C1736.4 902.297 1739 901.867 1748.5 900.867V890.867H1981.5V904.367C1981.5 904.367 1963.86 906.788 1964 916.867C1964.05 920.555 1963.97 927.973 1967 931.867C1972.13 938.468 1981.5 938.867 1981.5 938.867V949.367L1748.5 947.867V940.867C1738.29 941.329 1734.71 938.947 1732.5 929.367H1657L1649.5 952.367H1639.5Z" stroke="#AA4F3B" strokeWidth="6"/>
@@ -190,7 +189,7 @@ const UCLAMap = ({
 				</g>
 
 				{/* Powell Cat Area */}
-				<a className="map-area" href="http://localhost:3000/" id="Powell Cat Area" >
+				<a className="map-area" href="http://localhost:3000/area/pct" id="Powell Cat Area" >
 					<path d="M1639.5 952.367V887.367H1649.5L1657 911.867H1732.5C1736.4 902.297 1739 901.867 1748.5 900.867V890.867H1981.5V904.367C1981.5 904.367 1963.86 906.788 1964 916.867C1964.05 920.555 1963.97 927.973 1967 931.867C1972.13 938.468 1981.5 938.867 1981.5 938.867V949.367L1748.5 947.867V940.867C1738.29 941.329 1734.71 938.947 1732.5 929.367H1657L1649.5 952.367H1639.5Z" stroke="#AA4F3B" strokeWidth="6"/>
 					<g>
 						<path d="M1828.5 1250.5V1085.5V1072L1549.5 1073L1522 1047.5V849L1510 839V772H1660V761.5H1831L1847.5 751H1992.5V708.5H2127V916H2388.5L2372 1039.5L2245.5 1122L2204 1172.5V1262L1828.5 1250.5Z" fill="#E19863"/>
@@ -225,7 +224,7 @@ const UCLAMap = ({
 				</g>
 
 				{/* North Campus */}
-				<a className="map-area" href="http://localhost:3000/" id="North Campus" >
+				<a className="map-area" href="http://localhost:3000/area/north-campus" id="North Campus" >
 
 					<path d="M1650 753V764H1536H1502.5L1482 736.5L1510.5 691L1508.5 624.5L1553.5 418L1577 294.5L1643.5 246.5L1719.5 241V334.5L1785 452H1844L1878.5 426L1924 306L1958 274H2189.5L2231 529.5L2272.5 522.5L2333 648L2289 662L2358 790.5L2387.5 903H2140.5V698H1981V740.5H1841L1823 753H1650Z" fill="#BF8DFF"/>
 					<g>
@@ -275,21 +274,20 @@ const UCLAMap = ({
 				</g>
 			</svg>
 
-			{/* TODO: update links*/}
 			<div id="mobile-map-view">
-				<a href='/'>
+				<a href='/area/bruin-walk'>
 					<BruinWalk />
 				</a>
-				<a href='/'>
+				<a href='/area/hill'>
 					<Hill />
 				</a>
-				<a href='/'>
+				<a href='/area/north-campus'>
 					<NorthCampus />
 				</a>
-				<a href='/'>
+				<a href='/area/pct'>
 					<PowellCatTerritory />
 				</a>
-				<a href='/'>
+				<a href='/area/south-campus'>
 					<SouthCampus />
 				</a>
 
