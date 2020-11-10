@@ -223,6 +223,7 @@ function PuzzlePage(props) {
 							}}
 							width='unset'
 							value={submission}
+							disabled={status === 'correct'}
 							onChange={event => {
 								setSubmission(event.target.value);
 							}}
@@ -238,6 +239,7 @@ function PuzzlePage(props) {
 								marginTop: '16px',
 								maxWidth: '150px'
 							}}
+							disabled={status === 'correct'}
 							onClick={submit}>
 							SUBMIT
 						</Button>
