@@ -74,6 +74,17 @@ function PuzzlePage(props) {
 
 	const submit = async () => {
 		try {
+			if (puzzleData.type == 'Gold') {
+				try {
+					const _ = new URL(submission);
+				} catch {
+					setErrorMessage('Url must begin with https');
+					setTimeout(() => {
+						setErrorMessage('');
+					}, 5000);
+					return;
+				}
+			}
 			const response = await axios.post(
 				`${USER_SERVER}/submitPuzzle/${puzzleId}`,
 				{ submission }

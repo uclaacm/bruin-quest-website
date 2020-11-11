@@ -6,7 +6,7 @@ import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
 
 export default function SubmissionRow(props) {
-  const [score, setScore] = useState();
+	const [score, setScore] = useState();
 	return (
 		<div
 			className={css`
@@ -23,7 +23,9 @@ export default function SubmissionRow(props) {
           color: ${Colors.Blue};
           font-size: 1rem;
           text-decoration: underline;
-          width: 30vw;
+          padding-right: 20px;
+          overflow-wrap: break-word;
+          width: 40vw;
 				`}
 			>
 				{props.item.submission}
