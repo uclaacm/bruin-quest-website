@@ -1,10 +1,12 @@
-'use strict';
+
 
 const mongoose = require('mongoose');
 const { State } = require('./models/State');
 const config = require('./config/key');
 
-process.on('unhandledRejection', err => process.nextTick(() => { throw err; }));
+process.on('unhandledRejection', err => process.nextTick(() => {
+	throw err;
+}));
 
 async function main() {
 	await mongoose.connect(config.mongoURI, {
@@ -17,7 +19,7 @@ async function main() {
 
 	await State.create({ state: 'before' });
 	console.log('State created correctly!');
-	process.exit(0);
+	throw new Error('Success');
 }
 
 main();
