@@ -25,6 +25,7 @@ h2 {
 
 .card img {
     max-width: 250px;
+    border-radius: 16px;
 }
 
 .progressBar {
