@@ -204,9 +204,9 @@ function PuzzlePage(props) {
 						onClick={() => {
 							window.open(puzzleData.link);
 						}}
-						width="80px"
+						width="100px"
 					>
-						CLUE
+						PUZZLE
 					</Button>
 					<div
 						id='answer-submission-container'
