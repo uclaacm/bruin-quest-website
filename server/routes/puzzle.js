@@ -5,9 +5,13 @@ const { Puzzle } = require('../models/Puzzle');
 const { Team } = require('../models/Team');
 
 const { auth } = require('../middleware/auth');
+const { checkState } = require('../middleware/state');
 
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', [checkState, auth], async (req, res) => {
 	try {
+		if (res.state !== 'during') {
+			return res.status(500).json({ error: 'Bruin Quest is not live' });
+		}
 		const puzzleId = sanitize(req.params).id;
 		const puzzleDoc = await Puzzle.findById(puzzleId).exec();
 		if (!puzzleDoc) {
