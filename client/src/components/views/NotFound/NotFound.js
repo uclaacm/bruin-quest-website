@@ -75,40 +75,40 @@ function LoginPage(props) {
 	const [location, setLocation] = useState(null);
 	useEffect(() => {
 		setLocation(RandomLocation());
-	}, [])
+	}, []);
 	return (
-		(location) ?
-		<div id='page' className={classes.page}>
-			<div id='container' className={classes.container}>
-				<Text
-					className={classes.title}
-				>
+		location ?
+			<div id='page' className={classes.page}>
+				<div id='container' className={classes.container}>
+					<Text
+						className={classes.title}
+					>
 					Not Found
-				</Text>
-				<Text className={classes.bodyText}>
+					</Text>
+					<Text className={classes.bodyText}>
 					It seems you are lost and found yourself at...
-				</Text>
-				<Text className={classes.bodyText}>
-					<b>{location.name}</b>
-				</Text>
-				<div className={classes.imageContainer}>
-					<img className={classes.locationImage} src={location.image} alt={location.name}/>
-				</div>
-				<Button
-					style={{ margin: 'auto' }}
-					onClick={() => {
-						window.location.href = '/';
-					}}
-				>
+					</Text>
+					<Text className={classes.bodyText}>
+						<b>{location.name}</b>
+					</Text>
+					<div className={classes.imageContainer}>
+						<img className={classes.locationImage} src={location.image} alt={location.name}/>
+					</div>
+					<Button
+						style={{ margin: 'auto' }}
+						onClick={() => {
+							window.location.href = '/';
+						}}
+					>
 					Back Home
-				</Button>
-			</div>
-		</div> :
-	<Text
-		className={classes.title}
-	>
+					</Button>
+				</div>
+			</div> :
+			<Text
+				className={classes.title}
+			>
 		Not Found
-	</Text>
+			</Text>
 	);
 }
 
