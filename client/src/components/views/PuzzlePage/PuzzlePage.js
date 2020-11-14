@@ -78,7 +78,7 @@ function PuzzlePage(props) {
 				try {
 					const _ = new URL(submission);
 				} catch {
-					setErrorMessage('Url must begin with https');
+					setErrorMessage('Unable to parse URL. Make sure it starts with http or https.');
 					setTimeout(() => {
 						setErrorMessage('');
 					}, 5000);
