@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { css } from 'emotion';
 
@@ -72,8 +72,12 @@ function RandomLocation() {
 }
 
 function LoginPage(props) {
-	const location = RandomLocation();
+	const [location, setLocation] = useState(null);
+	useEffect(() => {
+		setLocation(RandomLocation());
+	}, [])
 	return (
+		(location) ?
 		<div id='page' className={classes.page}>
 			<div id='container' className={classes.container}>
 				<Text
@@ -99,7 +103,12 @@ function LoginPage(props) {
 					Back Home
 				</Button>
 			</div>
-		</div>
+		</div> :
+	<Text
+		className={classes.title}
+	>
+		Not Found
+	</Text>
 	);
 }
 
