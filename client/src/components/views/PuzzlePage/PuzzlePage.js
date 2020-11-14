@@ -5,8 +5,9 @@ import { Link } from 'react-router-dom';
 import Text from '../../Text/Text';
 import TextInput from '../../TextInput/TextInput';
 import Button from '../../Button/Button';
-import Error from '../../Error/Error';
+import BarMessage from '../../BarMessage/BarMessage';
 import * as Colors from '../../../constants/Colors';
+import * as Screens from '../../../constants/Screens';
 import { PUZZLE_SERVER, USER_SERVER } from '../../../components/Config';
 
 function CorrectLabel() {
@@ -104,16 +105,25 @@ function PuzzlePage(props) {
 				display: flex;
 				justify-content: center;
 				align-items: center;
+				padding: 0 16px;
 			`}
 		>
 			<div
+				id='puzzle-wrapper'
 				className={css`
 					display: flex;
+					@media screen and (max-width: ${Screens.small}px) {
+						justify-content: space-around;
+						flex-wrap: wrap;
+					}
 				`}
 			>
 				<div
+					id='back-to-area'
 					className={css`
-						margin: 30px;
+						@media screen and (max-width: ${Screens.small}px) {
+							order: -1;
+						}
 					`}
 				>
 					<Link to={`/area/${puzzleData.generalAreaId}`}>
@@ -150,17 +160,33 @@ function PuzzlePage(props) {
 					</Link>
 				</div>
 				<div
+					id='puzzle-content'
 					className={css`
-						max-width: 450px;
+						width: 450px;
+						margin: 0 24px;
 						& > * {
 							margin: 10px;
 							box-sizing: border-box;
 						}
 						display: flex;
 						flex-direction: column;
+						@media screen and (max-width: ${Screens.small}px) {
+							width: unset;
+							max-width: 450px;
+							flex: 1 0 100%;
+						}
 					`}
 				>
-					<Text size="3rem" weight="800" color={Colors.White}>
+					<Text
+						weight="800"
+						className={css`
+							font-size: 3rem;
+							color: ${Colors.White};
+							@media screen and (max-width: ${Screens.xsmall}px) {
+								font-size: 2rem;
+							}`
+						}
+					>
 						{puzzleData.displayName}
 					</Text>
 					<Text
@@ -183,13 +209,19 @@ function PuzzlePage(props) {
 						CLUE
 					</Button>
 					<div
+						id='answer-submission-container'
 						className={css`
 							display: flex;
-							align-items: center;
+							align-items: flex-end;
+							flex-wrap: wrap;
 						`}
 					>
 						<TextInput
-							style={{ flex: 1 }}
+							style={{
+								flex: '2 1',
+								marginRight: '16px'
+							}}
+							width='unset'
 							value={submission}
 							onChange={event => {
 								setSubmission(event.target.value);
@@ -200,7 +232,13 @@ function PuzzlePage(props) {
 								}
 							}}
 						/>
-						<Button style={{ marginLeft: '10px' }} onClick={submit}>
+						<Button width='unset'
+							style={{
+								flex: '1 2',
+								marginTop: '16px',
+								maxWidth: '150px'
+							}}
+							onClick={submit}>
 							SUBMIT
 						</Button>
 					</div>
@@ -214,6 +252,7 @@ function PuzzlePage(props) {
 					{errorMessage && <Text error>{errorMessage}</Text>}
 				</div>
 				<div
+					id='score-box'
 					className={css`
 						background-color: ${Colors.LightBlue};
 						border-radius: 10px;
@@ -225,7 +264,9 @@ function PuzzlePage(props) {
 						flex-direction: column;
 						align-items: center;
 						align-self: flex-start;
-						margin: 30px;
+						@media screen and (max-width: ${Screens.small}px) {
+							order: -1;
+						}
 					`}
 				>
 					<Text weight="900" color={Colors.White}>
@@ -238,7 +279,7 @@ function PuzzlePage(props) {
 			</div>
 		</div>	 :
 		<div>
-			{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
+			{errorMessage && <BarMessage fontSize="1rem"> {errorMessage} </BarMessage>}
       Loading
 		</div>;
 }

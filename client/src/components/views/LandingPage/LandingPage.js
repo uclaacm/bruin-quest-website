@@ -5,9 +5,10 @@ import * as Fonts from '../../../constants/Fonts';
 import * as Screens from '../../../constants/Screens';
 import Text from '../../Text/Text';
 import Button from '../../Button/Button';
-import Error from '../../Error/Error';
+import BarMessage from '../../BarMessage/BarMessage';
 import logo from './assets/logo.png';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const staticWelcome = `Event description and welcome message: Lorem ipsum
 dolor sit amet, consectetur adipiscing elit. Mauris faucibus finibus
@@ -17,14 +18,14 @@ const discordLink = 'https://discord.gg/rKwaCr';
 
 export default function LandingPage(props) {
 	const { state } = props.location;
-	const [errorMessage, setErrorMessage] = useState(state != undefined && state.noAccess ?
-		'Sign up / Sign in to begin your quest' :
-		'');
+	let errorMessage = '';
 	if (state != undefined && state.noAccess) {
-		props.history.push({
-			state: { noAccess: false }
-		});
+		errorMessage = 'Sign up / Sign in to begin your quest';
+	} else if (state != undefined && state.invalidState) {
+		errorMessage = 'Bruin Quest is not currently live';
 	}
+
+	const user = useSelector(state => state.user);
 
 	return (
 		<main
@@ -65,7 +66,7 @@ export default function LandingPage(props) {
 					}
 				`}
 			>
-				{errorMessage && <Error fontSize="1rem"> {errorMessage} </Error>}
+				{errorMessage && <BarMessage fontSize="1rem"> {errorMessage} </BarMessage>}
 				<Text
 					className={css`
 						font-size: 3.5rem;
@@ -103,7 +104,7 @@ export default function LandingPage(props) {
 					`}
 				>
 					<Link
-						to="/register"
+						to={user.userData && !user.userData.isAuth ? '/register' : '/map'}
 						className={css`
 							margin-right: 16px;
 							@media screen and (max-width: ${Screens.xsmall}px) {

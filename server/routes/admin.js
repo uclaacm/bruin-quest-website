@@ -58,13 +58,13 @@ router.get('/submissions', auth, async (req, res) => {
 		function checkTeam(team) {
 			team.puzzles.forEach(puzzle => {
 				if (puzzle.status === 'pending' || puzzle.status === 'scored') {
-					if (puzzle.name in submissions) {
-						submissions[puzzle.name].push(
+					if (puzzle.displayName in submissions) {
+						submissions[puzzle.displayName].push(
 							{ teamId: team._id, puzzleId: puzzle._id,
 								submission: puzzle.submission, score: puzzle.score }
 						);
 					} else {
-						submissions[puzzle.name] = [
+						submissions[puzzle.displayName] = [
 							{ teamId: team._id, puzzleId: puzzle._id,
 								submission: puzzle.submission, score: puzzle.score }
 						];
@@ -87,8 +87,9 @@ router.post('/score', auth, (req, res) => {
 		return;
 	}
 	try {
+		const score = parseInt(req.body.score) || 0;
 		Team.findOneAndUpdate({ _id: req.body.teamId, 'puzzles._id': req.body.puzzleId },
-			{ $set: { 'puzzles.$.status': 'scored', 'puzzles.$.score': req.body.score } }, { upsert: false }, err => {
+			{ $set: { 'puzzles.$.status': 'scored', 'puzzles.$.score': score } }, { upsert: false }, err => {
 				if (err) {
 					throw err;
 				}

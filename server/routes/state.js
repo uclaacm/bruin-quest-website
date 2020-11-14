@@ -7,7 +7,7 @@ router.get('/', async (req, res) => {
 	if (state) {
 		res.send(state);
 	} else {
-		res.status(500).send('No app state configured');
+		res.json({ state: 'before' });
 	}
 });
 

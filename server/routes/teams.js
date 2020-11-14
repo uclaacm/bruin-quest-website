@@ -21,10 +21,11 @@ router.get('/auth', auth, (req, res) => {
 
 router.post('/register', async (req, res) => {
 	try {
-		const allPuzzles = await Puzzle.find({}, '_id');
+		const allPuzzles = await Puzzle.find({});
 		const puzzles = [];
-		allPuzzles.forEach(id =>
-			puzzles.push(new PuzzleSubmission({ _id: id._id })));
+		allPuzzles.forEach(id => {
+			puzzles.push(new PuzzleSubmission({ _id: id._id, displayName: id.displayName }));
+		});
 
 		const team = new Team({
 			name: req.body.team,
@@ -60,26 +61,22 @@ router.post('/login', async (req, res) => {
 		if (!isMatch) {
 			return res.status(500).json({ error: 'Wrong password' });
 		}
-		const teamWithToken = await team.generateToken();
-		res.cookie('w_authExp', teamWithToken.tokenExp);
-		res.cookie('w_auth', teamWithToken.token);
-		console.log(`Logged in team ${teamWithToken.name}`);
+		const token = team.generateToken();
+		res.cookie('w_auth', token);
+		console.log(`Logged in team ${team.name}`);
 		return res.status(200).json({
 			loginSuccess: true,
-			teamId: teamWithToken._id
+			teamId: team._id
 		});
 	} catch (err) {
 		return res.status(500).json({ error: 'Unable to login' });
 	}
 });
 
-router.get('/logout', auth, async (req, res) => {
+router.get('/logout', auth, (req, res) => {
 	try {
-		const doc = await Team.findOneAndUpdate(
-			{ _id: req.team._id },
-			{ token: '', tokenExp: '' }
-		);
-		console.log(`Logged out ${doc.name}`);
+		console.log(`Logging out ${req.team._id}`);
+		res.clearCookie('w_auth');
 		return res.status(200).send({
 			success: true
 		});
@@ -89,9 +86,9 @@ router.get('/logout', auth, async (req, res) => {
 });
 
 const pointValues = {
-	'lower div': 30,
-	'upper div': 40,
-	'super senior': 60
+	'Lower Div': 30,
+	'Upper Div': 40,
+	'Super Senior': 60
 };
 
 router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
@@ -99,20 +96,19 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		const { puzzleId } = sanitize(req.params);
 		const { submission } = sanitize(req.body);
 
-		let status = 'no attempt';
+		let status;
 		const currentPuzzle = await Puzzle.findById(puzzleId);
 
 		let score = 0;
-		if (currentPuzzle.type === 'gold') {
+		if (currentPuzzle.type === 'Gold') {
 			status = 'pending';
 		} else if (submission === currentPuzzle.correctAnswer) {
 			status = 'correct';
 			score = pointValues[currentPuzzle.difficulty];
-			const doc = await Puzzle.findOneAndUpdate(
+			await Puzzle.findOneAndUpdate(
 				{ _id: puzzleId },
 				{ $inc: { numberOfSolves: 1 } }
 			);
-			console.log(doc);
 		} else {
 			status = 'incorrect';
 		}

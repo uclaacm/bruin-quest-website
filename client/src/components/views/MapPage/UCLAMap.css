@@ -3,7 +3,8 @@
     transition: .5s ease;
 }
 
-.map-area:hover + .map-hover{
+.map-area:hover + .map-hover,
+.map-hover:hover {
     opacity: 1;
 };
 
