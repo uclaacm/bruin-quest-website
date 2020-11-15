@@ -11,6 +11,7 @@ import GeneralAreaPage from './views/GeneralAreaPage/GeneralAreaPage.js';
 import AdminPage from './views/AdminPage/AdminPage.js';
 import PuzzlePage from './views/PuzzlePage/PuzzlePage.js';
 import NavBar from './views/NavBar/NavBar';
+import NotFound from './views/NotFound/NotFound.js';
 
 // null   Anyone Can go inside
 // true   only logged in user can go inside
@@ -38,6 +39,7 @@ function App() {
 					/>
 					<Route exact path="/admin" component={Auth(AdminPage, true, true)} />
 					<Route exact path="/puzzle/:id" component={Auth(PuzzlePage, true, false, true) } />
+					<Route component={Auth(NotFound, null)} />
 				</Switch>
 			</div>
 		</Suspense>
