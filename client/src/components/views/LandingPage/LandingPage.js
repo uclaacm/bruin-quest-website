@@ -10,11 +10,11 @@ import logo from './assets/logo.png';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const staticWelcome = `Event description and welcome message: Lorem ipsum
-dolor sit amet, consectetur adipiscing elit. Mauris faucibus finibus
-mauris. Pellentesque tempor lacus sit amet consectetur malesuada.`;
+const staticWelcome = `Explore the many locales
+of UCLA while solving challenging and sometimes whacky puzzles.
+Click the "Begin Quest" button or "Map" option to go to the map.`;
 const staticTitle = 'Welcome Traveler!';
-const discordLink = 'https://discord.gg/rKwaCr';
+const discordLink = 'https://discord.gg/P9SjcFT6MF';
 
 export default function LandingPage(props) {
 	const { state } = props.location;
