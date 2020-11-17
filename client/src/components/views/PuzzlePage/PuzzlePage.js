@@ -108,7 +108,8 @@ function PuzzlePage(props) {
 		puzzleData.description &&
 		puzzleData.difficulty &&
 		puzzleData.generalAreaId &&
-		puzzleData.generalAreaDisplayName ?
+		puzzleData.generalAreaDisplayName &&
+		puzzleData.type ?
 		<div
 			className={css`
 				background-color: ${Colors.BrightBlue};
@@ -207,6 +208,15 @@ function PuzzlePage(props) {
 						style={{ fontStyle: 'italic' }}
 					>
 						Difficulty: {puzzleData.difficulty}
+					</Text><Text
+						size="1rem"
+						weight="900"
+						color={Colors.White}
+						style={{ fontStyle: 'italic' }}
+					>
+						Type: <span className={css`
+							color: ${puzzleData.type.toUpperCase() === 'GOLD' ? '#FFD100' : '#2774AE'}
+						`}>{puzzleData.type}</span>
 					</Text>
 					<Text size="1rem" color={Colors.White}>
 						{puzzleData.description}
@@ -233,7 +243,7 @@ function PuzzlePage(props) {
 								marginRight: '16px'
 							}}
 							width='unset'
-							value={submission}
+							value={submission || ''}
 							disabled={status === 'correct'}
 							onChange={event => {
 								setSubmission(event.target.value);
