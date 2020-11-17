@@ -74,6 +74,17 @@ function PuzzlePage(props) {
 
 	const submit = async () => {
 		try {
+			if (puzzleData.type == 'Gold') {
+				try {
+					const _ = new URL(submission);
+				} catch {
+					setErrorMessage('Unable to parse URL. Make sure it starts with http or https.');
+					setTimeout(() => {
+						setErrorMessage('');
+					}, 5000);
+					return;
+				}
+			}
 			const response = await axios.post(
 				`${USER_SERVER}/submitPuzzle/${puzzleId}`,
 				{ submission }
