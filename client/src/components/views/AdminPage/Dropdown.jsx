@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 const dropdown = css`
   display: flex;
   flex-direction: column;
-  align-items: center; 
+  align-items: center;
   width: 80vw;
 `;
 
@@ -108,6 +108,9 @@ export default function Dropdown(props) {
 			break;
 		case 'End':
 			dataToSubmit.state = 'after';
+			break;
+		default:
+			dataToSubmit.state = 'before';
 			break;
 		}
 

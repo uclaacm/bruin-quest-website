@@ -12,7 +12,7 @@ export default function (SpecificComponent, option, adminRoute = null, stateRout
 		useEffect(() => {
 			// To know my current status, send Auth request
 			dispatch(getAppState()).then(response => {
-				if (response.payload.state == 'during') {
+				if (response.payload.state === 'during') {
 					state = true;
 				}
 			}).then(() =>

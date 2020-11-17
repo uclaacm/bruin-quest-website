@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { css } from 'emotion';
 import * as Colors from '../../../constants/Colors';
 import * as Fonts from '../../../constants/Fonts';
