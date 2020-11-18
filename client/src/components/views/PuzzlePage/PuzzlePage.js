@@ -165,7 +165,7 @@ function PuzzlePage(props) {
 									margin-right: 8px;
 								`}
 							></div>
-							<Text color={Colors.White} weight="900">
+							<Text color={Colors.White} weight="700">
 								{puzzleData.generalAreaDisplayName.toUpperCase()}
 							</Text>
 						</div>
@@ -203,17 +203,15 @@ function PuzzlePage(props) {
 					</Text>
 					<Text
 						size="1rem"
-						weight="900"
+						weight="700"
 						color={Colors.White}
-						style={{ fontStyle: 'italic' }}
 					>
 						Difficulty: {puzzleData.difficulty}
 					</Text>
 					<Text
 						size="1rem"
-						weight="900"
+						weight="700"
 						color={Colors.White}
-						style={{ fontStyle: 'italic' }}
 					>
 						Type: <span className={css`
 							color: ${puzzleData.type.toUpperCase() === 'GOLD' ? '#FFD100' : '#2774AE'}
@@ -267,7 +265,7 @@ function PuzzlePage(props) {
 						</Button>
 					</div>
 					{status && status !== 'no attempt' &&
-						<Text color={Colors.White} weight="900">
+						<Text color={Colors.White} weight="700">
 							{status === 'correct' && <CorrectLabel />}
 							{status === 'incorrect' && <IncorrectLabel />}
 							{status === 'pending' && <PendingLabel />}
@@ -293,10 +291,10 @@ function PuzzlePage(props) {
 						}
 					`}
 				>
-					<Text weight="900" color={Colors.White}>
+					<Text weight="700" color={Colors.White}>
 						SCORE
 					</Text>
-					<Text weight="900" color={Colors.White} size="30px">
+					<Text weight="700" color={Colors.White} size="30px">
 						{score ? score : 0}
 					</Text>
 				</div>
