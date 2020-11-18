@@ -1,5 +1,6 @@
 .app {
-    /* justify-content: flex-start; */
+    height: 100%;
+    padding: 32px 16px;
 }
 
 h1 {
@@ -24,6 +25,7 @@ h2 {
 
 .card img {
     max-width: 250px;
+    border-radius: 16px;
 }
 
 .progressBar {
