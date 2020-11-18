@@ -207,12 +207,7 @@ function PuzzlePage(props) {
 						color={Colors.White}
 					>
 						Difficulty: {puzzleData.difficulty}
-					</Text>
-					<Text
-						size="1rem"
-						weight="700"
-						color={Colors.White}
-					>
+						<br/>
 						Type: <span className={css`
 							color: ${puzzleData.type.toUpperCase() === 'GOLD' ? '#FFD100' : '#2774AE'}
 						`}>{puzzleData.type}</span>
