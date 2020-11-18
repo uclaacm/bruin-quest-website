@@ -208,7 +208,8 @@ function PuzzlePage(props) {
 						style={{ fontStyle: 'italic' }}
 					>
 						Difficulty: {puzzleData.difficulty}
-					</Text><Text
+					</Text>
+					<Text
 						size="1rem"
 						weight="900"
 						color={Colors.White}
