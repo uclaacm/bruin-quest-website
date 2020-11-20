@@ -26,7 +26,7 @@ export default function DropdownRow(props) {
 			<Text size="2rem">
 				{props.item.name}
 			</Text>
-			{props.showTriangle ? <img className={css`height: 3rem`} src={triangle}/> : null}
+			{props.showTriangle ? <img className={css`height: 3rem`} src={triangle} alt='dropdown'/> : null}
 		</div>
 	);
 }
