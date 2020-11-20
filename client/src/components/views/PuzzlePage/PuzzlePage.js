@@ -108,7 +108,8 @@ function PuzzlePage(props) {
 		puzzleData.description &&
 		puzzleData.difficulty &&
 		puzzleData.generalAreaId &&
-		puzzleData.generalAreaDisplayName ?
+		puzzleData.generalAreaDisplayName &&
+		puzzleData.type ?
 		<div
 			className={css`
 				background-color: ${Colors.BrightBlue};
@@ -164,7 +165,7 @@ function PuzzlePage(props) {
 									margin-right: 8px;
 								`}
 							></div>
-							<Text color={Colors.White} weight="900">
+							<Text color={Colors.White} weight="700">
 								{puzzleData.generalAreaDisplayName.toUpperCase()}
 							</Text>
 						</div>
@@ -202,11 +203,14 @@ function PuzzlePage(props) {
 					</Text>
 					<Text
 						size="1rem"
-						weight="900"
+						weight="700"
 						color={Colors.White}
-						style={{ fontStyle: 'italic' }}
 					>
 						Difficulty: {puzzleData.difficulty}
+						<br/>
+						Type: <span className={css`
+							color: ${puzzleData.type.toUpperCase() === 'GOLD' ? '#FFD100' : '#2774AE'}
+						`}>{puzzleData.type}</span>
 					</Text>
 					<Text size="1rem" color={Colors.White}>
 						{puzzleData.description}
@@ -233,7 +237,7 @@ function PuzzlePage(props) {
 								marginRight: '16px'
 							}}
 							width='unset'
-							value={submission}
+							value={submission || ''}
 							disabled={status === 'correct'}
 							onChange={event => {
 								setSubmission(event.target.value);
@@ -256,7 +260,7 @@ function PuzzlePage(props) {
 						</Button>
 					</div>
 					{status && status !== 'no attempt' &&
-						<Text color={Colors.White} weight="900">
+						<Text color={Colors.White} weight="700">
 							{status === 'correct' && <CorrectLabel />}
 							{status === 'incorrect' && <IncorrectLabel />}
 							{status === 'pending' && <PendingLabel />}
@@ -282,10 +286,10 @@ function PuzzlePage(props) {
 						}
 					`}
 				>
-					<Text weight="900" color={Colors.White}>
+					<Text weight="700" color={Colors.White}>
 						SCORE
 					</Text>
-					<Text weight="900" color={Colors.White} size="30px">
+					<Text weight="700" color={Colors.White} size="30px">
 						{score ? score : 0}
 					</Text>
 				</div>
