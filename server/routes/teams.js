@@ -92,6 +92,10 @@ const pointValues = {
 };
 
 router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
+	/*
+	This contains a race condition. If two team members submit a correct and incorrect answer to the same puzzle at the
+	same time, the correct answer my be overwritten even though the user is notified that their answer is correct.
+	*/
 	try {
 		const { puzzleId } = sanitize(req.params);
 		const { submission } = sanitize(req.body);
@@ -100,9 +104,26 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 		const currentPuzzle = await Puzzle.findById(puzzleId);
 
 		let score = 0;
+
+		// Check if this team submitted this puzzle before
+		const team = await Team.findOne({ _id: req.team._id, 'puzzles._id': puzzleId });
+		const previousAttempt = team.puzzles.find(puzzle => puzzle._id === puzzleId);
+		// If they already got it right return their correct solution. Gold puzzles will never be 'correct'.
+		if (previousAttempt && previousAttempt.status === 'correct') {
+			console.log(`${team.name} submitted a puzzle, but their previous submission was correct.`);
+			return res.status(200).json({
+				submission: previousAttempt.submission,
+				status: previousAttempt.status,
+				score: previousAttempt.score
+			});
+		}
+
 		if (currentPuzzle.type === 'Gold') {
+			console.log(`${team.name} submitted ${currentPuzzle.displayName}`);
 			status = 'pending';
-		} else if (submission === currentPuzzle.correctAnswer) {
+		} else if (submission.replace(/_/g, '').toUpperCase() ===
+			currentPuzzle.correctAnswer.replace(/_/g, '').toUpperCase()) {
+			console.log(`${team.name} submitted ${currentPuzzle.displayName} correctly!`);
 			status = 'correct';
 			score = pointValues[currentPuzzle.difficulty];
 			await Puzzle.findOneAndUpdate(
@@ -110,10 +131,11 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 				{ $inc: { numberOfSolves: 1 } }
 			);
 		} else {
+			console.log(`${team.name} submitted ${currentPuzzle.displayName}, but it was wrong!`);
 			status = 'incorrect';
 		}
 
-		const doc = await Team.findOneAndUpdate(
+		await Team.findOneAndUpdate(
 			{ _id: req.team._id, 'puzzles._id': puzzleId },
 			{
 				$set: {
@@ -123,13 +145,13 @@ router.post('/submitPuzzle/:puzzleId', auth, async (req, res) => {
 				}
 			}
 		);
-		console.log(doc);
 		return res.status(200).json({
 			submission,
 			status,
 			score
 		});
 	} catch (err) {
+		console.error(`Error during puzzle submission: ${err}`);
 		return res.status(500).json({ error: 'Unable to submit puzzle' });
 	}
 });
