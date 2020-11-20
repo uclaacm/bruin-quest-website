@@ -10,11 +10,13 @@ import logo from './assets/logo.png';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const staticWelcome = `Event description and welcome message: Lorem ipsum
-dolor sit amet, consectetur adipiscing elit. Mauris faucibus finibus
-mauris. Pellentesque tempor lacus sit amet consectetur malesuada.`;
+const staticWelcome = `Get ready to explore the many hidden mysteries of UCLA
+	and gain points for each challenge you solve. This competition only lasts
+	from November 21st to November 22nd. To keep updated with the latest news,
+	be sure to join our Discord. When you are ready to begin, sign in then go
+	to the map or hit "Begin Quest". Happy adventures!`;
 const staticTitle = 'Welcome Traveler!';
-const discordLink = 'https://discord.gg/rKwaCr';
+const discordLink = 'https://discord.gg/P9SjcFT6MF';
 
 export default function LandingPage(props) {
 	const { state } = props.location;
