@@ -73,7 +73,7 @@ function GeneralAreaPage(props) {
 						{areaData.puzzles.map(puzzle =>
 							<Puzzle
 								link={puzzle.link}
-								image={puzzle.image}
+								image={`/images/general-area/${puzzle.image}`}
 								name={puzzle.name}
 								completed={puzzle.completed}
 								key={puzzle.id}
