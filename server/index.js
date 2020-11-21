@@ -20,9 +20,10 @@ mongoose
 	.catch(err => console.log(err));
 
 // parses information from a csv file and then load it into the mongoose database
-
 const { populateDB } = require('./utils/dbUtils');
-populateDB();
+if (process.argv.length > 2 && process.argv[2] === '--populate') {
+	populateDB();
+}
 
 app.use(cors());
 
