@@ -6,11 +6,11 @@
 .map-area:hover + .map-hover,
 .map-hover:hover {
     opacity: 1;
-};
+}
 
 .map-hover > p{
     fill:red;
-};
+}
 
 .mobile-map-component {
 	width: 100%;
