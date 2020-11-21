@@ -64,7 +64,11 @@ function GeneralAreaPage(props) {
 	}, [props.match.params.id]);
 
 	return (
-		<div className="general-area-container">
+		<div className="general-area-container" style={{
+			height: '100%',
+			padding: '32px 16px',
+			textAlign: 'center'
+		}}>
 			{errorMessage && <Text error>{errorMessage}</Text>}
 			{areaData && areaData.name && areaData.puzzles ?
 				<>
