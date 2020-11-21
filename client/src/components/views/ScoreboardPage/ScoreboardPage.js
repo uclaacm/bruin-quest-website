@@ -21,7 +21,6 @@ export default function ScoreboardPage(props) {
 		function getTeamScores(teamId) {
 			return dispatch(teamScores(teamId)).then(response => {
 				return response.payload.scores.map(score => {
-					console.log(score);
 					return { url: score.url, name: score.name, score: score.score };
 				});
 			});
