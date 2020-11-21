@@ -1,4 +1,4 @@
 module.exports = {
 	// mongoURI:process.env.MONGO_URI
-	mongoURI: 'mongodb://localhost:27017/myapp'
+	mongoURI: `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@localhost:27017/myapp`
 };
