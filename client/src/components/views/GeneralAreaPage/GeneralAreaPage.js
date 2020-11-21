@@ -64,7 +64,7 @@ function GeneralAreaPage(props) {
 	}, [props.match.params.id]);
 
 	return (
-		<div className="app">
+		<div className="general-area-container">
 			{errorMessage && <Text error>{errorMessage}</Text>}
 			{areaData && areaData.name && areaData.puzzles ?
 				<>
