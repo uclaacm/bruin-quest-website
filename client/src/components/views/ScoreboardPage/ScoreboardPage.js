@@ -21,7 +21,8 @@ export default function ScoreboardPage(props) {
 		function getTeamScores(teamId) {
 			return dispatch(teamScores(teamId)).then(response => {
 				return response.payload.scores.map(score => {
-					return { name: score.name, score: score.score };
+					console.log(score);
+					return { url: score.url, name: score.name, score: score.score };
 				});
 			});
 		}
@@ -63,7 +64,7 @@ export default function ScoreboardPage(props) {
 				className={css`
           text-align: left;
           font-size: 5rem;
-          font-family: ${Fonts.Primary}; 
+          font-family: ${Fonts.Primary};
           font-weight: 800;
           font-color: ${Colors.Black};
           padding-bottom: 80px;
