@@ -1,18 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { css } from 'emotion';
 import Text from '../../Text/Text.js';
-import './GeneralAreaPage.css';
 import { PUZZLE_SERVER, GENERAL_AREA_SERVER } from '../../../components/Config';
 
 function Puzzle(props) {
 	return (
-		<Link className="card" to={props.link}>
-			<Text>{props.name}</Text>
-			<div className="progressBar">
-				<div className="completed" style={{ width: props.completed }}></div>
-			</div>
-			<img src={props.image} alt={props.name} />
-		</Link>
+		<div className={css`
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 2rem;
+			transition: transform 0.3s;
+			&:hover {
+				transform: scale(1.1);
+			}
+		`}>
+			<Link to={props.link}>
+				<Text>{props.name}</Text>
+				<div className={css`
+				    --progress-bar-width: 40%;
+					--progress-bar-height: .33rem;
+					--progress-bar-complete-color: #298cff;
+					--progress-bar-incomplete-color: #c4c4c4;
+				
+					background-color: var(--progress-bar-incomplete-color);
+					border-radius: calc(var(--progress-bar-height) * .5);
+					margin: 1rem auto;
+					position: relative;
+					width: var(--progress-bar-width);
+					height: var(--progress-bar-height);
+				`}>
+					<div
+						className={css`
+							background-color: var(--progress-bar-complete-color);
+							border-radius: inherit;
+							height: 100%;
+							width: ${props.completed};
+							position: absolute;
+							left: 0;
+							top: 0;
+						`}
+						// style={{ width: props.completed }}
+					></div>
+				</div>
+				<img
+					src={props.image}
+					alt={props.name}
+					className={css`
+						max-width: 250px;
+						border-radius: 16px;
+					`}
+				/>
+			</Link>
+		</div>
 	);
 }
 
@@ -73,7 +114,11 @@ function GeneralAreaPage(props) {
 			{areaData && areaData.name && areaData.puzzles ?
 				<>
 					<Text size="36px">{areaData.name}</Text>
-					<div className="cardList">
+					<div className={css`
+					    display: flex;
+						justify-content: center;
+						flex-wrap: wrap;
+					`}>
 						{areaData.puzzles.map(puzzle =>
 							<Puzzle
 								link={puzzle.link}
