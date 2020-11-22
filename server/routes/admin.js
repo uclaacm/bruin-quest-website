@@ -57,7 +57,19 @@ router.get('/submissions', auth, async (req, res) => {
 		const submissions = {};
 		function checkTeam(team) {
 			team.puzzles.forEach(puzzle => {
-				if (puzzle.status === 'pending' || puzzle.status === 'scored') {
+				if (puzzle._id === 'kahoot-cla') {
+					if (puzzle.displayName in submissions) {
+						submissions[puzzle.displayName].push(
+							{ teamId: team._id, puzzleId: puzzle._id,
+								submission: team.name, score: puzzle.score }
+						);
+					} else {
+						submissions[puzzle.displayName] = [
+							{ teamId: team._id, puzzleId: puzzle._id,
+								submission: team.name, score: puzzle.score }
+						];
+					}
+				} else if (puzzle.status === 'pending' || puzzle.status === 'scored') {
 					if (puzzle.displayName in submissions) {
 						submissions[puzzle.displayName].push(
 							{ teamId: team._id, puzzleId: puzzle._id,
