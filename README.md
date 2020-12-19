@@ -1,3 +1,7 @@
+# Bruin Quest Web App
+## Overview
+This repository contains the web app that the Hack, Cyber, and ICPC committes of ACM at UCLA used to host Bruin Quest 2020 which took place November 21 to November 22. Bruin Quest is similar to a puzzle hunt, but with some extra puzzles that focus on creating something instead of discovering a secret key. The site uses a MERN stack (Mongodb, Express, React, Node).
+
 ## Setting Up Dev Environment
 1. Clone this repository
 2. Install MongoDB
@@ -31,11 +35,3 @@ cd client
 yarn eslint .
 yarn eslint --fix . # to autofix some problems
 ```
-
-If you have problem, feel free to ask the guy who made this boilerplate ^^ 
-
-You can watch the tutorial for this said boilerplate.
-
-[Remember to like, comment, and subscribe for more AWESOME CONTENT](https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber)
-
-If something goes wrong, you can go yell at Timothy Rediehs or the dev team lead who will likely be assigned by darts.
